@@ -1,0 +1,801 @@
+#### Review of synchronization issues
+
+class BadSync {
+    static int x = 0, y = 0;
+    static int a = 0, b = 0;
+
+    public static void main(String[ ] args) throws InterruptedException {
+	Thread t1 = new Thread(new Runnable() {
+		public void run() {
+		    a = 1; 
+		    x = b;
+		}
+	    });
+	Thread t2 = new Thread(new Runnable() {
+		public void run() {
+		    b = 1;
+		    y = a;
+		}
+	    });	
+	t1.start(); t2.start();
+	t1.join(); t2.join();   // forces main to wait
+	System.out.println("x == " + x + "\n" +
+			   "y == " + y + "\n" +
+			   "a == " + a + "\n" +
+			   "b == " + b);
+	/* output on a sample run:
+	x == 0
+	y == 1
+	a == 1
+	b == 1
+	However, this scenario (among many others) is possible: all are 1
+
+   Time line ============================>
+              t1: a = 1........x = b = 1
+              t2:   b = 1....y = a = 1
+	*/
+    }
+}
+
+## low-level synchronization
+
+public final class Counter { // note the "final"
+    private long value = 0;  // initialized for emphasis    
+    public synchronized long getValue() { return value; }
+    public synchronized long increment() {
+	if (value == Long.MAX_VALUE)
+	    throw new IllegalStateException("Counter overflow");
+	return ++value;
+    }
+}
+
+import java.util.Set;
+import java.util.HashSet;
+public class IntegerSet {
+    private final Set<Integer> set = new HashSet<Integer>();
+    public synchronized void addInteger(Integer i) { set.add(i); }
+    public synchronized boolean containsInteger(Integer i) {
+	return set.contains(i);
+    }
+}
+
+## Overview of java.util.concurrent
+
+The package java.util.concurrent contains high-level constructs to handle thread
+coordination issues. Under the hood, the synchronized block remains the core
+building block; but the new threading constructs often hide the underlying details.
+
+
+# Hidden synchronization review
+
+import java.util.concurrent.atomic.AtomicInteger;
+public class AtomicCounter {
+    private AtomicInteger c = new AtomicInteger(0);
+    // API
+    public void increment() { c.incrementAndGet(); }
+    public void decrement() { c.decrementAndGet(); }
+    public int value() { return c.get(); }
+}
+
+/* Here's the old way of doing the same:
+public class SynchronizedCounter {
+    private int c = 0;
+
+    // At most one of these can execute at a time.
+    public synchronized void increment() { c++; }
+    public synchronized void decrement() { c--; }
+    public synchronized int value() { return c; }
+}
+*/
+;;;
+
+## Immutable structures -- the Clojure approach
+
+Threading problems arise only if two or more threads access a shared structure.
+Two principles deserve special emphasis:
+
+   -- Local variables and parameters are never shared.
+
+   -- Immutable data structures, such as Java Strings, are thread safe because
+      such structures cannot be altered at all.
+
+Here is an example of a user-defined, immutable structure:
+
+// If it's immutable, it's thread safe.
+final public class ImmutableRGB {        // disallow subclassing
+    final private int red;
+    final private int green;
+    final private int blue;
+    final private String name;
+
+    private void check(int red,
+                       int green,
+                       int blue) {
+        // in range?
+        if (red < 0   || red > 255 || 
+            green < 0 || green > 255 || 
+            blue < 0  || blue > 255) {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    public ImmutableRGB(int red,
+                        int green,
+                        int blue,
+                        String name) {
+        check(red, green, blue);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.name = name;
+    }
+    
+    public int getRGB() {
+        return ((red << 16) | (green << 8) | blue);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ImmutableRGB invert() {
+        return new ImmutableRGB(255 - red,
+                       255 - green,
+                       255 - blue,
+                       "Inverse of " + name);
+    }
+}
+
+# Comparing constructs
+
+The following examples use this class:
+
+// Thread executes a loop count times and then dies.
+public class LowRunnable implements Runnable {
+    private final long count;
+
+    LowRunnable(long count) { this.count = count; }
+
+    @Override
+    public void run() {
+	long sum = 0;
+	for (long i = 1; i < count; i++) sum += i;
+	System.out.println(sum);
+    }
+}
+
+Here are three ways to manage objects of type LowRunnable:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Approach 1
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class LowMain {
+    public static void main(String[] args) {
+	List<Thread> threads = new ArrayList<Thread>();
+	final int how_many = 100;
+
+	for (int i = 0; i < how_many; i++) {
+	    Runnable task = new LowRunnable(10000000L + i);
+	    Thread worker = new Thread(task);
+	    worker.setName(String.valueOf(i));
+	    worker.start();
+
+	    threads.add(worker);
+	}
+
+	int alive;
+	do {
+	    alive = 0;
+	    for (Thread thread : threads) 
+		if (thread.isAlive()) alive++;
+	    System.out.println(alive + " running threads. ");
+	} while (alive > 0);
+    }
+}
+/* output
+50000055000015
+50000005000000
+50000035000006
+50000065000021
+50000025000003
+50000015000001
+...
+*/
+
+# Approach 2: thread pool managers
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class MidMain {
+    private static final int pool = 10;
+    public static void main(String[] args) {
+	final int how_many = 100;
+	ExecutorService executor = Executors.newFixedThreadPool(pool);
+	for (int i = 0; i < how_many; i++) {
+	    Runnable worker = new LowRunnable(10000000L + i);
+	    executor.execute(worker);
+	}
+	executor.shutdown(); // accept no new threads
+	while (!executor.isTerminated()) {
+	    // await thread deaths
+	}
+	System.out.println("All started threads have died.");
+    }
+}
+
+# Approach 3: "agents"
+
+// This class provides the workers.
+import java.util.concurrent.Callable;
+public class MyCallable implements Callable<Long> {
+    @Override
+    public Long call() throws Exception {
+	long sum = 0;
+	final int how_many = 100;
+	for (long i = 0; i < how_many; i++) sum += i;
+	return sum;
+    }
+}
+
+// This class manages the threads
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class HighMain {
+    private static final int pool = 10;
+
+    public static void main(String[ ] args) {
+	final int how_many = 20000; // 20,000
+	ExecutorService executor = Executors.newFixedThreadPool(pool);
+	List<Future<Long>> list = new ArrayList<Future<Long>>();
+
+	for (int i = 0; i < how_many; i++) {
+	    Callable<Long> worker = new MyCallable();
+	    Future<Long> submit = executor.submit(worker);
+	    list.add(submit);
+	}
+
+	long sum = 0;
+	System.out.println("List size: " + list.size());
+
+	// Await the result and retrieve it.
+	for (Future<Long> future : list) {
+	    try {
+		sum += future.get();
+	    } 
+	    catch (InterruptedException e) {
+		e.printStackTrace();
+	    } 
+	    catch (ExecutionException e) {
+		e.printStackTrace();
+	    }
+	}
+	System.out.println("Sum: " + sum);
+	executor.shutdown();
+    }
+}
+/* output: List size: 20000
+           Sum: 99000000
+*/
+
+# Producer/Consumer with high-level structures
+
+import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+
+public class Producer implements Runnable {
+    private BlockingQueue<String> drop;
+
+    public Producer(BlockingQueue<String> drop) {
+        this.drop = drop;
+    }
+    
+    public void run() {
+        String importantInfo[] = {
+            "Mares eat oats",
+            "Does eat oats",
+            "Little lambs eat ivy",
+            "A kid will eat ivy too"
+        };
+        Random random = new Random();
+
+        try {
+            for (int i = 0;
+                 i < importantInfo.length;
+                 i++) {
+                drop.put(importantInfo[i]);
+                Thread.sleep(random.nextInt(5000));
+            }
+            drop.put("DONE");
+        } catch (InterruptedException e) {}
+    }
+}
+
+import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+
+public class Consumer implements Runnable {
+    private BlockingQueue<String> drop;
+
+    public Consumer(BlockingQueue<String> drop) {
+        this.drop = drop;
+    }
+
+    public void run() {
+        Random random = new Random();
+        try {
+            for (String message = drop.take();
+                 !message.equals("done");
+                 message = drop.take()) {
+                System.out.format("Message received: %s%n",
+                                  message);
+                Thread.sleep(random.nextInt(5000));
+            }
+        } catch (InterruptedException e) {}
+    }
+}
+
+
+
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+
+public class ProducerConsumerDriver {
+    public static void main(String[ ] args) {
+        BlockingQueue<String> drop =
+            new SynchronousQueue<String> ();
+        (new Thread(new Producer(drop))).start();
+        (new Thread(new Consumer(drop))).start();
+    }
+}
+;;;
+
+## Other high-level thread-safe structures
+
+java.util.concurrent.ConcurrentHashMap
+java.util.concurrent.ConcurrentSkipListMap (hierarchy of linked lists)
+java.uti.CopyOnWriteArrayList
+...
+
+# Code example with CopyOnWriteList
+
+public class Adages {
+    private static CopyOnWriteArrayList<Adage> adages;
+    private static int id = 1;
+
+    static {
+        String[ ] adages =
+            {"What can be shown cannot be said.",
+             "If a lion could talk, we could not understand him.",
+             "Philosophy is a battle against the bewitchment of 
+              our intelligence by means of language.",
+             "Ambition is the death of thought.",
+             "The limits of my language mean the limits of my world."};
+        adages = new CopyOnWriteArrayList<Adage>();
+        for (String str : adages) add(str);
+    }
+    ...
+    public static void add(String words) {
+        Adage adage = new Adage();
+        adage.setWords(words);
+        adage.setId(id++);
+        adages.add(adage);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Semaphores
+
+/* Overview
+   
+   A mutex, as the name suggests, is a a mutual-exclusion construct:
+   wrapping statements within a mutex ensures that, at most, one thread
+   can execute the wrapped statements. In technical terms, a mutex is
+   a binary semaphore, a thread-synchronization construct with exactly
+   two values, 0 (access permitted) or 1 (no access permitted). 
+
+   However, semaphores can be generalized beyond mutexes, in which case
+   they're known as counting semaphores: in technical terms, the value
+   can go beyond 1 to some specified limit. In high-level terms, a 
+   counting semphore can be described as a set of permits (e.g., a set
+   of four). The logic is then:
+
+   If there's a permit available, give it to a thread that invokes acquire().
+   If not, block the thread.
+   If a thread holding a permit calls release(), return the permit to the set.
+   
+   This code example, adapted from the javadoc, illustrates. A set of threads
+   contends for string resources (Item1, Item2,...), and the application
+   uses a counting semahore to regulate how many items can be checked out at
+   a time. A sample run generates output such as this, with the threads housed
+   in Executor pools:
+
+   ...
+   pool-7-thread-1 putting back Item2
+   pool-2-thread-1 acquiring Item2
+   pool-11-thread-1 putting back Item1
+   pool-7-thread-1 acquiring Item1
+   pool-1-thread-1 putting back Item6
+   pool-11-thread-1 acquiring Item6
+   pool-5-thread-1 putting back Item0
+   pool-1-thread-1 acquiring Item0
+   pool-6-thread-1 putting back Item7
+   pool-5-thread-1 acquiring Item7
+   pool-8-thread-1 putting back Item8
+   pool-6-thread-1 acquiring Item8
+   pool-10-thread-1 putting back Item3
+   ...
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Semaphore;
+
+public class Semaphores {
+    public static void main(String[] args) {
+	    final Pool pool = new Pool();
+	    Runnable r = new Runnable() {
+		  @Override
+		  public void run() {
+		     String name = Thread.currentThread().getName();
+		     try {
+		        while (true) {
+		          String item;
+			      System.out.printf("%s acquiring %s%n", name,
+			 	  	                item = pool.getItem());
+	              Thread.sleep(200 + (int) (Math.random() * 100));
+			      System.out.printf("%s putting back %s%n",
+				                    name,
+					                item);
+	              pool.putItem(item);
+		        }
+		     }
+		     catch (InterruptedException ie) {
+			   System.out.printf("%s interrupted%n", name);
+		     }
+		  }
+	    };
+	    ExecutorService[] executors = 
+              new ExecutorService[Pool.MAX_AVAILABLE + 1];
+	    for (int i = 0; i < executors.length; i++) {
+	       executors[i] = Executors.newSingleThreadExecutor();
+	       executors[i].execute(r);
+	    }
+    }
+}
+
+final class Pool {
+    public static final int MAX_AVAILABLE = 10;
+    private Semaphore available = new Semaphore(MAX_AVAILABLE, true);
+    private String[] items;
+    private boolean[] used = new boolean[MAX_AVAILABLE];
+    
+    Pool() {
+	   items = new String[MAX_AVAILABLE];
+	   for (int i = 0; i < items.length; i++) items[i] = "Item" + i;
+    }
+    
+    String getItem() throws InterruptedException {
+	   available.acquire();
+	   return getNextAvailableItem();
+    }
+    
+    void putItem(String item) {
+	   if (markAsUnused(item)) available.release();
+    }
+
+
+
+    
+    private synchronized String getNextAvailableItem() {
+	   for (int i = 0; i < MAX_AVAILABLE; ++i) {
+	     if (!used[i]) {
+		    used[i] = true;
+		    return items[i];
+	     }
+	   }
+	   return null; // not reached
+    }
+    
+    private synchronized boolean markAsUnused(String item) {
+	   for (int i = 0; i < MAX_AVAILABLE; ++i) {
+	        if (item == items[i]) {
+		      if (used[i]) {
+		        used[i] = false;
+		        return true;
+		      }
+		      else
+		        return false;
+	        }
+	   }
+	   return false;
+    }
+}
+
+## Deadlock
+
+// If you run this program, it will likely deadlock.
+public class Deadlock {
+    static class Friend {
+        private final String name;
+        public Friend(String name) {
+            this.name = name;
+        }
+        public String getName() {
+            return this.name;
+        }
+
+	// Here's the problem: two synchronized methods and one invokes the other.
+	// Here is the output from a sample run:
+	/* 
+	   Alphonse: Gaston  has bowed to me!
+	   Gaston: Alphonse  has bowed to me!
+        */
+        public synchronized void bow(Friend bower) {
+            System.out.format("%s: %s"
+			      + "  has bowed to me!%n", 
+			      this.name, bower.getName());
+            bower.bowBack(this);
+        }
+
+        public synchronized void bowBack(Friend bower) {
+            System.out.format("%s: %s"
+			      + " has bowed back to me!%n",
+			      this.name, bower.getName());
+        }
+    }
+
+
+    
+    public static void main(String[] args) {
+        final Friend alphonse = new Friend("Alphonse");
+        final Friend gaston = new Friend("Gaston");
+
+        new Thread(new Runnable() {
+		public void run() { alphonse.bow(gaston); }
+	    }).start();
+        new Thread(new Runnable() {
+		public void run() { gaston.bow(alphonse); }
+	    }).start();
+    }
+}
+
+## Java utilities for monitoring
+
+import java.io.*; // lazy :)
+
+class SystemMisc extends Thread {
+   public static void main(String[ ] args) {
+      SystemMisc sm = new SystemMisc();
+      Runtime rt = Runtime.getRuntime();
+      long temp, free = rt.freeMemory();
+      System.err.println("Total memory == " + rt.totalMemory());
+      do {
+         temp = free;
+         rt.runFinalization();
+         rt.gc();
+         free = rt.freeMemory();
+         System.err.println( "Free == " + free );
+      } while ( free > temp );
+
+      new Thread( sm, "foo" ).start(); new Thread( sm, "bar" ).start();
+      sm.exitGracefully();
+   }
+   public void run() {
+      while ( !interrupted() ) {
+         // do whatever
+      }
+   }
+   void exitGracefully() {
+      Thread t = Thread.currentThread();
+      ThreadGroup tg = t.getThreadGroup();
+      Thread[ ] ts = new Thread[tg.activeCount()];
+      tg.enumerate(ts);
+      for ( int i = 0; i < ts.length; i++ ) {
+        System.err.println( ts[ i ] );
+        if (ts[ i ] != null && ts[ i ] != t)
+          ts[ i ].interrupt();
+      }
+      for (int i = 0; i < ts.length; i++)
+         if (ts[ i ] != null && ts[ i ] != t)
+           try {
+              ts[ i ].join();
+           } catch(InterruptedException e) {
+                System.err.println(e);
+             }
+      System.exit(0); 
+   }
+}
+
+/* output from a sample run:
+
+   Total memory == 15,794,176
+   Free         == 15,750,312
+   Free         == 15,750,136
+   Thread[main,5,main]
+   Thread[foo,5,main]
+   Thread[bar,5,main]
+*/
+
+## Thread pooling
+
+/* 
+   The ThreadPool utility class is meant to allow a pool of threads to be created 
+   at once and then reused thereafter. In this way, the cost of a "new" 
+   operation is amortized over the lifetime of the 
+   pool. "new" operations (and the garbage collection that they later require)
+   are expensive; hence, pooled resources are an efficiency mechanism.
+
+   The ThreadPool class also introduces a new Java construct, which has become
+   popular: the inner class. Note that my ThreadPool class contains a class 
+   called PoolWorker, which is private; hence, the PoolWorker class is visible
+   only within ThreadPool --- it is not accessible anywhere else.
+
+   The key to understanding how ThreadPool works are the two synchronized blocks:
+   one is the execute method in ThreadPool itself, the other is inside the run
+   method in ThreadWorker.
+
+   Finally, from a high level, the MyThread class used here for testing represents
+   a job. In other words, what my DriverTP does is this:
+
+         -- creates a ThreadPool of size 10
+
+         -- requests that the ThreadPool then execute 64 MyThread jobs.
+
+   The output indicates that exactly 10 Java threads from the ThreadPool 
+   do the work (the numbers are 0 through 9).
+*/
+
+import java.util.LinkedList;
+
+public class ThreadPool {
+    public ThreadPool(int n) {
+        queue = new LinkedList<Runnable>();
+        threads = new PoolWorker[thread_count = n];	
+	for (PoolWorker pw : threads) {
+            pw = new PoolWorker();
+            pw.start();
+        }
+    }    
+    public void execute(Runnable r) {
+        synchronized(queue) {
+            queue.addLast(r);  
+            queue.notify();     
+        }
+    }
+    private final int thread_count;
+    private final PoolWorker[ ] threads;
+    private final LinkedList<Runnable> queue;
+    
+    private class PoolWorker extends Thread {
+        public void run() {
+            Runnable r;
+            while (true) {
+                synchronized(queue) {
+                    while (queue.isEmpty()) {
+                        try {
+                            queue.wait();
+                        }
+			catch (InterruptedException ignored) { }
+                    }
+                    r = (Runnable) queue.removeFirst();
+                }
+                try {
+                    r.run(); // run the job
+                }
+                catch (RuntimeException e) {
+                    log_exception(e);
+                }
+            }
+        }
+	private void log_exception(Exception e) { }
+    }
+}
+
+/* A Job simply implements Runnable (the run() method). The actual work
+   done can be anything you like.
+*/
+class Job implements Runnable {
+    Job(String name) { setName(name); }
+    void setName(String name) { this.name = name; }
+    String getName() { return this.name; }
+
+    // Sample (and very simple) Job example.
+    public void run() {
+	int i = 0; // per thread, hence thread safe
+	while (true) {
+	    System.out.println(getName() + " executing.");
+	    i++;
+	    if (i > max_runs) break; // forces an exit of run
+	    try {
+		if (new java.util.Random().nextInt() < 0)
+		    Thread.sleep(10);
+		else
+		    Thread.sleep(15);
+	    } catch(InterruptedException e) { }
+	}
+    }
+    String name;
+    final int max_runs = 8;
+}
+// Program must be terminated at the command line.
+class DriverTP {
+    public static void main(String[ ] args) throws Exception {
+	// A pool of 10 threads to handle 64 Jobs.
+	ThreadPool tp = new ThreadPool(10);
+	for (int i = 0; i < 64; i++) tp.execute(new Job("Job" + i));
+    }
+}
+
+/* output:
+...
+Job15 executing.
+Job6 executing.
+Job17 executing.
+Job11 executing.
+Job18 executing.
+Job3 executing.
+Job19 executing.
+Job12 executing.
+Job10 executing.
+Job13 executing.
+Job14 executing.
+Job16 executing.
+Job15 executing.
+Job17 executing.
+Job11 executing.
+Job18 executing.
+...
+*/
