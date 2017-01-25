@@ -19,7 +19,7 @@ public class EchoServer {
 	    // Listen for requests indefinitely.
 	    while (true) {
 		Socket client = acceptor.accept();  // blocks until there's a request
-		new RequestHandler(client).start(); // delegate request-handling to a new thread
+		new RequestHandler(client).start(); // delegate request-handling to a new thread: ###
 	    }
 	}
 	catch (Exception e) {
@@ -50,5 +50,5 @@ class RequestHandler extends Thread {
 	catch(Exception e) {
 	    System.err.println(e);
 	}
-    } // thread terminates when it exists run
+    } // thread terminates when it exists run ###
 }
