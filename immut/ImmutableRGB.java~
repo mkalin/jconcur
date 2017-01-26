@@ -1,8 +1,7 @@
 package immut;
 
 // If it's immutable, it's thread safe.
-// Once created, an ImmutableRGB instance can't be changed at all.
-final public class ImmutableRGB { // disallow subclassing
+final public class ImmutableRGB {        // disallow subclassing
     final private int red;
     final private int green;
     final private int blue;
