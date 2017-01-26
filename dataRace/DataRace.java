@@ -23,23 +23,32 @@ public class DataRace {
 		}
 	    });	
 	
-	t1.start(); t2.start();
+	t1.start(); t2.start(); // start the two threads
 	t1.join(); t2.join();   // forces main thread to wait
 
 	System.out.println("x == " + x + "\n" +
 			   "y == " + y + "\n" +
 			   "a == " + a + "\n" +
 			   "b == " + b);
-	/* output on a sample run:
-	x == 0
-	y == 1
-	a == 1
-	b == 1
-	However, this scenario (among others) is possible: all are 1
-
-   Time line ============================>
-              t1: a = 1........x = b = 1
-              t2:   b = 1....y = a = 1
-	*/
     }
 }
+
+/* Output from a sample run:
+
+   x == 0
+   y == 1
+   a == 1
+   b == 1
+
+   However, this scenario (among others) is possible: all are 1
+
+   Time line =======...======>
+
+        1st           4th
+         \             /
+   t1: a = 1.........x = b = 1
+
+   t2:   b = 1....y = a = 1
+           /        \
+         2nd       3rd
+*/
