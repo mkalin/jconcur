@@ -1,7 +1,7 @@
 package producerConsumer;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.BlockingQueue;     // interface
+import java.util.concurrent.SynchronousQueue;  // one implementation
 
 /** 
  * Provide a thread-safe queue for a Producer and Consumer to communicate.
