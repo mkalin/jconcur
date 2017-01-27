@@ -1,0 +1,17 @@
+
+From AtomicCounter.java:
+
+/** Self-test question:
+
+    What would be the impact on multithreading if the field declaration 
+
+    private int c = 0;
+
+    were changed to
+
+    private static int c = 0;  // make the counter implementation a static field.
+
+    (Assume the SynchronizedCounter class is public.)
+ */
+
+Answer
