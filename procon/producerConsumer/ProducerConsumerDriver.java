@@ -21,3 +21,11 @@ public class ProducerConsumerDriver {
         (new Thread(new Consumer(dropbox))).start(); // start the consumder
     }
 }
+
+/** Self-test exercise
+    
+    The java.util.concurrent package houses various thread-safe ('concurrent-aware') data structure
+    implementations such as the LinkedBlockingQueue, the ArrayBlockingQueue, the CopyOnWriteArrayList,
+    and the ConcurrentHashMap. Replace the SynchronousQueue in the current example with one of the
+    other queue structures, and experiment with the API.
+ */
