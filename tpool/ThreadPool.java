@@ -41,11 +41,11 @@ final public class ThreadPool {
     
     public void execute(Runnable r) {
         synchronized(jobQueue) {
-            jobQueue.addLast(r);  // add the job to the queue
-            jobQueue.notify();    // wake up a thread to handle the job
+            jobQueue.addLast(r); // add the job to the end of the queue
+            jobQueue.notify();   // wake up thread to handle the job at the start of the queue
         }
     }
-    
+
     private class PoolWorker extends Thread {
 	@Override
         public void run() {
@@ -54,14 +54,14 @@ final public class ThreadPool {
                 synchronized(jobQueue) {
                     while (jobQueue.isEmpty()) {
                         try {
-                            jobQueue.wait();
+			    jobQueue.wait(); // sleep efficiently
                         }
 			catch (InterruptedException ignored) { }
                     }
                     job = (Runnable) jobQueue.removeFirst();
                 }
                 try {
-                    job.run(); // run the job
+                    job.run();            // run the job
                 }
                 catch (RuntimeException e) { }
             }
