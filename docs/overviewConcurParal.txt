@@ -1,0 +1,111 @@
+ 
+ Overview of the key terms: concurrency and parallelism
+
+ -- Concurrency and (true) Parallelism
+
+ # Concurrency is "handling many tasks during the same time span":
+
+   ## Any app with a GUI (e.g., a game) needs to manage the GUI and perform the underlying logic.
+
+   ## A typical network app queues up requests, which then need to be handled concurrently: such an
+      app is a 'concurrent app' (e.g., a 'concurrent web server').
+
+ # True parallelism is "processing many tasks literally at the same time."
+
+   ## The tasks in a concurrent app would be farmed out to separate processors for true parallelism.
+
+   ## True parallelism requires multiple processors (CPUs).
+
+      ### Multiprocessor machines now are the rule, not the exception.
+
+      ### A 'multicore' machine is a multiprocessor machine, with one or more processors (CPUs)
+          per core.
+
+   ## For an example-driven explanation of concurrency and parallelism, see the
+      working file: concurrencyParallelismContrast.txt
+
+ # In modern languages such as Java, a concurrent app automatically becomes a parallel app if
+   run on a multiprocessor machine: no programmer intervention is required.
+=============================================================================
+
+ -- Multiprocessing and multithreading
+
+ # The two classic (and still dominant) mechanisms for concurrency: multiprocessing and multithreading.
+
+   ## Each mechanism can support true parallelism on a multiprocessor machine.
+
+ # A process is a program in execution, which requires (1) a processor to execute the instructions and
+   (2) memory to hold the program's instructions and data. Processes that are 'apps' rather than
+   utilities or background workers ('daemons') also use (3) I/O devices.
+
+   ## Each process has its own address space: memory locations that the process can access legitimately.
+
+      ### Processes can share memory, but this requires some setup: the exception, not the rule.
+
+   ## On modern systems, a process has at least one 'thread of execution', which is a sequence of
+      executable instructions: a 1-instruction thread is quite small, but still a thread.
+
+   ## A process with just one thread is 'single-threaded'; otherwise, 'multi-threaded'.
+
+   ## Threads within the same process share the same address space: much more on this with code examples.
+==============================================================================
+
+ -- Java and Multithreading
+
+ # The preferred, natural way to write concurrent (and truly parallel) apps in Java is with
+   mutlithreading.
+
+   ## Multiprocessing is possible, but not the obvious way to go.
+
+ # When a standard Java Application is run
+
+    % java MyApp
+
+   it starts out single-threaded, with the 'main-thread' as the one that executes the main method:
+
+   Example (available in the separate file MyApp.java):
+
+   import java.awt.Frame; // top-level window
+
+   public class MyApp {
+      public static void main(String[ ] args) {
+	System.out.println("main-thread in action...");
+
+	// a new thread manages the Frame when the Frame is shown
+	new Frame("Just a demo, folks").setVisible(true);
+
+	System.out.println("main-thread is about to exit...");
+      } // 'main-thread' dies, but app lives on: must be killed with Control-C or equivalent
+   }
+
+   ## In the MyApp example, the 'main-thread' is a User rather than a Daemon (worker) thread,
+      and the thread that manages the shown Frame is likewise a User thread.
+
+      ### A Java Application runs so long as at least one User thread is active (though perhaps
+          even sleeping). 
+
+      ### In different but equivalent terms, a Daemon thread alone cannot sustain a Java Application.
+
+      ### In general:
+
+          -- User threads create other User threads
+
+          -- Daemon threads create other Daemon threads
+
+          -- Before a thread is started, its status can be changed by invoking setDaemon:
+
+             Thread t1 = new Thread();  // assume a User thread is created here
+             t1.setDaemon(true)         // now t1 is a Daemon thread
+             t1.start();                // setDaemon must be called beforehand
+
+             Thread t2 = new Thread();  // assume a Daemon thread is created here
+             t2.setDaemon(false)        // now t2 is a User thread
+             t2.start();                // setDaemon must be called beforehand
+
+
+
+
+
+ 
+
+                

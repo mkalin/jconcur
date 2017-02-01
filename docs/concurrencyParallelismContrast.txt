@@ -1,0 +1,54 @@
+
+ -- Concurrency and (true) parallelism through an web-server example
+
+ ## Client requests come into a web server, with each request become a 'Task'
+    that the web server must handle:
+
+
+      client requests  +------------+   ## Task1: handle request1
+    ------------------>| web server |   ## Task2: handle request2
+                       +------------+      ...
+
+ ## 1st scenario: a single-processor machine with time-sliced scheduling: concurrency but no parallelism
+
+    ### Assume each task is scheduled for a fixed-length time slice, and then is
+	pre-empted and rescheduled if its processing exceeds that time slice.
+
+        Each start * represents a tick of the system clock:
+
+               Time span (TS) = Start to Finish
+Start time                                         Finish time
+         |                                         |
+         +-----------------------------------------+   ## each star * is one system-clock tick
+          \             /\         /\             /
+           ****Task1****  **Task2**  ****Task1****     ## Task1 (16 ticks) and Task2 (4 ticks) share the processor
+
+    ### Task1 and Task2 are processed concurrently during time span TS: their processing overlaps during TS.
+
+	#### Task1 and Task2 are not processed in parallel, as there's a single processor that must be shared.
+
+    ### 1st scenario exhibits concurrency, but not true parallelism.
+
+ ## 2nd scenario: a multi-processor machine (assume two for simplicity)
+        
+                 Time span 
+Start time                       Finish time
+         |                       |
+         +-----------------------+
+          \                     /
+           ********Task1********      ### Executing on processor1
+		   \         /
+		    **Task2**         ### Executing on processor2
+
+    ### Task1 and Task2 again are processed concurrently (during the same time span TS).
+
+	### Task1 and Task2 also are processed in parallel for a while--for 4 ticks (Task2's processing time).
+
+	### The machine's throughput is improved: Task1 and Task2 both complete within
+	    16 time units, the time taken to process Task1, the longer of the two.
+
+            #### 1st scenario requires 20 clock ticks (each 1 time unit) to complete the two tasks.
+
+            #### 2nd scenario requires 16 clock ticks to complete the two tasks, a 20% improvement.
+		  
+    

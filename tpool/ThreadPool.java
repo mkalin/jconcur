@@ -16,10 +16,10 @@
     MyJob job1 = new MyJob("play a game");
     MyJob job2 = new MyJob("compress the database");
     ...
-    int howMany = 16; // 16 threads in the pool
+    int howMany = 8; // 8 threads in the pool
     ThreadPool tpool = new ThreadPool(howMany);
-    tpool.execute(job1);
-    tpool.execute(job2);
+    tpool.execute(job1); // the tpool now provides the thread
+    tpool.execute(job2); // ditto
     ...
 */
 import java.util.LinkedList;
