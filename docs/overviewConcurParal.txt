@@ -21,7 +21,7 @@
       ### A 'multicore' machine is a multiprocessor machine, with one or more processors (CPUs)
           per core.
 
-   ## For an example-driven explanation of concurrency and parallelism, see the
+   ## For a more detailed explanation of concurrency and parallelism, see the
       working file: concurrencyParallelismContrast.txt
 
  # In modern languages such as Java, a concurrent app automatically becomes a parallel app if
@@ -85,23 +85,9 @@
           even sleeping). 
 
       ### In different but equivalent terms, a Daemon thread alone cannot sustain a Java Application.
-
-      ### In general:
-
-          -- User threads create other User threads
-
-          -- Daemon threads create other Daemon threads
-
-          -- Before a thread is started, its status can be changed by invoking setDaemon:
-
-             Thread t1 = new Thread();  // assume a User thread is created here
-             t1.setDaemon(true)         // now t1 is a Daemon thread
-             t1.start();                // setDaemon must be called beforehand
-
-             Thread t2 = new Thread();  // assume a Daemon thread is created here
-             t2.setDaemon(false)        // now t2 is a User thread
-             t2.start();                // setDaemon must be called beforehand
-
+ 
+      ### For a code example, see the UserDaemon.java file. The documentation explains how to
+          illustrate the difference between User and Daemon threads.
 
 
 
