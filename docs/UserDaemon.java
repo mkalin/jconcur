@@ -17,6 +17,8 @@
    -- If the created thread in this example is a User thread, the program runs until 
       killed externally (e.g., with Control-C from the command line).
 
+  The JVM uses Daemon threads to provide various services, e.g., garbage-collection.
+  Programmer apps can use any mix of User and Daemon threads -- great flexibility.
  */
 public class UserDaemon {
     // A runtime-generated User thread executes main: the 'main-thread'.
@@ -24,12 +26,15 @@ public class UserDaemon {
 	System.out.println("main thread");
 
 	Thread createdThread = new Thread() {
+		// Sometime after a thread is started, it executes the run() method (and any
+		// other code that run may be invoked within run). A started thread terminates
+		// if the thread exits run.
 		@Override
 		public void run() {
 		    System.out.println("created thread");            // if Daemon, may not execute
 		    while (true) {
 			try {
-			    Thread.sleep(10); // 10 ms
+			    Thread.sleep(10); // sleep the current thread 10ms
 			}
 			catch(InterruptedException e) { }
 			System.out.println("created thread awakes"); // if Daemon, may not execute
@@ -37,13 +42,13 @@ public class UserDaemon {
 		}
 	    };
 	
-	// Run twice: once with the current setting, once with setDaemon(false) -- or the line commented out.
+	//### Run twice: once with the current setting, once with the line commented out.
 	createdThread.setDaemon(true);  
 
 	createdThread.start(); // start the thread
 	
 	System.out.println("main-thread terminating");
-    }
+    } // main-thread terminates when it exits main
 }
 	    
 	    

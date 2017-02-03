@@ -52,10 +52,14 @@
 
  -- Java and Multithreading
 
- # The preferred, natural way to write concurrent (and truly parallel) apps in Java is with
-   mutlithreading.
+ # The natural way to write concurrent/parallel Java apps is with mutlithreading.
 
-   ## Multiprocessing is possible, but not the obvious way to go.
+   ## Multiprocessing is possible, but not the best way to go.
+
+ # An instance of java.lang.Thread maps to a 'native thread', which is a executable thread
+   at the operating-system (OS) level. 
+
+   ## A 'green thread' (Java 1.4) is under JVM rather than OS control.
 
  # When a standard Java Application is run
 
