@@ -1,24 +1,25 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AtomicCounter {
+// a thin wrapper around the AtomicInteger: for illustration
+final public class AtomicCounter {
     private AtomicInteger c = new AtomicInteger(0);
 
     public void increment() {
-        c.incrementAndGet();
+        c.incrementAndGet();  // increment counter
     }
     
-    public void decrement() {
-        c.decrementAndGet();
+    public void decrement() { 
+        c.decrementAndGet(); // decrement counter
     }
     
     public int value() {
-        return c.get();
+        return c.get();      // fetch counter's current value
     }
 }
 
 /** Here's the old way of doing the same. If a thread executes any one of these
-    three methods, then mutual exclusive is ensured: no other thread can execute 
-    either of the other two methods. 
+    three methods, then mutual exclusion is ensured: no other thread can execute 
+    any of the three methods until the lock is released.
 
     The implicit lock is 'this', a reference to a specific SynchronizedCounter instance.
    

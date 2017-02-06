@@ -34,9 +34,15 @@
 
    ## Each mechanism can support true parallelism on a multiprocessor machine.
 
+   ## Non-blocking I/O often is used in combination with multithreading and multiprocessing.
+
+   ## Multithreading and multiprocessing can be used in combination.
+
+   ## Hybrid approaches using some mix of multiprocessing, multithreading, and non-blocking I/O are common.
+
  # A process is a program in execution, which requires (1) a processor to execute the instructions and
-   (2) memory to hold the program's instructions and data. Processes that are 'apps' rather than
-   utilities or background workers ('daemons') also use (3) I/O devices.
+   (2) memory to hold the program's instructions and data. Processes that are executing 'apps' rather than
+   utilities or background workers ('daemons') typically use (3) I/O devices as well.
 
    ## Each process has its own address space: memory locations that the process can access legitimately.
 
@@ -89,6 +95,10 @@
           even sleeping). 
 
       ### In different but equivalent terms, a Daemon thread alone cannot sustain a Java Application.
+
+      ### Deamon threads can be tricky. Suppose, for example, that a Daemon thread is in the middle of
+          an I/O operation when the app's last User thread terminates: the Daemon thread terminates,
+          perhaps leaving the I/O operation in an indeterminate state.
  
       ### For a code example, see the UserDaemon.java file. The documentation explains how to
           illustrate the difference between User and Daemon threads.
