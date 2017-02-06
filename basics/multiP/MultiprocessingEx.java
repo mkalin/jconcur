@@ -1,12 +1,17 @@
 package multiP;
 
-/** A very short program to illustrate multiprocessing in Java via the
+/** A short program to illustrate multiprocessing in Java via the
     overloaded exec method in the java.lang.Runtime class.
+
+    This program runs a local text editor (see documentation below) on a file: the
+    editor runs as a process separate from the JVM, which exists after 'execing'
+    the text-editor process. The program introduces part of Java's multiprocessing
+    API, and underscores the independence of separate processes.
 */
 public class MultiprocessingEx {
     // Set to an editor on local system, one that can be invoked from
     // the command-line. In this example, the editor is named 'gedit', 
-    // and is available on Unix-like systems. (On Windows, 'notepad' might do.)
+    // and is available on Unix-like systems. (On Windows, 'notepad' would do.)
     private static final String sampleEditor = "gedit";  // the editor
     private static final String file2Edit = "text.txt";  // the file to be edited
 

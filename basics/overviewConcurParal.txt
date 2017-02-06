@@ -61,6 +61,7 @@
  # The natural way to write concurrent/parallel Java apps is with mutlithreading.
 
    ## Multiprocessing is possible, but not the best way to go.
+      For a code example, see the file multiP.MultiprocessingEx.java.
 
  # An instance of java.lang.Thread maps to a 'native thread', which is a executable thread
    at the operating-system (OS) level. 
