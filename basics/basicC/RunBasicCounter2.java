@@ -3,10 +3,12 @@ package basicC;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// A 2nd approach: use the ExecutorService in which 100 BasicCounter instances
-// are multiplexed onto 10 threads in a fixed-sized thread pool.
-// In effect, the BasicCounter instances are 100 jobs-to-be-done, and the
-// the under-the-hood pooled threads are the workers doing the jobs.
+/**
+ * A 2nd approach: use the ExecutorService in which 100 BasicCounter instances
+ * are multiplexed onto 10 threads in a fixed-sized thread pool.
+ * In effect, the BasicCounter instances are 100 jobs-to-be-done, and the
+ * the under-the-hood pooled threads are the workers doing the jobs.
+ */
 public class RunBasicCounter2 {
     private static final int poolSize = 10;
 
@@ -22,7 +24,7 @@ public class RunBasicCounter2 {
 	executor.shutdown(); // accept no new threads
 
 	while (!executor.isTerminated()) {
-	    // await thread deaths
+	    // await thread deaths (for now, we'll "busy wait" by looping)
 	}
 	System.out.println("All started threads have died.");
     }

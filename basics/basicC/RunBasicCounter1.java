@@ -3,9 +3,11 @@ package basicC;
 import java.util.ArrayList;
 import java.util.List;
 
-// A low-level approach to managing multiple threads:
-//  -- create 100 BasicCounter instances, start each
-//  -- run until all of the threads terminate
+/**
+ * A low-level approach to managing multiple threads:
+ *  -- create 100 BasicCounter instances, start each
+ *  -- run until all of the threads terminate
+ */
 public class RunBasicCounter1 {
     public static void main(String[] args) {
 	List<Thread> threads = new ArrayList<Thread>();
