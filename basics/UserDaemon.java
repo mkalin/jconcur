@@ -19,6 +19,9 @@
 
   The JVM uses Daemon threads to provide various services, e.g., garbage-collection.
   Programmer apps can use any mix of User and Daemon threads -- great flexibility.
+
+  The program should be run twice: once with setDaemon(true), once with the line
+  commented out (see below).
  */
 public class UserDaemon {
     // A runtime-generated User thread executes main: the 'main-thread'.
