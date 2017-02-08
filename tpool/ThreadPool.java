@@ -42,7 +42,7 @@ final public class ThreadPool {
     public void execute(Runnable r) {
         synchronized(jobQueue) {
             jobQueue.addLast(r); // add the job to the end of the queue
-            jobQueue.notify();   // wake up thread to handle the job at the start of the queue
+            jobQueue.notify();   // wake up a thread to handle the job at the start of the queue
         }
     }
 
@@ -60,6 +60,7 @@ final public class ThreadPool {
                     }
                     job = (Runnable) jobQueue.removeFirst();
                 }
+
                 try {
                     job.run();            // run the job
                 }

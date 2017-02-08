@@ -21,7 +21,7 @@ public class MultithreadEx {
 	win.setSize(600, 200);
 
 	listThreads("Before Frame is shown...\n");
-	win.setVisible(true); //### a new User thread is created
+	win.setVisible(true);                         //### a new User thread is created
 	listThreads("\nAfter Frame is shown...\n");
     } 
 
@@ -29,7 +29,7 @@ public class MultithreadEx {
 	System.out.println(msg);
 
 	// Each thread gets its own stack scratchpad, so this is a straightforward 
-	// (but not cheap) way to get a list of threads.
+	// (but not cheap) way to get a collection of all 'live' threads.
 	Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 	for (Thread t : threadSet) 
 	    System.out.printf("\tName, Id, user/daemon: %s (%d) %s\n",
