@@ -36,7 +36,7 @@ public class MultithreadEx {
 }
 
 /** 
-    Output from a sample run:
+    Output from a sample run (User threads marked with ###):
 
     Before Frame is shown...
     
