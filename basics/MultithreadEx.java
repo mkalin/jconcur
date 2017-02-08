@@ -16,13 +16,12 @@ public class MultithreadEx {
     } //### main-thread terminates when it exits main()
 
     private void demo() {
-	listThreads("Before Frame is shown...\n");
-
 	// Create and configure a top-level window.
 	Frame win = new Frame("Hello, world!");
 	win.setSize(300, 100);
-	win.setVisible(true); // a new User thread is created
 
+	listThreads("Before Frame is shown...\n");
+	win.setVisible(true); // a new User thread is created
 	listThreads("\nAfter Frame is shown...\n");
     } 
 
@@ -33,30 +32,34 @@ public class MultithreadEx {
 	// (but not cheap) way to get a list of threads.
 	Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 	for (Thread t : threadSet) 
-	    System.out.printf("\tName, Id, isDaemon(): %s (%d) %b\n",
-			      t.getName(), t.getId(), t.isDaemon());
+	    System.out.printf("\tName, Id, user/daemon: %s (%d) %s\n",
+			      t.getName(), 
+			      t.getId(), 
+			      t.isDaemon() ? "Daemon" : "User");
     }
 }
 
 /** 
-    Output from a sample run (User threads marked with ###):
+    Output from a sample run:
 
-    Before Frame is shown...
-    
-        Name, Id, isDaemon(): Reference Handler (2) true
-	Name, Id, isDaemon(): Signal Dispatcher (4) true
-	Name, Id, isDaemon(): Finalizer (3) true
-	Name, Id, isDaemon(): main (1) false                       ### User thread
+Before Frame is shown...
 
-    After Frame is shown...
+	Name, Id, user/daemon: Signal Dispatcher (4) Daemon
+	Name, Id, user/daemon: main (1) User
+	Name, Id, user/daemon: AWT-XAWT (12) Daemon
+	Name, Id, user/daemon: Finalizer (3) Daemon
+	Name, Id, user/daemon: Java2D Disposer (10) Daemon
+	Name, Id, user/daemon: Reference Handler (2) Daemon
 
-	Name, Id, isDaemon(): Reference Handler (2) true
-	Name, Id, isDaemon(): Java2D Disposer (10) true
-	Name, Id, isDaemon(): Signal Dispatcher (4) true
-	Name, Id, isDaemon(): Finalizer (3) true
-	Name, Id, isDaemon(): main (1) false                       ### User thread
-	Name, Id, isDaemon(): AWT-Shutdown (13) false              ### User thread
-	Name, Id, isDaemon(): AWT-XAWT (12) true
+After Frame is shown...
 
-    main-thread is about to exit...
+	Name, Id, user/daemon: Signal Dispatcher (4) Daemon
+	Name, Id, user/daemon: AWT-Shutdown (13) User
+	Name, Id, user/daemon: Java2D Disposer (10) Daemon
+	Name, Id, user/daemon: main (1) User
+	Name, Id, user/daemon: AWT-XAWT (12) Daemon
+	Name, Id, user/daemon: Finalizer (3) Daemon
+	Name, Id, user/daemon: Reference Handler (2) Daemon
+
+main-thread is about to exit...
 */
