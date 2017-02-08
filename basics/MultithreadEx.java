@@ -3,8 +3,8 @@ import java.util.Set;
 
 /**
    A program to show User and Daemon threads in action. The main-thread
-   executes main, and is a User thread. This thread creates and shows an
-   AWT Frame window, which results in a second User thread.
+   executes main, and is a User thread. This thread creates and then shows an
+   AWT Frame window: showing the window results in another User thread.
 
    The main-thread exits, but the second User thread persists -- and so does the application
    until killed externally (e.g., by Control-C from the command-line).
