@@ -18,17 +18,17 @@ public class MultithreadEx {
     private void demo() {
 	// Create and configure a top-level window.
 	Frame win = new Frame("Hello, world!");
-	win.setSize(300, 100);
+	win.setSize(600, 200);
 
 	listThreads("Before Frame is shown...\n");
-	win.setVisible(true); // a new User thread is created
+	win.setVisible(true); //### a new User thread is created
 	listThreads("\nAfter Frame is shown...\n");
     } 
 
     private void listThreads(String msg) {
 	System.out.println(msg);
 
-	// Each thread gets its own stack, so this is a straightforward 
+	// Each thread gets its own stack scratchpad, so this is a straightforward 
 	// (but not cheap) way to get a list of threads.
 	Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 	for (Thread t : threadSet) 
