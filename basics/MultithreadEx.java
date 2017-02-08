@@ -16,10 +16,9 @@ public class MultithreadEx {
     } //### main-thread terminates when it exits main()
 
     private void demo() {
-
 	listThreads("Before Frame is shown...\n");
 
-	// a new thread manages the Frame when the Frame is shown
+	// a new User thread will be created 
 	new Frame("Just a demo, folks").setVisible(true);
 
 	listThreads("\nAfter Frame is shown...\n");
@@ -28,6 +27,8 @@ public class MultithreadEx {
     private void listThreads(String msg) {
 	System.out.println(msg);
 
+	// Each thread gets its own stack, so this is a straightforward 
+	// (but not cheap) way to get a list of threads.
 	Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 	for (Thread t : threadSet) 
 	    System.out.printf("\tName, Id, isDaemon(): %s (%d) %b\n",
