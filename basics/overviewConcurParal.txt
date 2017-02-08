@@ -70,32 +70,23 @@
 
  # When a standard Java Application is run
 
-    % java MyApp
+    % java MultithreadEx
 
    it starts out single-threaded, with the 'main-thread' as the one that executes the main method:
 
-   Example (available in the separate file MyApp.java):
+   Example: See the separate file MultithreadEx.java).
 
-   import java.awt.Frame; // top-level window
-
-   public class MyApp {
-      public static void main(String[ ] args) {
-	System.out.println("main-thread in action...");
-
-	// a new thread manages the Frame when the Frame is shown
-	new Frame("Just a demo, folks").setVisible(true);
-
-	System.out.println("main-thread is about to exit...");
-      } // 'main-thread' dies, but app lives on: must be killed with Control-C or equivalent
-   }
-
-   ## In the MyApp example, the 'main-thread' is a User rather than a Daemon (worker) thread,
-      and the thread that manages the shown Frame is likewise a User thread.
+   ## In the MultithreadEx example, the 'main-thread' is a User rather than a Daemon (worker) thread,
+      and one of the threads that manages the shown Frame is likewise a User thread.
 
       ### A Java Application runs so long as at least one User thread is active (though perhaps
           even sleeping). 
 
       ### In different but equivalent terms, a Daemon thread alone cannot sustain a Java Application.
+
+      ### Daemon threads are 'background workers', unable on their own to sustain an application.
+
+          #### In the MultithreadEx example, the Daemon threads do various JVM jobs.
 
       ### Deamon threads can be tricky. Suppose, for example, that a Daemon thread is in the middle of
           an I/O operation when the app's last User thread terminates: the Daemon thread terminates,
