@@ -18,8 +18,10 @@ public class MultithreadEx {
     private void demo() {
 	listThreads("Before Frame is shown...\n");
 
-	// a new User thread will be created 
-	new Frame("Just a demo, folks").setVisible(true);
+	// Create and configure a top-level window.
+	Frame win = new Frame("Hello, world!");
+	win.setSize(300, 100);
+	win.setVisible(true); // a new User thread is created
 
 	listThreads("\nAfter Frame is shown...\n");
     } 

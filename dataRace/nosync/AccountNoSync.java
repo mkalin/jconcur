@@ -19,5 +19,5 @@ class Spendthrift extends Thread { // withdraw
 }
 
 public class AccountNoSync {
-    public static int balance = 0;                             
+    public static int balance = 0; // exactly one account and its balance
 }
