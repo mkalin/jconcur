@@ -33,15 +33,15 @@ public class Deadlock {
 	// are both locked on 'this' -- the current Friend instance.
         public synchronized void bow(Friend bower) {
             System.out.format("%s: %s"
-			      + "  has bowed to me!%n", 
-			      this.name, bower.getName());
+			      + "  has bowed to me!\n", 
+			      bower.getName(), this.getName());
             bower.bowBack(this);          //### executing bowBack would violate mutual exclusion
         } // lock is released only here
 
         public synchronized void bowBack(Friend bower) {
             System.out.format("%s: %s"
-			      + " has bowed back to me!%n",
-			      this.name, bower.getName());
+			      + " has bowed back to me!\n",
+			      bower.getName(), this.getName());
         }
     }
     
