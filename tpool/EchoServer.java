@@ -50,5 +50,5 @@ class RequestHandler extends Thread {
 	catch(Exception e) {
 	    System.err.println(e);
 	}
-    } // thread terminates when it exists run ###
+    } // thread terminates when it exists run: terminated thread cannot be restarted
 }

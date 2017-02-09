@@ -33,12 +33,16 @@ final public class ThreadPool {
         jobQueue = new LinkedList<Runnable>();
         threads = new PoolWorker[threadCount = n];
 	
+	// Create and start the threads, amortizing the cost over the
+	// lifetime of the pool.
 	for (PoolWorker pw : threads) {
             pw = new PoolWorker();
             pw.start();
         }
     }
     
+    // API method: a ThreadPool client creates a pool, and then 
+    // invokes execute on a job to be run.
     public void execute(Runnable r) {
         synchronized(jobQueue) {
             jobQueue.addLast(r); // add the job to the end of the queue
@@ -46,6 +50,7 @@ final public class ThreadPool {
         }
     }
 
+    // PoolWorkers are Threads.
     private class PoolWorker extends Thread {
 	@Override
         public void run() {

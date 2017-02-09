@@ -9,7 +9,7 @@
       a reference to the particular friend -- in this case, Lou or Bud.
 
    -- The bowBack method is invoked within the bow method; but the lock ensures mutual exclusion so
-      that only _either_ bow _or_ bowBack can be run at a given time, not both at once.
+      that only either bow or bowBack can be run at a given time, not both at once.
 
    -- The result is deadlock: the call to bowBack, the last statement in bow, must wait until bow
       exits -- but bow can't exit until bowBack exits, and bowBack can't even begin until bow exits.
@@ -35,7 +35,7 @@ public class Deadlock {
             System.out.format("%s: %s"
 			      + "  has bowed to me!%n", 
 			      this.name, bower.getName());
-            bower.bowBack(this); // executing bowBack would violate mutual exclusion
+            bower.bowBack(this);          //### executing bowBack would violate mutual exclusion
         } // lock is released only here
 
         public synchronized void bowBack(Friend bower) {
@@ -50,11 +50,17 @@ public class Deadlock {
         final Friend bud = new Friend("Bud");
 
         new Thread(new Runnable() {
-		public void run() { lou.bow(bud); }
+		@Override
+		public void run() { 
+		    lou.bow(bud); 
+		}
 	    }).start();
 
         new Thread(new Runnable() {
-		public void run() { bud.bow(lou); }
+		@Override
+		public void run() { 
+		    bud.bow(lou); 
+		}
 	    }).start();
     }
 }
