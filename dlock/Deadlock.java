@@ -34,14 +34,14 @@ public class Deadlock {
         public synchronized void bow(Friend bower) {
             System.out.format("%s: %s"
 			      + "  has bowed to me!\n", 
-			      bower.getName(), this.getName());
+			      this.getName(), bower.getName());
             bower.bowBack(this);          //### executing bowBack would violate mutual exclusion
         } // lock is released only here
 
         public synchronized void bowBack(Friend bower) {
             System.out.format("%s: %s"
 			      + " has bowed back to me!\n",
-			      bower.getName(), this.getName());
+			      this.getName(), bower.getName());
         }
     }
     
