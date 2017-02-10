@@ -4,7 +4,7 @@
   -- A 'data race' (aka 'race condition') can occur when two or more threads 
 
              (1) have access at the same time to the same memory location and 
-             (2) at least one them performs a write operation on the shared location.
+             (2) at least one them can perform a write operation on the shared location.
 
   -- Deadlock occurs when two or more threads must wait on a condition that 
      cannot occur unless one or more of the waiters proceeds.
@@ -20,19 +20,19 @@
           single-threaded execution--or even in deadlock.
 
    -- There are various ways to make Java programs 'thread-safe' (aka 'concurrent-aware'),
-      from the fundamental synchronized block to other, higher-level mechanisms that
+      from the fundamental synchronized block (explicit locking) to higher-level mechanisms that
       hide the 'explicit locking' of shared memory locations. All such mechanisms 
       must ensure mutual exclusion (single-threaded execution) of critical sections.
 
       # A 'critical section' is a section of code conducive to a data race.
 
-      # A 'thread-safe' program therefore must ensure single-threaded execution of critical sections.
+      # So a 'thread-safe' program must ensure single-threaded execution of critical sections.
 
   -- Programming languages in general (including Java) neither detect nor recover from deadlock.
 
      # Production-grade database systems typically have (some level of) deadlock avoidance/recovery. 
 
-     # The basic idea for programmers is: Deadlock is really bad, so don't do it!
+     # The basic idea for app programmers is: Deadlock is really bad, so don't go there!
 
 
 
