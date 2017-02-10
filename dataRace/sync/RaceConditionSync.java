@@ -1,5 +1,15 @@
 package sync;
 
+/**
+   Miser/Spendthrift 2: two threads race to update a single memory location
+   (static field AccountNoSync.balance): the Miser increments the balance, whereas
+   the Spendthrift decrements the balance. The balance is zero to begin.
+
+   In this version, there is explicit thread synchronization using the keyword
+   'synchronized'. As a result, no data race occurs, and the balance at the end
+   is what it should be: zero.
+ */	
+
 public class RaceConditionSync {
     public static void main(String[ ] args) {
        if (args.length < 1) {

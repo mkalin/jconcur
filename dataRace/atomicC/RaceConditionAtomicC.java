@@ -1,5 +1,14 @@
-package atomicC
-;
+package atomicC;
+
+/**
+   Miser/Spendthrift 3: two threads race to update a single memory location
+   (static field AccountNoSync.balance): the Miser increments the balance, whereas
+   the Spendthrift decrements the balance. The balance is zero to begin.
+
+   In this version, an AtomicInteger is used to track the balance. The
+   AtomicInteger has the thread synchronization baked in; hence, no explicit
+   synchronization is needed.
+ */
 public class RaceConditionAtomicC {
     public static void main(String[ ] args) {
        if (args.length < 1) {

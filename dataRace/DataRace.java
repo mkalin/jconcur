@@ -1,7 +1,12 @@
-// A short program to illustrate data races:
-//   -- Thread t1 sets fields 'a' and 'x', the latter to the value of 'b'
-//   -- Thread t2 sets fields 'b' and 'y', the latter to the value of 'a'
-// There's no synchronization; hence, the final values cannot be determined beforehand.
+/** 
+ * A short program to illustrate data races:
+ *
+ *  -- Thread t1 sets fields 'a' and 'x', the latter to the value of 'b'
+ *  -- Thread t2 sets fields 'b' and 'y', the latter to the value of 'a'
+ *
+ * These assignments could occur in different sequences, as there is
+ * no synchronization of the writes done by the threads.
+ */
 public class DataRace {
     static int x = 0, y = 0;  // accessible to threads t1 and t2
     static int a = 0, b = 0;  // ditto
