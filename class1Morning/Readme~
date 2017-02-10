@@ -1,0 +1,11 @@
+Here's a list of the files in this ZIP, together with a short account of each.
+Please try to compile and run the code before class.
+-----
+
+     File                                   Contents
+
+overviewConcurParal.txt     Review of key concepts such as concurrency, parallelism,
+                            multithreading, and multiprocessing.
+
+concurParalContrast.txt     More detailed analyis of how concurrency and parallism differ.
+

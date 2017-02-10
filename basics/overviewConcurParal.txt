@@ -68,13 +68,27 @@
 
    ## A 'green thread' (Java 1.4) is under JVM rather than OS control.
 
+ # Once started, a Java thread executes until it stops: the best way to stop (terminate)
+   a Java thread is to have the thread exit the run() method, which is the method that
+   such a thread executes sometime after start() is invoked.
+
+   ## Basic two-step for a Java Thread:
+
+      // In practice, we'd have a subclass of Thread (e.g., MyThread) with our
+      // own overload of run(). But the basic two-step remains:
+      Thread t = new Thread(...);   // construct a Thread
+      t.start();                    // invoke start() -- not run() -- on the Thread.
+      // we're now concurrent...
+
+   ## Once a Java thread terminates, it cannot be restarted.
+
  # When a standard Java Application is run
 
     % java MultithreadEx
 
-   it starts out single-threaded, with the 'main-thread' as the one that executes the main method:
+   it starts out single-threaded, with the 'main-thread' as the thread that executes the main method:
 
-   Example: See the separate file MultithreadEx.java).
+   Example: See the separate file MultithreadEx.java.
 
    ## In the MultithreadEx example, the 'main-thread' is a User rather than a Daemon (worker) thread,
       and one of the threads that manages the shown Frame is likewise a User thread.
@@ -92,7 +106,7 @@
           an I/O operation when the app's last User thread terminates: the Daemon thread terminates,
           perhaps leaving the I/O operation in an indeterminate state.
  
-      ### For a code example, see the UserDaemon.java file. The documentation explains how to
+      ### For another code example, see the UserDaemon.java file. The documentation explains how to
           illustrate the difference between User and Daemon threads.
 
 

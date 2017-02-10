@@ -1,0 +1,30 @@
+Here's a list of the files in the ZIP file class1Morning.zip, together with a short 
+account of each file.
+
+If you've time, please compile and run the code before class. The numbering
+suggests the order in which these files might be looked it. All of the files are
+relatively short, and the Java code requires only the core Java JDK to compile and run.
+-----
+
+        File                                 Contents
+
+1. overviewConcurParal.txt         Review of key concepts such as concurrency, parallelism,
+                                   multithreading, and multiprocessing. Multithreading in Java.
+
+2. concurParalContrast.txt         A more detailed analyis of how concurrency and parallism differ.
+
+3. MultithreadEx.java              A short program to introduce 'automatic multithreading'.
+                                   Our 1st look at User versus Daemon threads.
+
+4. UserDaemon.java                 More on User versus Daemon threads: a short experiment.
+
+5. multiP.MultiprocessingEx.java   Multiprocessing in Java: not the preferred way to do 
+                                   concurrent programming in Java, but included for illustration.
+
+6. basicC.*.java                   5 Java source files, which together explore the 
+                                   multithreading API. We'll analyze this API through 
+                                   many more code examples.
+
+
+
+
