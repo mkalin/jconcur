@@ -12,7 +12,7 @@
  ## 1st scenario: a single-processor machine with time-sliced scheduling: concurrency but no parallelism
 
     ### Assume each task is scheduled for a fixed-length time slice, and then is
-	pre-empted and rescheduled if its processing exceeds that time slice.
+	preempted and rescheduled if its processing exceeds that time slice.
 
         Each start * represents a tick of the system clock:
 
@@ -29,7 +29,7 @@ Start time                                         Finish time
 
     ### 1st scenario exhibits concurrency, but not true parallelism.
 
- ## 2nd scenario: a multi-processor machine (assume two for simplicity)
+ ## 2nd scenario: a multiprocessor machine (assume two for simplicity)
         
                  Time span 
 Start time                       Finish time

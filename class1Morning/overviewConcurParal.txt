@@ -51,14 +51,14 @@
    ## On modern systems, a process has at least one 'thread of execution', which is a sequence of
       executable instructions: a 1-instruction thread is quite small, but still a thread.
 
-   ## A process with just one thread is 'single-threaded'; otherwise, 'multi-threaded'.
+   ## A process with just one thread is 'single-threaded'; otherwise, 'multithreaded'.
 
    ## Threads within the same process share the same address space: much more on this with code examples.
 ==============================================================================
 
  -- Java and Multithreading
 
- # The natural way to write concurrent/parallel Java apps is with mutlithreading.
+ # The natural way to write concurrent/parallel Java apps is with multithreading.
 
    ## Multiprocessing is possible, but not the best way to go.
       For a code example, see the file multiP.MultiprocessingEx.java.
