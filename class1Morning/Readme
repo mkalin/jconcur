@@ -11,14 +11,14 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 1. overviewConcurParal.txt         Review of key concepts such as concurrency, parallelism,
                                    multithreading, and multiprocessing. Multithreading in Java.
 
-2. concurParalContrast.txt         A more detailed analyis of how concurrency and parallism differ.
+2. concurParalContrast.txt         A more detailed analysis of how concurrency and parallelism differ.
 
 3. MultithreadEx.java              A short program to introduce 'automatic multithreading'.
                                    Our 1st look at User versus Daemon threads.
 
 4. UserDaemon.java                 More on User versus Daemon threads: a short experiment.
 
-5. multiP.MultiprocessingEx.java   Multiprocessing in Java: not the preferred way to do 
+5. multiP.MultiprocessEx.java      Multiprocessing in Java: not the preferred way to do 
                                    concurrent programming in Java, but included for illustration.
    text.txt                        The sample file for the multiprocessing example (see code
                                    documentation for details).

@@ -11,7 +11,7 @@ package multiP;
     the text-editor process. The program introduces part of Java's multiprocessing
     API, and underscores the independence of separate processes.
 */
-public class MultiprocessingEx {
+public class MultiprocessEx {
     // Set to an editor on local system, one that can be invoked from
     // the command-line. In this example, the editor is named 'gedit', 
     // and is available on Unix-like systems. (On Windows, 'notepad' would do.)
