@@ -1,6 +1,9 @@
 package multiP;
 
-/** A short program to illustrate multiprocessing in Java via the
+/** 
+    Execution: java multiP.MultiprocessingEx
+
+    A short program to illustrate multiprocessing in Java via the
     overloaded exec method in the java.lang.Runtime class.
 
     This program runs a local text editor (see documentation below) on a file: the
