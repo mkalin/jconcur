@@ -1,0 +1,6 @@
+
+ Twin perils of multithreading are data races and deadlock:
+
+  -- A 'data race' (aka 'race condition') occurs when two or more
+     threads (1) have access to the same memory location and (2) at least
+     one them performs a write operation.

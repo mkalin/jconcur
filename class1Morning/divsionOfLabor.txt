@@ -1,0 +1,52 @@
+
+ Concurrency/parallelism via a sketched example
+
+ -- Concurrent programs practice 'division of labor' to improve service and efficiency
+
+ Example: a 'concurrent web server'
+
+              How to divide the labor so that no request starves and response time per request is pretty good?
+                                            /
+                                      +------------+
+      client requests---------------->| web server |
+            /                         +------------+
+   Some could be ill-formed.
+
+     # If the web server were 'iterative', handling one request at a time to
+       completion before another request were handled, then one ill-formed 
+       request could block the handling of other requests behind it.
+
+     # Hence, a production-grade web server must be 'concurrent': handle more than
+       one pending request at a time.
+
+       ## If the host machine has multiple processors (nowadays, definitely), then
+          pending requests can be handled in parallel, with different requests processed
+          at the same time on different processors. 
+
+     # Web-server support for concurrency is typically hybrid: some mix of
+       multiprocressing, multithreading, and non-blocking I/O.
+
+       ## As always, there are tradeoffs. Here's a sketch:
+
+          -- Multiprocessing 
+
+             Plus:  Multiple processes mean separate, partitioned address spaces; by default, no
+                    shared memory locations among the processes. (Easy on the programmer.)
+
+             Minus: process-level context switches (processor switched from one
+                    process to another) are expensive (low ms range).
+
+          -- Multithreading
+                  
+             Plus:  thread-level context switches are not free, but very low cost (ns range).
+       
+             Minus: multiple threads within a process share memory locastions, which
+                    opens the door to 'data races'. (Hard on programmers.)
+
+          -- Non-blocking I/O
+
+             Plus:  highly efficient I/O, as there's no busy-waiting for the data
+
+             Minus: challenging to program. (Hard on programmers.)
+
+            
