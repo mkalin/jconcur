@@ -1,0 +1,6 @@
+
+ Overview of the Thread API
+
+ -- It's a rich API, but various methods are deprecated.
+
+ -- Some methods are very special purpose
