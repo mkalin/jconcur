@@ -1,8 +1,13 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
-// a thin wrapper around the AtomicInteger: for illustration
+/**
+   Two classes to illustrate explicit versus 'baked in' synchronization.
+   For convenience, both classes are in the same file, but the 
+   SynchronizedCounter class otherwise would be public and in its own file.
+ */
+
 final public class AtomicCounter {
-    private AtomicInteger c = new AtomicInteger(0);
+    private AtomicInteger c = new AtomicInteger(0);  // baked-in synchronization
 
     public void increment() {
         c.incrementAndGet();  // increment counter
@@ -22,9 +27,8 @@ final public class AtomicCounter {
     any of the three methods until the lock is released.
 
     The implicit lock is 'this', a reference to a specific SynchronizedCounter instance.
-   
 */
-class SynchronizedCounter { // would be 'public class' and in its own file
+final class SynchronizedCounter { // would be 'public class' and in its own file
     private int c = 0;
     
     public synchronized void increment() {

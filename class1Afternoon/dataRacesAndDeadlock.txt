@@ -1,9 +1,10 @@
 
  Twin perils of multithreading are data races and deadlock:
 
-  -- A 'data race' (aka 'race condition') can occur when two or more threads 
+  -- A 'data race' ('race condition', 'memory consistency error') can occur when two or more threads 
 
              (1) have access at the same time to the same memory location and 
+
              (2) at least one them can perform a write operation on the shared location.
 
   -- Deadlock occurs when two or more threads must wait on a condition that 

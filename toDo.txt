@@ -1,0 +1,2 @@
+
+-- short summary of build-in synchronized types
