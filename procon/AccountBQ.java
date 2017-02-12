@@ -26,7 +26,7 @@ class Miser extends Thread {       // deposit
 	for (int i = 0; i < howMany; i++) {
 	    AccountBQ.bankQueue.add(new Integer(+1)); // deposit
 	    try {
-		Thread.sleep(rand.nextInt(3)); // 0 to 2 ms
+		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
 	    catch(InterruptedException e) { }
 	}
@@ -48,7 +48,7 @@ class Spendthrift extends Thread { // withdraw
 	for (int i = 0; i < howMany; i++) {
 	    AccountBQ.bankQueue.add(new Integer(-1)); // withdraw
 	    try {
-		Thread.sleep(rand.nextInt(3)); // 0 to 2 ms
+		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
 	    catch(InterruptedException e) { }
 	}
@@ -86,10 +86,18 @@ class Banker extends Thread {
 }
 
 public class AccountBQ {
+    public static final int zsCount = 3; // for Miser/Spendthrift sleeps
     public static int balance = 0;  
 
-    private static final int queueCapacity = 1024; // critical that the queue doesn't fill
-    // the 2nd argument promotes 'fairness' between producing and consuming threads
+    // It's critical that the the queue be big enough to avoid a
+    // 'full queue' expception, which would cause Miser and/or Spendthrift
+    // requests to be lost. This is a judgment call, but one based on experiment.
+    // Making the queue capacity very small (8) did result in several exceptions,
+    // but this size seems just fine; and a 1K array of object references is
+    // relatively modest in size.
+    private static final int queueCapacity = 1024; 
+
+    // 2nd ctor argument promotes 'fairness' between producing and consuming threads
     public static BlockingQueue<Integer> bankQueue = 
 	new ArrayBlockingQueue<Integer>(queueCapacity, true); 
 }

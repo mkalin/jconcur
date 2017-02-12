@@ -1,6 +1,52 @@
 
  Overview of the Thread API
 
- -- It's a rich API, but various methods are deprecated.
+ -- It's a rich API, but various methods are deprecated because these methods are
+    deadlock-prone because the impacted thread may hold locks that do not get released.
+    Here's a sample, with with 't' as a reference to a Thread:
 
- -- Some methods are very special purpose
+            Method                                 Comment
+  
+        t.destory()                Destroy the thread, but with no cleanup.
+        t.suspend(), t.resume()    Suspend the thread's execution, resume the suspended thread's execution
+        t.stop()                   Stop the thread's execution.
+
+ -- Methods can be used for very basic inter-thread communication:
+
+           Method                                  Comment
+
+       t.interrupt()                    Interrupt the thread.
+       t.isInterrupted()                Test whether the thread has been interrupted
+       Thread.interrupted()             Test whether the current thread has been interrupted.
+
+ -- Miscellaneous thread methods
+
+       Thread.currentThread()           Returns a reference to the current thread.
+       Thread.yield()                   Let the scheduler know that the current thread is willing to
+                                        yield to another thread.
+
+       Thread.holdsLock(Object lock)    Tests whether the current thread holds this lock.
+      
+
+       t.setPriority(int p)             By default, the main-thread has Thread.NORM_PRIORITY.
+       t.getPriority()                  Any threads it creates have this same priority by default,
+                                        unless the priority is changed _before_ the thread is 
+                                        started; thereafter, it's pointless to set a thread's
+                                        priority. For instance:
+
+                                          t.setPriority(Thread.MAX_PRIORITY);       // or Thread.MIN_PRIORITY
+                                          t.setPriority(Thread.NORM_PRIORITY + 1);  // etc.
+
+                                        Threads with a higher priority preempt those with a lower 
+                                        priority. For example, if t1 has NORM_PRIORITY and t2 has 
+                                        NORM_PRIORITY + 1, then t1 will execute only if t2 terminates or, as
+                                        the current thread, yields.
+
+ -- ThreadGroups
+
+ # Every thread belongs, at least, to a default ThreadGroup, which has convenience methods (e.g., setDaemon(boolean) 
+   that can be applied to all of the threads in the group.
+
+ # Four overloads of the Thread constructor take a ThreadGroup as the 1st argument.
+
+ # ThreadGroups form a hierarchical structure, with parent/child relationships.

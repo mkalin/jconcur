@@ -1,9 +1,9 @@
 /**
    Miser/Spendthrift 4: two threads race to update a single memory location
-   (static field AccountNoSync.balance): the Miser increments the balance, whereas
+   (static field AccountBQ.balance): the Miser increments the balance, whereas
    the Spendthrift decrements the balance. The balance is zero to begin.
 
-   In this version, there is an additional thread: the Banker daemon thread.
+   In this version, there is an additional thread: the Banker thread.
    The Banker alone updates the account balance, with the Miser and Spendthrift 
    threads sending requests (for deposits and withdrawals, respectively) to
    a thread-safe BlockingQueue. The Banker thread reads requests from this queue.
@@ -27,7 +27,7 @@ public class RaceConditionBQ {
        banker.start();      // start the Banker
 
        try {                                                          
-	   banker.join(); // the Banker stays alive until the Miser and Spendthrift die
+	   banker.join(); // the Banker stays alive at least until the Miser and Spendthrift die
        } catch(Exception e) { System.err.println(e); }
 
        System.out.println("Final balance: " + AccountBQ.balance); 
