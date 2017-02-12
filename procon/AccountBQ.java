@@ -74,6 +74,9 @@ class Banker extends Thread {
 	while (miser.isAlive() || spendthrift.isAlive()) {
 	    try {
 		// If there's something in the queue, process it.
+		// Note: Important not to block on the take() method
+		// if there's nothing already in the queue -- both
+		// threads may've terminated already.
 		if (AccountBQ.bankQueue.peek() != null) {
 		    Integer amt = AccountBQ.bankQueue.take(); // take() blocks
 		    AccountBQ.balance += amt;
