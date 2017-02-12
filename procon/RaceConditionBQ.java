@@ -8,6 +8,16 @@
    threads sending requests (for deposits and withdrawals, respectively) to
    a thread-safe BlockingQueue. The Banker thread reads requests from this queue.
    At the end, the balance is zero.
+
+   Here's a depiction of how the app works:
+
+               deposits
+                 /                    thread-safe       updates the account balance
+      Miser---------------+              /                     /
+                          |------->BlockingQueue------------>Banker--------->balance
+      Spendthrift---------+                                                    /
+                    \                                                single-threaded access
+             withdrawals
  */	
 
 public class RaceConditionBQ {
@@ -23,7 +33,7 @@ public class RaceConditionBQ {
        Banker banker = new Banker(miser, spendthrift);
 
        miser.start();       // start Miser                        
-       spendthrift.start(); // start Spendthrift */               
+       spendthrift.start(); // start Spendthrift      
        banker.start();      // start the Banker
 
        try {                                                          

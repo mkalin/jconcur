@@ -1,25 +1,27 @@
 
- Overview of the Thread API
+ Overview of the Thread API: some stuff not covered, or only partly covered, in code examples
 
  -- It's a rich API, but various methods are deprecated because these methods are
     deadlock-prone because the impacted thread may hold locks that do not get released.
     Here's a sample, with with 't' as a reference to a Thread:
 
-            Method                                 Comment
+           Method                                  Comments
   
         t.destory()                Destroy the thread, but with no cleanup.
         t.suspend(), t.resume()    Suspend the thread's execution, resume the suspended thread's execution
-        t.stop()                   Stop the thread's execution.
+        t.stop()                   Stop the thread's execution. (Best is just to exit run().)
 
  -- Methods can be used for very basic inter-thread communication:
 
-           Method                                  Comment
+           Method                                  Comments
 
        t.interrupt()                    Interrupt the thread.
        t.isInterrupted()                Test whether the thread has been interrupted
        Thread.interrupted()             Test whether the current thread has been interrupted.
 
  -- Miscellaneous thread methods
+
+          Method                                   Comments
 
        Thread.currentThread()           Returns a reference to the current thread.
        Thread.yield()                   Let the scheduler know that the current thread is willing to
@@ -40,13 +42,18 @@
                                         Threads with a higher priority preempt those with a lower 
                                         priority. For example, if t1 has NORM_PRIORITY and t2 has 
                                         NORM_PRIORITY + 1, then t1 will execute only if t2 terminates or, as
-                                        the current thread, yields.
+                                        the current thread, yields or waits.
 
  -- ThreadGroups
 
  # Every thread belongs, at least, to a default ThreadGroup, which has convenience methods (e.g., setDaemon(boolean) 
    that can be applied to all of the threads in the group.
 
- # Four overloads of the Thread constructor take a ThreadGroup as the 1st argument.
+   ## But ThreadGroup membership can be determined through a Thread concstructor
+
+   ## Four overloads of the Thread constructor take a ThreadGroup as the 1st argument.
 
  # ThreadGroups form a hierarchical structure, with parent/child relationships.
+   
+   ## A thread can get info about its own ThreadGroup, but not about others.
+
