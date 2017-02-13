@@ -57,11 +57,13 @@ final public class ImmutableRGB { // disallow subclassing
 }
 
 /** 
- * The Clojure approach of making data structures immutable by default can lead to inefficiency when 
- * collections such as sets, lists, and maps are in play. For example, if adding to a huge list results
- * in a new copy of this list, there's a penalty in time and memory for the copy. The data structures in 
- * java.util.concurrent take various approaches in trying to promote thread-safety but without 
- * unduly compromising efficiency. Two examples illustrate. For more detail, see the JavaDoc.
+ * Inverting a single instance of an ImmutableRGB is not expensive: the constructor call requires
+ * only three arguments, three ints and a String. But imagine inverting a huge list of such
+ * instances. Once collections (sets, lists, maps) are in play, the issue of efficiency
+ * jumps to the forefront when it comes to immutable types. The java.util.concurrent package
+ * has various collection types that ensure or at least promote thread-safety. This extended 
+ * documentation highlights two of these to explore modern approaches to making collections
+ * thread-safe yet reasonably efficient.
  *
  * The CopyOnWriteArrayList adapts an approach from memory-management in modern OSes. When one process spawns
  * another in a modern OS, the former is the 'parent' and the latter the 'child'. The child inherits the 'pages'
