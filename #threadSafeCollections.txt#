@@ -25,3 +25,6 @@ All of these collections help avoid Memory Consistency Errors by defining a happ
 operation that adds an object to the collection with subsequent operations that access or remove that object.
 
 CopyOnWriteArrayList: copy underlying array on mutative operations 
+
+ConcurrentHashMap = like Hashtable (thread-safe), but no blocks on gets, which reflect the most recently _completed_ update operation
+                    Iterators return a snapshot of the current map, and so proceed even if updates are made during the iteration
