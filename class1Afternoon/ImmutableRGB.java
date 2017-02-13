@@ -15,17 +15,6 @@ final public class ImmutableRGB { // disallow subclassing
     final private int blue;
     final private String name;
 
-    // Check the ranges: must be from 0 through 255.
-    private void check(int red,
-                       int green,
-                       int blue) {
-        if (red < 0   || red > 255 || 
-            green < 0 || green > 255 || 
-            blue < 0  || blue > 255) {
-            throw new IllegalArgumentException();
-        }
-    }
-    
     // Create an ImmutableRGB instance
     public ImmutableRGB(int red,
                         int green,
@@ -50,9 +39,20 @@ final public class ImmutableRGB { // disallow subclassing
     // Create a _new_ ImmutableRGB object -- no change to the original.
     public ImmutableRGB invert() {
         return new ImmutableRGB(255 - red,
-                       255 - green,
-                       255 - blue,
-                       "Inverse of " + name);
+				255 - green,
+				255 - blue,
+				"Inverse of " + name);
+    }
+
+    // Check the ranges: must be from 0 through 255.
+    private void check(int red,
+                       int green,
+                       int blue) {
+        if (red < 0   || red > 255 || 
+            green < 0 || green > 255 || 
+            blue < 0  || blue > 255) {
+            throw new IllegalArgumentException();
+        }
     }
 }
 
