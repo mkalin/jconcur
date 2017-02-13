@@ -60,7 +60,7 @@ final public class ImmutableRGB { // disallow subclassing
  * Inverting a single instance of an ImmutableRGB is not expensive: the constructor call requires
  * only three arguments, three ints and a String. But imagine inverting a huge list of such
  * instances. Once collections (sets, lists, maps) are in play, the issue of efficiency
- * jumps to the forefront when it comes to immutable types. The java.util.concurrent package
+ * jumps to the forefront for immutable types. The java.util.concurrent package
  * has various collection types that ensure or at least promote thread-safety. This extended 
  * documentation highlights two of these to explore modern approaches to making collections
  * thread-safe yet reasonably efficient.
@@ -69,14 +69,16 @@ final public class ImmutableRGB { // disallow subclassing
  * another in a modern OS, the former is the 'parent' and the latter the 'child'. The child inherits the 'pages'
  * (memory segments) in the parent's address space. However, if either the parent or the child performs a
  * 'write' operation on a given page, then a copy must be made: the page is no longer shared between the two.
+ * This approach is known by the acronym COW.
  *
  * As the name indicates, that's the approach taken in the CopyOnWriteArrayList, a thread-safe version of the 
  * java.util.ArrayList. Consider this scenario. Thread t1 is traversing such a list, performing only 'read' operations. 
  * At the same time, thread t2 'writes' to the list, thereby mutating it. Both operations can proceed without 
- * incident because the traversal occurs on a snapshot of the list as it was when the traversal began; and the 
- * 'write' operation occurs on a _copy_ of the original list. In the traversal, t1 would not pick up the change 
- * that t2 makes. In applications where 'read' traversals are more common than 'write' operations, this is highly efficient.  
- * The COW approach means, in short, that 'read' operations need not be locked.
+ * incident because the traversal occurs on the list as it was the instant the traversal began; and the 
+ * 'write' operation generates a _copy_ the original list. In the traversal, t1 might not pick up the change 
+ * that t2 makes, depending on whether the 'write' operation precedes the start of the traversal.
+ * In applications where 'read' traversals are more common than 'write' operations, this is highly efficient.  
+ * The COW approach means, in short, that 'read' ('non-mutating') operations need not be locked.
  * 
  * The ConcurrentHashMap has the same specification as the age-old java.util.Hashtable, which is thread-safe; but the
  * former is more efficient than the latter. Once again, the implementation rests on distinguishing between
