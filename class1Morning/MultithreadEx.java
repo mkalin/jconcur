@@ -7,7 +7,8 @@ import java.util.Set;
    Java has two Thread types: User and Daemon. Any Java thread of 
    execution is one or the other. From JDK 1.4 on, a Java thread should
    be implemented as a 'native' thread (under OS control) rather than as
-   a 'green' thread (under JVM control).
+   a 'green' thread (under JVM rather than OS control). Here's the 
+   difference between a User and a Daemon thread:
 
    -- only a User thread can sustain an application, which thus ends if there
       are no more active User threads

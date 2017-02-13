@@ -1,5 +1,0 @@
-
--- short summary of build-in synchronized types
-
--- short summary of Thread API: parts not shown
-
