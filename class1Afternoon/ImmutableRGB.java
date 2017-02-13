@@ -57,9 +57,8 @@ final public class ImmutableRGB { // disallow subclassing
 }
 
 /** 
- * Inverting a single instance of an ImmutableRGB is not expensive: the constructor call requires
- * only three arguments, three ints and a String. But imagine inverting a huge list of such
- * instances. Once collections (sets, lists, maps) are in play, the issue of efficiency
+ * Inverting a single instance of an ImmutableRGB is not expensive, but imagine inverting a huge list 
+ * of such instances. Once collections (sets, lists, maps) are in play, the issue of efficiency
  * jumps to the forefront for immutable types. The java.util.concurrent package
  * has various collection types that ensure or at least promote thread-safety. This extended 
  * documentation highlights two of these to explore modern approaches to making collections
