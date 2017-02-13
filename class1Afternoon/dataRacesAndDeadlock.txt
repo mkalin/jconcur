@@ -5,7 +5,7 @@
 
              (1) have access at the same time to the same memory location and 
 
-             (2) at least one them can perform a write operation on the shared location.
+             (2) at least one them can perform a 'write' ('mutating') operation on the shared location.
 
   -- Deadlock occurs when two or more threads must wait on a condition that 
      cannot occur unless one or more of the waiters proceeds.
@@ -32,13 +32,13 @@
   -- In Java, a synchronized block implements a 'monitor', a synchronization construct that supports
      mutual exclusion and related features.
 
-     # For convenience, 'lock' and 'mutex' are used in place of 'monitor'.
+     # 'lock' and 'mutex' are used as synonyms for 'monitor', as each emphasizes mutual exclusion.
 
   -- Programming languages in general (including Java) neither detect nor recover from deadlock.
 
      # Production-grade database systems typically have (some level of) deadlock avoidance/recovery. 
 
-     # The basic idea for app programmers is: Deadlock is really bad, so don't go there!
+     # The easy-to-say-but-hard-to-do guide for programmers: Deadlock is really bad, so don't go there!
 
 
 

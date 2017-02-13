@@ -2,12 +2,32 @@ import java.awt.Frame; // top-level window
 import java.util.Set;
 
 /**
-   A program to show User and Daemon threads in action. The main-thread
-   executes main, and is a User thread. This thread creates and then shows an
-   AWT Frame window: showing the window results in another User thread.
+   A program to show User and Daemon threads in action:
 
-   The main-thread exits, but the second User thread persists -- and so does the application
-   until killed externally (e.g., by Control-C from the command-line).
+   Java has two Thread types: User and Daemon. Any Java thread of 
+   execution is one or the other. From JDK 1.4 on, a Java thread should
+   be implemented as a 'native' thread (under OS control) rather than as
+   a 'green' thread (under JVM control).
+
+   -- only a User thread can sustain an application, which thus ends if there
+      are no more active User threads
+
+   -- a Daemon thread is designed to be a 'background worker', a thread that does
+      useful work but, by itself, cannot sustain an application
+
+   In general, a Java application begins with the execution of main: the thread that
+   executes main (the 'main-thread') is a User thread. A thread (User or Daemon) can 
+   create and start other threads (User or Daemon). 
+
+   In a technical sense, any Java application is multithreaded because the runtime (JVM)
+   has various Daemon threads executing. Java multithreading becomes particularly 
+   interesting and challenging when the programmer constructs, starts, and manages
+   other threads.
+
+   In this application, the main-thread creates and then shows an AWT Frame window.
+   Showing the window results in another User thread. The main-thread exits, but this
+   second User thread sustains the application until it is killed externally (e.g.,
+   by hitting Control-C from the command-line).
  */
 public class MultithreadEx {
     public static void main(String[ ] args) {
