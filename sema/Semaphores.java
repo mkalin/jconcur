@@ -32,6 +32,8 @@
  *  pool-6-thread-1 acquiring Resource8
  *  pool-10-thread-1 putting back Resource3
  *  ...
+ *
+ * The program runs indefinitely: kill at the command-line with Control-C.
  */
 
 import java.util.concurrent.Executors;
@@ -50,7 +52,8 @@ public class Semaphores {
 			    String resource;
 			    System.out.printf("%s acquiring %s%n", name,
 					      resource = pool.getResource());
-			    Thread.sleep(200 + (int) (Math.random() * 100));
+
+			    Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
 			    System.out.printf("%s putting back %s%n",
 					      name,
 					      resource);
@@ -62,6 +65,7 @@ public class Semaphores {
 		    }
 		}
 	    };
+	
 	ExecutorService[ ] executors = new ExecutorService[Pool.MaxAvailable + 1];
 	for (int i = 0; i < executors.length; i++) {
 	    executors[i] = Executors.newSingleThreadExecutor();
@@ -82,12 +86,12 @@ final class Pool {
     }
     
     String getResource() throws InterruptedException {
-	available.acquire();
-	return getNextAvailableResource();
+	available.acquire(); // blocks until a permit is available (or an exception thrown)
+	return getNextAvailableResource(); // with permit in hand, get the resource
     }
     
     void putResource(String resource) {
-	if (markAsUnused(resource)) available.release();
+	if (markAsUnused(resource)) available.release(); // release the permit into the pool
     }
     
     // This method and the next are synchronized on the Pool
