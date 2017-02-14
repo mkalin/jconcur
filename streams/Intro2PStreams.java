@@ -9,8 +9,9 @@ public class Intro2PStreams {
     }
 
     private void demo() {
-	boolean print = true;
+	boolean printList = true; // set to false to turn off printing
 	final int howMany = 256;
+
 	List<Integer> list = new ArrayList<Integer>();    // collection to serve as a stream's source
 	for (int i = 0; i < howMany; i++) 
 	    list.add(i);                                  // populate the collection
@@ -30,14 +31,9 @@ public class Intro2PStreams {
 	    .map(n -> n + 1)                // odd successors
 	    .collect(Collectors.toList());  // thread-safe gather
 
-	if (print) {
-	    System.out.println("Size: " + odds.size());
-	    for (int n : odds) {
-		System.out.println(n);
-	    }
-	}
+	if (printList) print(list); // set printList to false to turn off printing
 
-	// do a trace instead of a gather
+	// do a trace of the threads involved 
 	list                                                                     
 	    .parallelStream()               // scatter
 	    .filter(n -> (n & 0x1) == 0)               
@@ -65,6 +61,11 @@ public class Intro2PStreams {
 	   ..
 	 */
 
+    }
+
+    private void print(List<Integer> list) {
+	System.out.println("Size: " + list.size());
+	for (int n : list) System.out.println(n);
     }
 
 }
