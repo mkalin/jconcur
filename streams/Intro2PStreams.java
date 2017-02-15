@@ -18,6 +18,9 @@ import java.util.concurrent.ForkJoinPool;
  * The stream API's higher-level functions such as filter and map ('higher-level' in that these
  * functions take functions as arguments) encourage the use of pure functions: the simpler, the
  * better -- no side-effects, please!
+ *
+ * Finally, the program illustrates the 'scatter/gather' idiom: the problem's data are 'scattered' 
+ * among different threads for processing, and then 'gathered' at the end into a list.
  */
 
 public class Intro2PStreams {
@@ -31,9 +34,9 @@ public class Intro2PStreams {
 
 	// Create some sample data, in this case 1024 int values.
 	List<Integer> list = new ArrayList<Integer>();
-	for (int i = 0; i < howMany; i++) list.add(i + 1);
+	for (int i = 0; i < howMany; i++) list.add(i);
 
-	// warmup: a single-threaded version of collecting even numbers from a stream
+	// Warmup: a single-threaded version of collecting even numbers from a stream
 	// In this example, 'filter' is an example of a higher-level function: a function
 	// that takes a function (in this case, a lambda) as an argument.
 	List <Integer> evens = 
@@ -46,17 +49,18 @@ public class Intro2PStreams {
 	System.out.println("Pool size: " + 
 			   ForkJoinPool.commonPool().getParallelism()); // 7 on this machine
 
-	// go parallel
-	List<Integer> odds = 
+	// Go parallel
+	List<Integer> odds =                
 	    list
 	    .parallelStream()               // scatter to different worker threads
 	    .filter(n -> (n & 0x1) == 0)    // filter the same way again           
 	    .map(n -> n + 1)                // odd successors (another higher-level function)
-	    .collect(Collectors.toList());  // thread-safe gather
+	    .collect(Collectors.toList());  // thread-safe gather (but probably not in the original order)
 
-	if (printList) print(odds); // set printList to false to turn off printing
+	if (printList) 
+	    print(odds); // set printList to false to turn off printing
 
-	// do a trace of the threads involved 
+	// Do a trace of the threads involved 
 	list
 	    .parallelStream()               // scatter
 	    .filter(n -> (n & 0x1) == 0)               
@@ -86,8 +90,6 @@ public class Intro2PStreams {
     }
 
     private void print(List<Integer> list) {
-	System.out.println("Size: " + list.size());
 	for (int n : list) System.out.println(n);
     }
-
 }
