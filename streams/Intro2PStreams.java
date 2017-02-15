@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.concurrent.ForkJoinPool;
 
@@ -42,7 +43,7 @@ public class Intro2PStreams {
 	List <Integer> evens = 
 	    list
 	    .stream()                       // streamify the list: provide a 'conveyor belt' of values
-	    .filter(n -> (n & 0x1) == 0)    // filter out not-even values
+	    .filter(n -> (n & 0x1) == 0)    // filter out not-even values (filter is higher-order)
 	    .collect(Collectors.toList());  // gather the values together in a list
 
 	// Find out the number of worker threads available, typically the number of CPUs - 1.
@@ -54,7 +55,7 @@ public class Intro2PStreams {
 	    list
 	    .parallelStream()               // scatter to different worker threads
 	    .filter(n -> (n & 0x1) == 0)    // filter the same way again           
-	    .map(n -> n + 1)                // odd successors (another higher-order function)
+	    .map(n -> n + 1)                // odd successors (map: another higher-order function)
 	    .collect(Collectors.toList());  // thread-safe gather (but probably not in the original order)
 
 	if (printList) 
@@ -65,7 +66,7 @@ public class Intro2PStreams {
 	    .parallelStream()               // scatter
 	    .filter(n -> (n & 0x1) == 0)               
 	    .map(n -> n + 1)                // odd successors
-	    .forEach(n -> System.out.format("%d (parallel) %s\n", // yet another higher-order function
+	    .forEach(n -> System.out.format("%d (parallel) %s\n", // forEach: yet another higher-order function
 					    n, 
 					    Thread.currentThread().getName()));
 	/* output from a sample run:
@@ -86,6 +87,51 @@ public class Intro2PStreams {
 	   131 (parallel) ForkJoinPool.commonPool-worker-4
 	   25 (parallel) main
 	   ..
+	 */
+
+	// A reduction example.
+	Integer sum =
+	    list
+	    .parallelStream()
+	    .reduce(0, (sofar, next) -> sofar + next);  // reduce is higher-order
+	System.out.println("The sum is: " + sum);
+	/* The 'reduce' operation above takes two args: 
+
+	   -- 1st arg is the 'identity', serving as the initial value for the reduction and
+	   as the default value if the stream runs dry.
+	   
+	   -- 2nd arg is the 'accumulator', a lambda of two args: 1st is the reduction so far,
+	   and the 2nd is the next value from the stream. The next value is added to the running sum
+	   in this example.
+	*/
+
+	// Flattening a list of lists in parallel.
+	List<List<Integer>> lol = new ArrayList<List<Integer>>();
+
+	lol.add(Arrays.asList(1,2,3));
+	lol.add(Arrays.asList(9,8,7,6,5));
+	lol.add(Arrays.asList(-1,-2,-3,-4));
+
+	System.out.println(lol);
+	/* lol (list_of_lists) is: 
+	   [[1, 2, 3], [9, 8, 7, 6, 5], [-1, -2, -3, -4]]
+	*/
+
+	/* Here's a summy of how this next line works: 
+	   
+	   In the lambda expression that's the argument to flatMap, the argument n has 
+	   one of the nested lists as its value: [1, 2, 3], [9, 8, 7, 6, 5], and [-1, -2, -3, -4].
+	   The lamdba's body 'streamifies' each of these nested lists, and the subsequent call to
+	   'collect' collects the streamed integers into a single, 'flattend' list.
+	 */
+	List<Integer> flatList = 
+	    lol
+	    .parallelStream()
+	    .flatMap(n -> n.stream())
+	    .collect(Collectors.toList());
+	System.out.println(flatList);
+	/* flattened list is:
+	   [1, 2, 3, 9, 8, 7, 6, 5, -1, -2, -3, -4]
 	 */
     }
 
