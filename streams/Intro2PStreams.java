@@ -1,7 +1,10 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Stream;
+import java.util.stream.IntStream;
 import java.util.stream.Collectors;
+import java.util.concurrent.ForkJoinPool;
 
 public class Intro2PStreams {
     public static void main(String[ ] args) {
@@ -10,31 +13,30 @@ public class Intro2PStreams {
 
     private void demo() {
 	boolean printList = true; // set to false to turn off printing
-	final int howMany = 256;
+	final int howMany = 1024;
 
-	List<Integer> list = new ArrayList<Integer>();    // collection to serve as a stream's source
-	for (int i = 0; i < howMany; i++) 
-	    list.add(i);                                  // populate the collection
+	List<Integer> list = new ArrayList<Integer>();
+	for (int i = 0; i < 1024; i++) list.add(i + 1);
 
 	// warmup: a single-threaded version of collecting even numbers from a stream
-	List<Integer> evens = 
-	    list                                                                     
+	List <Integer> evens = 
+	    list
 	    .stream()                       
 	    .filter(n -> (n & 0x1) == 0)    // even nums only
 	    .collect(Collectors.toList());  
 
 	// go parallel
 	List<Integer> odds = 
-	    list                                                                     
-	    .parallelStream()               // scatter
+	    list
+	    .parallelStream()               // scatter 
 	    .filter(n -> (n & 0x1) == 0)               
 	    .map(n -> n + 1)                // odd successors
 	    .collect(Collectors.toList());  // thread-safe gather
 
-	if (printList) print(list); // set printList to false to turn off printing
+	if (printList) print(odds); // set printList to false to turn off printing
 
 	// do a trace of the threads involved 
-	list                                                                     
+	list
 	    .parallelStream()               // scatter
 	    .filter(n -> (n & 0x1) == 0)               
 	    .map(n -> n + 1)                // odd successors
