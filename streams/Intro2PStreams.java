@@ -97,8 +97,8 @@ public class Intro2PStreams {
 	System.out.println("The sum is: " + sum);
 	/* The 'reduce' operation above takes two args: 
 
-	   -- 1st arg is the 'identity', serving as the initial value for the reduction and
-	   as the default value if the stream runs dry.
+	   -- 1st arg is the 'identity', in this case zero, serving as the initial value 
+	   for the reduction and as the default value if the stream runs dry.
 	   
 	   -- 2nd arg is the 'accumulator', a lambda of two args: 1st is the reduction so far,
 	   and the 2nd is the next value from the stream. The next value is added to the running sum
@@ -114,25 +114,15 @@ public class Intro2PStreams {
 
 	System.out.println(lol);
 	/* lol (list_of_lists) is: 
-	   [[1, 2, 3], [9, 8, 7, 6, 5], [-1, -2, -3, -4]]
-	*/
 
-	/* Here's a summy of how this next line works: 
-	   
-	   In the lambda expression that's the argument to flatMap, the argument n has 
-	   one of the nested lists as its value: [1, 2, 3], [9, 8, 7, 6, 5], and [-1, -2, -3, -4].
-	   The lamdba's body 'streamifies' each of these nested lists, and the subsequent call to
-	   'collect' collects the streamed integers into a single, 'flattend' list.
+	   [[1, 2, 3], [9, 8, 7, 6, 5], [-1, -2, -3, -4]]
 	 */
 	List<Integer> flatList = 
 	    lol
 	    .parallelStream()
-	    .flatMap(n -> n.stream())
-	    .collect(Collectors.toList());
-	System.out.println(flatList);
-	/* flattened list is:
-	   [1, 2, 3, 9, 8, 7, 6, 5, -1, -2, -3, -4]
-	 */
+	    .flatMap(l -> l.stream())         // map each list to a stream of its elements
+	    .collect(Collectors.toList());    // collect the elements into a single list
+	System.out.println(flatList);         // [1, 2, 3, 9, 8, 7, 6, 5, -1, -2, -3, -4] on a sample run
     }
 
     private void print(List<Integer> list) {
