@@ -2,10 +2,15 @@
  * A short program to underscore why lambdas should be 'pure functions',
  * that is, functions whose return value depends only on the arguments passed
  * to the function.
+ *
+ * In parallel streams, it's especially important that lambdas be pure functions: the
+ * multithreading is 'automatic' in such streams, and it's easy to overlook the possibilities
+ * for data races.
  */
 
 @FunctionalInterface 
 interface ClosureTestIface {
+    // A reference of type ClosureTestIface would be used to invoked the count() method.
     abstract int count();  // abstract method: declared but not defined
 }
 
@@ -17,8 +22,6 @@ public class Closures {
     }
 
     private void demo() {
-        int n = 0;                                    //## lexically scoped variable: 1 copy per thread
-
 	// The two functional references below would be invoked with this syntax:
 	//
 	//   autocounter1.count()
@@ -33,10 +36,11 @@ public class Closures {
 	 *                                         ^
 	 * 1 error
 	 */
+	int n = 0;                                    //## lexically scoped variable: 1 copy per thread
 	ClosureTestIface autocounter1 = () -> ++n;    //## ERROR: n can be 'closed over', but must be read-only
 
 	// compiles but not a good idea...
-	ClosureTestIface autocounter2 = () -> ++k;    //## thread-safety issues now arise
+	ClosureTestIface autocounter2 = () -> ++k;    //## k is a field: thread-safety issues now arise
     }   
 }
 
