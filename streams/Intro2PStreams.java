@@ -15,7 +15,7 @@ import java.util.concurrent.ForkJoinPool;
  *
  * For thread-safety, the lambdas in the following examples are all 'pure functions', that is,
  * functions whose return value depends exclusively on the argument(s) passed to the function.
- * The stream API's higher-level functions such as filter and map ('higher-level' in that these
+ * The stream API's higher-order functions such as filter and map ('higher-order' in that these
  * functions take functions as arguments) encourage the use of pure functions: the simpler, the
  * better -- no side-effects, please!
  *
@@ -37,7 +37,7 @@ public class Intro2PStreams {
 	for (int i = 0; i < howMany; i++) list.add(i);
 
 	// Warmup: a single-threaded version of collecting even numbers from a stream
-	// In this example, 'filter' is an example of a higher-level function: a function
+	// In this example, 'filter' is an example of a higher-order function: a function
 	// that takes a function (in this case, a lambda) as an argument.
 	List <Integer> evens = 
 	    list
@@ -54,7 +54,7 @@ public class Intro2PStreams {
 	    list
 	    .parallelStream()               // scatter to different worker threads
 	    .filter(n -> (n & 0x1) == 0)    // filter the same way again           
-	    .map(n -> n + 1)                // odd successors (another higher-level function)
+	    .map(n -> n + 1)                // odd successors (another higher-order function)
 	    .collect(Collectors.toList());  // thread-safe gather (but probably not in the original order)
 
 	if (printList) 
@@ -65,7 +65,7 @@ public class Intro2PStreams {
 	    .parallelStream()               // scatter
 	    .filter(n -> (n & 0x1) == 0)               
 	    .map(n -> n + 1)                // odd successors
-	    .forEach(n -> System.out.format("%d (parallel) %s\n", // yet another higher-level function
+	    .forEach(n -> System.out.format("%d (parallel) %s\n", // yet another higher-order function
 					    n, 
 					    Thread.currentThread().getName()));
 	/* output from a sample run:
