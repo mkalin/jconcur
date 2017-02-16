@@ -6,6 +6,10 @@
  * In parallel streams, it's especially important that lambdas be pure functions: the
  * multithreading is 'automatic' in such streams, and it's easy to overlook the possibilities
  * for data races.
+ *
+ * Java lambdas are 'closures', functions that can 'close over' (in effect, incorporate) local 
+ * ('lexically scoped') variables. However, the 'closed over' variables must be treated as read-only 
+ * within the lambda, a restriction not imposed in every language. 
  */
 
 @FunctionalInterface 
@@ -36,11 +40,11 @@ public class Closures {
 	 *                                         ^
 	 * 1 error
 	 */
-	int n = 0;                                    //## lexically scoped variable: 1 copy per thread
-	ClosureTestIface autocounter1 = () -> ++n;    //## ERROR: n can be 'closed over', but must be read-only
+	int n = 0;                                      //## lexically scoped variable: 1 copy per thread
+	ClosureTestIface autocounter1 = () -> ++n;      //## ERROR: n can be 'closed over', but must be read-only
 
 	// compiles but not a good idea...
-	ClosureTestIface autocounter2 = () -> ++k;    //## k is a field: thread-safety issues now arise
+	ClosureTestIface autocounter2 = () -> ++k;      //## k is a field: thread-safety issues now arise
     }   
 }
 
