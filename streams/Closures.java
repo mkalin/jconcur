@@ -12,6 +12,8 @@
  * within the lambda, a restriction not imposed in every language. 
  */
 
+//### References to lambdas are of type FunctionalInterface, although the
+// anotation is optional.
 @FunctionalInterface 
 interface ClosureTestIface {
     // A reference of type ClosureTestIface would be used to invoked the count() method.
@@ -40,7 +42,7 @@ public class Closures {
 	 *                                         ^
 	 * 1 error
 	 */
-	int n = 0;                                      //## lexically scoped variable: 1 copy per thread
+	int n = 0;                                      //## lexically scoped variable 
 	ClosureTestIface autocounter1 = () -> ++n;      //## ERROR: n can be 'closed over', but must be read-only
 
 	// compiles but not a good idea...

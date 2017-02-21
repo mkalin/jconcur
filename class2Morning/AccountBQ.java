@@ -4,11 +4,27 @@
  * latter to withdraw. The ArrayBlockingQueue has a buffering capacity (it's a
  * "bounded buffer") so that multple requests can be pending at a time. 
  *
- * The Banker thread alone removes from the queue, and the Banker thread alone accesses 
+ * The application's primary threads are: 
+ *
+ *  -- the main-thread as usual
+ *
+ *  -- the Miser thread, which requests that the balance be incremented
+ *
+ *  -- the Sprendthrift thread, which requests that the balance be decremented
+ *
+ *  -- the Banker thread, which alone accesses the balance when handling requests
+ *
+ * So the Banker thread alone removes from the queue, and the Banker thread alone accesses 
  * the Account.balance, which prevents data races. The BlockingQueue itself is thread-safe.
  *
  * To simulate a more realistic scenario, the Miser and Spendthrift threads sleep a random
  * number of ticks after a deposit or withdrawal.
+ *
+ * There is a danger of deadlock in this application because 'read' operations on a
+ * BlockingQueue do exactly what the name suggests: block, that is, wait until either there's 
+ * something to read or there's a timeout. To avoid this danger, it's important that the
+ * the application check that there's something in the queue before attempting a 'read'
+ * operation.
  */
 
 import java.util.concurrent.BlockingQueue;       // interface
@@ -24,7 +40,7 @@ class Miser extends Thread {       // deposit
     @Override
     public void run() {
 	for (int i = 0; i < howMany; i++) {
-	    AccountBQ.bankQueue.add(new Integer(+1)); // deposit
+	    AccountBQ.bankQueue.add(new Integer(+1)); // deposit request
 	    try {
 		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
@@ -46,7 +62,7 @@ class Spendthrift extends Thread { // withdraw
     @Override
     public void run() {
 	for (int i = 0; i < howMany; i++) {
-	    AccountBQ.bankQueue.add(new Integer(-1)); // withdraw
+	    AccountBQ.bankQueue.add(new Integer(-1)); // withdraw request
 	    try {
 		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
@@ -76,7 +92,7 @@ class Banker extends Thread {
 		// If there's something in the queue, process it.
 		// Note: Important not to block on the take() method
 		// if there's nothing already in the queue -- both
-		// threads may terminate in the meantime: deadlock.
+		// 'writing' threads may have just terminated: deadlock.
 		if (AccountBQ.bankQueue.peek() != null) {
 		    Integer amt = AccountBQ.bankQueue.take(); // take() blocks
 		    AccountBQ.balance += amt;

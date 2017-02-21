@@ -12,11 +12,11 @@
    Here's a depiction of how the app works:
 
                deposits
-                 /                    thread-safe       updates the account balance
-      Miser---------------+              /                     /
-                          |------->BlockingQueue------------>Banker--------->balance
-      Spendthrift---------+                                                    /
-                    \                                                single-threaded access
+                 /                       thread-safe                updates the account balance
+      Miser---------------+                 /                               /
+                          |------------>BlockingQueue------------>Banker--------->balance
+      Spendthrift---------+      \                      /                   /
+                    \       write operations      read operations     single-threaded access
              withdrawals
  */	
 
