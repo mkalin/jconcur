@@ -36,6 +36,9 @@ public class RaceConditionBQ {
        spendthrift.start(); // start Spendthrift      
        banker.start();      // start the Banker
 
+       // The main-thread should be the last thread standing so that the main-thread
+       // can print out the final balance _after_ the Miser and Spendthrift threads
+       // have terminated.
        try {                                                          
 	   banker.join(); // the Banker stays alive at least until the Miser and Spendthrift die
        } catch(Exception e) { System.err.println(e); }
