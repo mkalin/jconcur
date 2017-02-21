@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Collectors;
 import java.util.concurrent.ForkJoinPool;
 
@@ -88,6 +89,29 @@ public class Intro2PStreams {
 	   25 (parallel) main
 	   ..
 	 */
+
+	// Can't count on the order in which the 'gather' happens.
+	IntStream                            // integer stream
+	    .range(1, howMany)               // generate a stream of int values
+	    .parallel()                      // ### partition the data streams for parallel processing
+	    .filter(i -> ((i & 0x1) > 0))    // odd parity? 
+	    .forEach(System.out::println);   // print each
+	/* Output slice:
+	   ...
+	   289
+	   641
+	   643
+	   833
+	   835
+	   837
+	   839
+	   841
+	   843
+	   845
+	   65
+           929
+           ...
+	*/
 
 	// A reduction example.
 	Integer sum =
