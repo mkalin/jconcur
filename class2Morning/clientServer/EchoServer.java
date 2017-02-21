@@ -1,4 +1,4 @@
-package tpool;
+package clientServer;
 
 import java.net.ServerSocket;  // server-side "accepting" socket
 import java.net.Socket;        // client-side "initiating" socket
