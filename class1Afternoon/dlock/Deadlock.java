@@ -1,3 +1,5 @@
+package dlock;
+
 /**
    A program to illustrate deadlock. Here's a summary of what happens:
 
