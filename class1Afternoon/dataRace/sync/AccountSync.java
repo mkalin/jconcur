@@ -1,5 +1,11 @@
 package sync;
 
+/**
+ * A synchronized version of Miser/Spendthrift: there's mutual exclusion on
+ * updating the balance. As a result, the balance always winds up as it should: zero.
+ *
+ */
+
 class Miser extends Thread {       // deposit
     Miser(int howMany) { this.howMany = howMany; }
 

@@ -1,0 +1,9 @@
+
+ -- Outline of handouts/code for the four sessions:
+
+ 1. class1Morning
+    ## overviewConcurParal.txt
+    ## concurParalContrast.txt
+    ## divsionOfLabor.txt
+
+

@@ -31,14 +31,14 @@
           -- Multiprocessing 
 
              Plus:  Multiple processes mean separate, partitioned address spaces; by default, no
-                    shared memory locations among the processes. (Easy on the programmer.)
+                    shared memory locations among the processes. (Easy on programmers.)
 
              Minus: Process-level context switches (processor switched from one
                     process to another) are expensive (low ms range).
 
           -- Multithreading
                   
-             Plus:  Thread-level context switches are not free, but very low cost (ns range).
+             Plus:  Thread-level context switches are not free, but relatively low cost (ns range).
        
              Minus: Multiple threads within a process share memory locations, which
                     opens the door to 'data races'. (Hard on programmers.)

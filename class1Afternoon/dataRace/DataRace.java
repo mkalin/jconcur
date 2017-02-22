@@ -1,5 +1,5 @@
 /** 
- * A short program to illustrate data races:
+ * A short program to review data races:
  *
  *  -- Thread t1 sets fields 'a' and 'x', the latter to the value of 'b'
  *  -- Thread t2 sets fields 'b' and 'y', the latter to the value of 'a'

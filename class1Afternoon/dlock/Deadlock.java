@@ -10,7 +10,7 @@ package dlock;
    -- The Friend class has two synchronized methods, bow and bowBack. The implicit lock is 'this',
       a reference to the particular friend -- in this case, Lou or Bud.
 
-   -- The bowBack method is invoked within the bow method; but the lock ensures mutual exclusion so
+   -- The bowBack method is invoked within the bow method; but the mutex ensures mutual exclusion so
       that only either bow or bowBack can be run at a given time, not both at once.
 
    -- The result is deadlock: the call to bowBack, the last statement in bow, must wait until bow

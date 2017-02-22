@@ -22,9 +22,9 @@ public class RaceConditionNoSync {
 
        // Start the two threads (the order is irrelevant).
        miser.start();       // start Miser                        
-       spendthrift.start(); // start Spendthrift */      
+       spendthrift.start(); // start Spendthrift   
 
-       // Have the 'main thread' wait for the Miser and Spendthrift to terminate.
+       // Have the main-thread wait for the Miser and Spendthrift to terminate.
        try {                                                          
           miser.join();       // wait for Miser to terminate      
           spendthrift.join(); // wait for Spendthrift to terminate

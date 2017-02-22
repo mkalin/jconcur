@@ -68,7 +68,7 @@ final public class ImmutableRGB { // disallow subclassing
  * another in a modern OS, the former is the 'parent' and the latter the 'child'. The child inherits the 'pages'
  * (memory segments) in the parent's address space. However, if either the parent or the child performs a
  * 'write' operation on a given page, then a copy must be made: the page is no longer shared between the two.
- * This approach is known by the acronym COW.
+ * This approach is known by the acronym COW (Copy On Write).
  *
  * As the name indicates, that's the approach taken in the CopyOnWriteArrayList, a thread-safe version of the 
  * java.util.ArrayList. Consider this scenario. Thread t1 is traversing such a list, performing only 'read' operations. 

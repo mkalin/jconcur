@@ -33,6 +33,13 @@ public class UserDaemon {
 		// Sometime after a thread is started, it executes the run() method (and any
 		// other code that run may be invoked within run). A started thread terminates
 		// if the thread exits run.
+		//
+		//## It's important to override the run() method because the version in 
+		//## the Thread class itself is empty:
+		//##
+		//##    public void run() { }  // in effect, a no-op
+		//##
+		//## A started Thread terminates when the Thread exits the run() method.
 		@Override
 		public void run() {
 		    System.out.println("created thread");            // if Daemon, may not execute
