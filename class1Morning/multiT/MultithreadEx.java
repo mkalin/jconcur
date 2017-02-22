@@ -77,7 +77,7 @@ Before Frame is shown...
 After Frame is shown...
 
 	Name, Id, user/daemon: Signal Dispatcher (4) Daemon
-	Name, Id, user/daemon: AWT-Shutdown (13) User
+	Name, Id, user/daemon: AWT-Shutdown (13) User          
 	Name, Id, user/daemon: Java2D Disposer (10) Daemon
 	Name, Id, user/daemon: main (1) User
 	Name, Id, user/daemon: AWT-XAWT (12) Daemon
