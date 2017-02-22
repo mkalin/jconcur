@@ -1,4 +1,30 @@
+Here are some answers (or sketches of answers) from the self-test questions/exercises.
 
+# Class 1 Morning
+
+From basicC.BasicCounter.java:
+
+## Answer
+
+1. The java.lang.Thread class implements the java.lang.Runnable interface, which
+   declares a single method: public void run().
+
+   It's thus a matter of convenience and taste about whether to have a class
+   such as BasicCounter extend Thread or implement Runnable. In this example, either
+   approach works the same, assuming that the override of run() is the same.
+
+2. The java.lang.Thread class provides an empty implementation of run(), thereby
+   exhibiting what's called the 'adapter pattern'. In effect, the java.lang.Thread
+   implementation is:
+
+      // java.lang.Thread override
+      public void run() { }   // empty body, hence a no-op
+
+   If you extend Thread but fail to override run(), you wind up with this empty
+   implementation -- and recall that any thread terminates when the thread exits
+   the run() method.
+
+-----
 From AtomicCounter.java:
 
 /** Self-test question:
@@ -15,3 +41,27 @@ From AtomicCounter.java:
  */
 
 Answer
+-----
+
+From .... 
+
+System.out is of type java.io.PrintStream, and the JavaDoc confirms that none of the
+'print' methods in PrintStream is synchronized. In this sense, System.out.println(...)
+is _not_ thread-safe. 
+
+However, a typical JVM implementation will make it thread-safe. Here, for example, is the published OpenJDK 
+implementation for println:
+
+   public void println(String x) { //## ditto for other overrloads
+       synchronized (this) {       //## 'this' refers to an instance of the standard output
+           print(x);
+           newLine();
+       }
+   }
+
+See http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/39e8fe7a0af1/src/share/classes/java/io/PrintStream.java for
+more details.
+
+A thread-safe System.out.println(...) is not guaranteed at the API level, but highly likely in any JVM
+implementation.
+-----

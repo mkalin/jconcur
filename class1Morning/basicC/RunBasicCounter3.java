@@ -17,12 +17,13 @@ public class RunBasicCounter3 {
     private static final int poolSize = 10;
 
     public static void main(String[ ] args) {
-	final int howMany = 20000; // 20,000
+	final int howMany = 20_000; 
+
 	ExecutorService executor = Executors.newFixedThreadPool(poolSize);
 	List<Future<Long>> list = new ArrayList<Future<Long>>();
 
 	for (int i = 0; i < howMany; i++) {
-	    Callable<Long> counter = new CallableBasicCounter(10000000L + i);
+	    Callable<Long> counter = new CallableBasicCounter(10_000_000L + i);
 	    Future<Long> submit = executor.submit(counter);
 	    list.add(submit);
 	}
@@ -34,7 +35,9 @@ public class RunBasicCounter3 {
 	// Await the result and retrieve it.
 	for (Future<Long> future : list) {
 	    try {
-		sum += future.get();
+		// get() blocks until a computation is finished
+		// There's also:  get(long timeout, TimeUnit unit
+		sum += future.get(); 
 	    } 
 	    catch (InterruptedException e) {
 		e.printStackTrace();

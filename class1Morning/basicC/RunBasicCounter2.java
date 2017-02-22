@@ -18,7 +18,7 @@ public class RunBasicCounter2 {
 	ExecutorService executor = Executors.newFixedThreadPool(poolSize);
 
 	for (int i = 0; i < howMany; i++) {
-	    Runnable counter = new BasicCounter(10000000L + i);
+	    Runnable counter = new BasicCounter(10_000_000L + i);
 	    executor.execute(counter); // Executor now manages the counter
 	}
 	executor.shutdown(); // accept no new threads

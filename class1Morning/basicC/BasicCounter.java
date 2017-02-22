@@ -14,9 +14,9 @@ package basicC;
  *
  * -- implement the java.lang.Runnable interface, which the java.lang.Thread class does.
  *
- * This example takes the 2nd approach, but the 1st would work just as well.
+ * This example takes the 2nd approach, but the 1st would work just as well here.
  */
-public class BasicCounter extends Thread { // or extends Thread, if you prefer
+public class BasicCounter implements Runnable { // or extends Thread, if you prefer
     private final long count; // how many times to iterate
 
     public BasicCounter(long count) { this.count = count; }
