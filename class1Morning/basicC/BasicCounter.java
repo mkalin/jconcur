@@ -16,7 +16,7 @@ package basicC;
  *
  * This example takes the 2nd approach, but the 1st would work just as well.
  */
-public class BasicCounter implements Runnable { // or extends Thread, if you prefer
+public class BasicCounter extends Thread { // or extends Thread, if you prefer
     private final long count; // how many times to iterate
 
     public BasicCounter(long count) { this.count = count; }
@@ -28,4 +28,13 @@ public class BasicCounter implements Runnable { // or extends Thread, if you pre
 	System.out.println(Thread.currentThread().getName() + ": " + sum); // trace each thread
     }
 }
+
+/** Programming exercise/experiment:
+ *
+ * 1. Confirm that "implements Runnable" could be replaced by "extends Thread" with no other changes.
+ *    Recompile and run to show that this change is inessential.
+ *
+ * 2. After replacing "implements Runnable" with "extends Thread", remove the override of the run()
+ *    method. Compile and run the application to confirm that it exits immediately.
+ */
 
