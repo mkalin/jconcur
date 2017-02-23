@@ -34,10 +34,12 @@ import java.util.concurrent.RecursiveTask;
  *
  */
 
-// The List<String> in RecursiveTask is a list of file names with a desired extension.
+// The List<String> in RecursiveTask is a list of file names with a specified extension: it's
+// the type returned from the override of the compute() method.
+//
 // A RecursiveTask is one that can divided into subtasks of the same kind. In this case,
 // the RecursiveTask is to search a tree--a hierarchical file system--because the subtrees are
-// themselves (child) file systems.
+// themselves hierarchical file systems.
 public class FileSearcher extends RecursiveTask<List<String>> { 
     private final String path;        // where to start a task/subtask
     private final String extension;   // what kind of file to look for
@@ -78,6 +80,8 @@ public class FileSearcher extends RecursiveTask<List<String>> {
 	return listOfFileNames;
     }
 
+    // Execute the 'gather' half of 'scatter/gather' by joing together the
+    // files found.
     private void assembleResults(List<String> list, List<FileSearcher> tasks) {
 	for (FileSearcher task : tasks) {
 	    Collection<String> results = task.join(); // the 'join' in fork-join

@@ -1,0 +1,59 @@
+
+ -- Streams and lambdas (and a little on method references)
+
+  # A 'stream' is a conveyor-belt of items, which are delivered in an efficient (lazy, as needed) manner.
+
+    ## A stream is thus an iteration construct.
+
+    ## Standard Java collections and other data sources (e.g., files, sockets) can be 'streamified'.
+
+  # A lambda is an anonymous or unnamed function that need not be encapsulated in a class.
+
+    ## The syntax is relatively simple, and the compiler will figure out data types.
+
+       argument-list -> body
+
+       n -> n * n  // single argument, return value is square of argument
+
+    ## If there are multiple args, these must be parenthesized and comma-delimited:
+
+       (n, m) -> n * m
+
+    ## Explicit bodies with return statements are possible, but are not required if the
+       body consists of a single expression:
+
+       (n, m) -> { return n * m; }  // ok
+       (n, m) -> n * m              // easier to type and to read
+-----
+
+  # The stream API includes powerful, higher-order functions such as 'filter' and 'map'
+    that can be used to process streamed items.
+
+  # Lambdas and method references are obvious candidates as arguments for higher-order
+    stream functions such as 'filter' and 'map':
+
+    -- filters allow certain elements to pass through to downstream pipeline stages,
+       but stop others from doing so.
+
+       Example: 
+
+	    IntStream
+	    .range(1, 65)                   // generate a stream of int values
+	    .filter(i -> ((i & 0x1) == 0))  // even parity?
+            ...
+
+    -- maps allow arbitrary transformations of streamed values.
+
+       Example (in this case, the specialized 'flatMap' rather than the general 'map'):
+
+	    lol                             // list of list of integers: [[1, 2, 3], [-9, -8, -7],...]   
+	    .parallelStream()               // parallelize the work across worker threads
+	    .flatMap(l -> n.stream())       // 'flatten' list-of-lists-of-ints to list of ints
+            ...
+
+  # Filters and maps can be arranged and interleaved as needed: as these are higher-order functions,
+    the result is a parameterized data pipeline, with functions (lambdas and methods) plugged in as
+    arguments.
+
+  # References to methods and lamdbas can be stored in data structures such as maps: a reference is a reference.
+

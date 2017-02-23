@@ -5,16 +5,16 @@
  * two values, 0 (access permitted) or 1 (no access permitted). 
  *
  * However, semaphores can be generalized beyond mutexes, in which case
- * they're known as counting semaphores: the value go go beyond 1 to some
+ * they're known as counting semaphores: the values go beyond 1 to some
  * specified limit. In high-level terms, a counting semphore can be described 
  * as a set of permits (e.g., a set of four). The logic is then:
  *
- * If there's a permit available, give it to a thread that invokes acquire().
- * If not, block the thread.
- * If a thread holding a permit calls release(), return the permit to the set.
+ * -- If there's a permit available, give it to a thread that invokes acquire().
+ * -- If not, block the thread.
+ * -- If a thread holding a permit calls release(), return the permit to the available set.
  * 
  * This code example, adapted from the javadoc, illustrates. A set of threads
- * contents for string resources (Resource1, Resource2,...), and the application
+ * contests for resources (Resource1, Resource2,...), and the application
  * uses a counting semahore to regulate how many resources can be checked out at
  * a time. A sample run generates output such as:
  *  ...
@@ -110,6 +110,7 @@ final class Pool {
 	return null; 
     }
     
+    // See documentation immediately above.
     private synchronized boolean markAsUnused(String resource) {
 	for (int i = 0; i < MaxAvailable; ++i) {
 	    if (resource == resources[i]) {

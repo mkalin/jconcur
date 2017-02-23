@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A program to test the FileSearcher: search the user's home directory and any
  * subdirectories for files with the extensions 'txt', 'c', and 'java'.
-
+ *
  */
 
 public class FileSearcherMain {
@@ -51,8 +51,6 @@ public class FileSearcherMain {
 	     e.printStackTrace();
          }
       } while ((!text.isDone()) || (!capps.isDone()) || (!java.isDone()));
-
-      // pool.shutdown();       // no more tasks
 
       List<String> results;  // list of the files found in the search
       System.out.println();
