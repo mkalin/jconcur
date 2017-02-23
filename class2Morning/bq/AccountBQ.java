@@ -122,3 +122,26 @@ public class AccountBQ {
     public static BlockingQueue<Integer> bankQueue = 
 	new ArrayBlockingQueue<Integer>(queueCapacity, true); 
 }
+
+/** Review and research question on synchronization:
+ *
+ * In many of the examples given so far, print statements have been used to track
+ * an application's behavior. In the current example, there are print statements to 
+ * record when the Miser, Spendthrift, and Banker threads are about to exit. 
+ * In mulithreaded Java apps, print statements typically don't occur within a synchronized block, 
+ * which raises the question about whether methods such as println(...) have 'baked-in' synchronization.
+ *
+ * To make the issue more concrete, consider two print statements, each executing in
+ * a separate thread on a multiprocessor machine: truly parallel execution is thus
+ * possible. Here are the statements:
+ *
+ *     System.out.println("foo");   // executes in thread t1
+ *     System.out.println("bar");   // executes in thread t2
+ *
+ * At issue is whether the output could be interleaved, for example:
+ *
+ *     fobaor
+ *
+ * In different terms, is there a possible race condition as each thread tries to
+ * write its string to the standard output?
+ */

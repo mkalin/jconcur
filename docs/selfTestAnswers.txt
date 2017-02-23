@@ -25,35 +25,47 @@ From basicC.BasicCounter.java:
    the run() method.
 
 -----
-From AtomicCounter.java:
 
-/** Self-test question:
+# Class 1 Afternoon
 
-    What would be the impact on multithreading if the field declaration 
+From review.AtomicCounter.java:
 
-    private int c = 0;
+1. In the current implementation, the three methods that can access the instance field
+   named 'c' are synchronized on 'this', an instance of a SynchronizedCounter. The
+   implementation makes sense in that there is one counter field per SynchronizedCounter
+   instance: each counter keeps its own count.
 
-    were changed to
+   If the field named 'c' were made static, then there'd be one such field across _all_
+   SynchronizedCounter instances; but two different instances then could provoke a
+   race condition because the locks would differ:
 
-    private static int c = 0;  // make the counter implementation a static field.
+       SynchronizedCounter sc1 = new SynchronizedCounter(); // lock is sc1
+       SynchronizedCounter sc2 = new SynchronizedCounter(); // lock is sc2
+       ...                 // Assume thread t1 has access to sc1, and thread t2 has access to sc2
 
-    (Assume the SynchronizedCounter class is public.)
- */
+       //## race condition
+       sc1.increment();    // Invoked in thread t1 -- there's no shared lock with sc2
+       
+       sc2.increment();    // Invoked in thread t2 -- there's no shared lock with sc1
 
-Answer
+   Finally, it's hard to see the usefulness of a single counter field shared across multiple
+   SynchronizedCounter instances. If exactly one SynchronizedCounter is needed in some app, then
+   implementing the 'singleton pattern' seems the cleaner way to go.
 -----
 
-From .... 
+# Class 2 Morning
+
+From bq.AccountBQ
 
 System.out is of type java.io.PrintStream, and the JavaDoc confirms that none of the
-'print' methods in PrintStream is synchronized. In this sense, System.out.println(...)
+'print' methods in PrintStream is synchronized. In this technical sense, System.out.println(...)
 is _not_ thread-safe. 
 
-However, a typical JVM implementation will make it thread-safe. Here, for example, is the published OpenJDK 
+However, a typical JVM implementation will make println thread-safe. Here, for example, is the published OpenJDK 
 implementation for println:
 
    public void println(String x) { //## ditto for other overrloads
-       synchronized (this) {       //## 'this' refers to an instance of the standard output
+       synchronized (this) {       //## 'this' refers to _one_ PrintStream instance, here the 'standard output'
            print(x);
            newLine();
        }
