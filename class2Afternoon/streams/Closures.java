@@ -9,11 +9,11 @@
  *
  * Java lambdas are 'closures', functions that can 'close over' (in effect, incorporate) local 
  * ('lexically scoped') variables. However, the 'closed over' variables must be treated as read-only 
- * within the lambda, a restriction not imposed in every language. 
+ * within a Java lambda, a restriction not imposed in every language. 
  */
 
 //### References to lambdas are of type FunctionalInterface, although the
-// anotation is optional.
+//### anotation is optional.
 @FunctionalInterface 
 interface ClosureTestIface {
     // A reference of type ClosureTestIface would be used to invoked the count() method.

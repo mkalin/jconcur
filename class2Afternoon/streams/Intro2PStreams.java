@@ -35,8 +35,8 @@ public class Intro2PStreams {
 	final int howMany = 1024;
 
 	// Create some sample data, in this case 1024 int values.
-	List<Integer> list = new ArrayList<Integer>();
-	for (int i = 0; i < howMany; i++) list.add(i);
+	List<Integer> list = new ArrayList<Integer>(); // empty list
+	for (int i = 0; i < howMany; i++) list.add(i); // populate the list
 
 	// Warmup: a single-threaded version of collecting even numbers from a stream
 	// In this example, 'filter' is an example of a higher-order function: a function
@@ -59,13 +59,14 @@ public class Intro2PStreams {
 	    .map(n -> n + 1)                // odd successors (map: another higher-order function)
 	    .collect(Collectors.toList());  // thread-safe gather (but probably not in the original order)
 
-	if (printList) 
-	    print(odds); // set printList to false to turn off printing
+	if (printList) print(odds); // set printList to false to turn off printing
 
-	// Do a trace of the threads involved 
+	// Do a trace of the threads involved: parallelizing the stream means that the
+	// runtime will partition the stream processing into multiple tasks, using the
+	// ForkJoin framework under the hood to do so.
 	list
 	    .parallelStream()               // scatter
-	    .filter(n -> (n & 0x1) == 0)               
+	    .filter(n -> (n & 0x1) == 0)    // even values only           
 	    .map(n -> n + 1)                // odd successors
 	    .forEach(n -> System.out.format("%d (parallel) %s\n", // forEach: yet another higher-order function
 					    n, 
@@ -153,3 +154,9 @@ public class Intro2PStreams {
 	for (int n : list) System.out.println(n);
     }
 }
+
+/** Self-test exercise:
+ *
+ * Induce a race condition...
+ *
+ */
