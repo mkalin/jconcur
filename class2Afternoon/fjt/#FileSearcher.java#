@@ -68,7 +68,7 @@ public class FileSearcher extends RecursiveTask<List<String>> {
 	    // Recursive case: a directory is a collection of files
 	    if (file.isDirectory()) { 
 		FileSearcher task = new FileSearcher(absolutePath, extension);
-		task.fork();     // new task to search the directory
+		task.fork();     // new task to search the directory (in effect, recursive call)
 		tasks.add(task); // keep track of the new task for a report
 	    }
 	    // Base case: a non-directory file -- with the desired extension?
