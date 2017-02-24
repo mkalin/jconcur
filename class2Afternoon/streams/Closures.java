@@ -7,15 +7,16 @@
  * multithreading is 'automatic' in such streams, and it's easy to overlook the possibilities
  * for data races.
  *
+ * Explain variables versus values: Java lambdas close over values, not variables
+ *
  * Java lambdas are 'closures', functions that can 'close over' (in effect, incorporate) local 
  * ('lexically scoped') variables. However, the 'closed over' variables must be treated as read-only 
- * within a Java lambda, a restriction not imposed in every language. 
- *
- * Consider the implications if Java did not impose this restriction. It's possible have references
- * to lambdas, and such references could be accessible across threads. What would it mean to 
- * mutate a closed-over, lexically scoped variable across multiple threads of execution? It's a
- * invitation to race conditions.
- *
+ * within a Java lambda, a restriction not imposed in every language. In effect, Java allows
+ * the _values_ of lexically scoped variables to be 'closed over', but not the variables themselves.
+ * This restriction promotes (but does not guarantee) lambdas as 'pure functions'. There's no
+ * guarantee because a lambda still could perform 'write' operations on fields, which in turn could
+ * accessible across multiple threads.
+ * 
  */
 
 //### References to lambdas are of type FunctionalInterface, although the
