@@ -1,17 +1,23 @@
 
  -- Streams and lambdas (and a little on method references)
 
-  # A 'stream' is a conveyor-belt of items, which are delivered in an efficient (lazy, as needed) manner.
+  # A 'stream' is a conveyor-belt of items, which are delivered in an efficient--lazy, as needed--manner.
 
     ## A stream is thus an iteration construct.
 
-    ## Standard Java collections and other data sources (e.g., files, sockets) can be 'streamified'.
+    ## Standard Java collections and other data sources (e.g., files, sockets) can be 'streamified' with
+       methods such as stream().
 
-  # A lambda is an anonymous or unnamed function that need not be encapsulated in a class.
+  # A lambda is an anonymous or unnamed function that need not be encapsulated in a class, and
+    so can be used on-the-fly. (References to lambas are possible, of course.)
 
     ## The syntax is relatively simple, and the compiler will figure out data types.
 
+        zero or more args
+             \
        argument-list -> body
+                         \
+                      as simple or complicated as you like
 
        n -> n * n  // single argument, return value is square of argument
 
@@ -19,7 +25,7 @@
 
        (n, m) -> n * m
 
-    ## Explicit bodies with return statements are possible, but are not required if the
+    ## Explicit body-blocks with return statements are possible, but are not required if the
        body consists of a single expression:
 
        (n, m) -> { return n * m; }  // ok
@@ -28,6 +34,9 @@
 
   # The stream API includes powerful, higher-order functions such as 'filter' and 'map'
     that can be used to process streamed items.
+
+    ## Recall that 'higher-order functions' are ones that can take a function (e.g,. a lambda)
+       as an argument.
 
   # Lambdas and method references are obvious candidates as arguments for higher-order
     stream functions such as 'filter' and 'map':
@@ -41,7 +50,7 @@
 	    .range(1, 65)                   // generate a stream of int values
 	    .filter(i -> ((i & 0x1) == 0))  // even parity?
             .map(n -> n + 1)                // make it odd
-            ...
+            .forEach(System.out::println);  // method reference
 
     -- maps allow arbitrary transformations of streamed values.
 
@@ -49,12 +58,11 @@
 
 	    lol                             // list of list of integers: [[1, 2, 3], [-9, -8, -7],...]   
 	    .parallelStream()               // parallelize the work across worker threads
-	    .flatMap(l -> n.stream())       // 'flatten' list-of-lists-of-ints to list of ints
-            ...
+	    .flatMap(l -> l.stream())       // 'flatten' list-of-lists-of-ints to list of ints
+            .forEach(System.out::println);  // print each value
 
   # Filters and maps can be arranged and interleaved as needed: as these are higher-order functions,
-    the result is a parameterized data pipeline, with functions (lambdas and methods) plugged in as
-    arguments.
+    the result is a parameterized data pipeline, with functions (lambdas and method references) plugged in 
+    as arguments.
 
-  # References to methods and lamdbas can be stored in data structures such as maps: a reference is a reference.
 
