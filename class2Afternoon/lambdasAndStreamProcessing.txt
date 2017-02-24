@@ -40,6 +40,7 @@
 	    IntStream
 	    .range(1, 65)                   // generate a stream of int values
 	    .filter(i -> ((i & 0x1) == 0))  // even parity?
+            .map(n -> n + 1)                // make it odd
             ...
 
     -- maps allow arbitrary transformations of streamed values.
