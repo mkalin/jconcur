@@ -1,0 +1,17 @@
+
+-Djava.util.concurrent.ForkJoinPool.common.parallelism=16
+
+
+http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
+
+    approaches:
+
+-- do it yourself
+
+-- ExecutorService
+
+-- ForkJoinFramework
+
+-- Parallel streams
+
+

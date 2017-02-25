@@ -18,6 +18,12 @@ public class FileSearcherMain {
     }
 
     private void demo() {
+	/*
+	  The default pool size is typically the number of cores - 1 on the local
+	  system. This can set, for example, at the command-line with the following flag:
+	  
+	  java -Djava.util.concurrent.ForkJoinPool.common.parallelism=12 FileSearcherMain
+	 */
 	ForkJoinPool pool = new ForkJoinPool(); // a thread pool
 
 	// Paths/extensions to be searched recursively. A FileSearch is a
