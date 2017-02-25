@@ -3,18 +3,27 @@
 
  # The core API centered on the java.lang.Thread class and the java.lang.Runnable interface.
    
-   ## Programmer creates, starts, coordinates, and otherwise manages the multiple threads.
+   ## The programmer creates, starts, coordinates, and otherwise manages the multiple threads.
 
  # The ExecutorService, which provides thread pools and high-level constructs for managing 
    the under-the-hood threads from the pool.
 
- # The ForkJoin framework, suited for the 'scatter/gather' approach to efficient problem-solving
-   via multithreading: scatter problem parts to various threads, gather the results together.
+   ## Built atop the core thread library.
+
+ # The ForkJoin framework, suited for the 'scatter/gather' approach to problem-solving: scatter problem parts 
+   across various threads, then gather the results together into a solution.
 
    ## Built atop the ExecutorService.
 
- # Parallel streams, again suit for the 'scatter/gather' approach to efficient problem-solving
-   via multithreading but specifically in the context of data streams.
+ # Parallel streams, again suited for the 'scatter/gather' approach to problem-solving
+   but specifically in the context of data streams.
 
    ## Built atop the ForkJoin framework.
+
+ # Simple depiction in summary:
+
+                   Parallel streams   ## scatter/gather for data streams
+                 Fork/Join framework  ## scatter/gather idiom
+                   ExecutorService    ## thread pools under the hood
+                   core Thread API    ## base level
 
