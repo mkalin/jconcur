@@ -1,0 +1,20 @@
+
+ -- An overview of the Java APIs for concurrent/parallel programming via multithreading.
+
+ # The core API centered on the java.lang.Thread class and the java.lang.Runnable interface.
+   
+   ## Programmer creates, starts, coordinates, and otherwise manages the multiple threads.
+
+ # The ExecutorService, which provides thread pools and high-level constructs for managing 
+   the under-the-hood threads from the pool.
+
+ # The ForkJoin framework, suited for the 'scatter/gather' approach to efficient problem-solving
+   via multithreading: scatter problem parts to various threads, gather the results together.
+
+   ## Built atop the ExecutorService.
+
+ # Parallel streams, again suit for the 'scatter/gather' approach to efficient problem-solving
+   via multithreading but specifically in the context of data streams.
+
+   ## Built atop the ForkJoin framework.
+

@@ -155,8 +155,24 @@ public class Intro2PStreams {
     }
 }
 
-/** Self-test exercise:
+/** Self-test issues for review
  *
- * As the Closures.java code underscores, Java lambdas are designed to be 
+ * The coding examples so far have illustrated four distinct approaches to multithreaded concurrent/parallel programming
+ * in Java:
+ *
+ * -- do-it-yourlself multithreading, with the programmer constructing, starting, synchronizing, and otherwise managing
+ *    the started threads
+ *
+ * -- mulithreading through the ExecutorService, with its built-in thread pools and thread management
+ *
+ * -- multithreading through the ForkJoin framework, which is built atop the ExecutorService and provides
+ *    even higher-level support for concurrent/parallel programming
+ *
+ * -- multithreading through parallel streams, which are built atop the ForkJoin framework and provide
+ *    high-level, 'automatic' concurrent/parallel support in the context of data streams
+ *
+ * As usual, there are tradeoffs. 
+ *
+ * http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
  *
  */
