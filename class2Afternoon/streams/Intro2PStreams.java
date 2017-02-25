@@ -157,6 +157,6 @@ public class Intro2PStreams {
 
 /** Self-test exercise:
  *
- * Induce a race condition...
+ * As the Closures.java code underscores, Java lambdas are designed to be 
  *
  */

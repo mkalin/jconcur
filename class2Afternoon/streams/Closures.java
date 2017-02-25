@@ -15,7 +15,7 @@
  * the _values_ of lexically scoped variables to be 'closed over', but not the variables themselves.
  * This restriction promotes (but does not guarantee) lambdas as 'pure functions'. There's no
  * guarantee because a lambda still could perform 'write' operations on fields, which in turn could
- * accessible across multiple threads.
+ * be accessible across multiple threads.
  * 
  */
 
