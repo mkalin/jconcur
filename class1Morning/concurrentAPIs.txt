@@ -1,5 +1,5 @@
 
- -- An overview of the Java APIs for concurrent/parallel programming via multithreading.
+ -- An overview of the Java APIs for concurrent/parallel programming via multithreading
 
  # The core API centered on the java.lang.Thread class and the java.lang.Runnable interface.
    
