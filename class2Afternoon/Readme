@@ -9,26 +9,24 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 
            File                                          Contents
 
-1. overviewConcurParal.txt         Review of key concepts such as concurrency, parallelism,
-                                   multithreading, and multiprocessing. Multithreading in Java.
-
-2. concurParalContrast.txt         A more detailed analysis of how concurrency and parallelism differ.
-
-3. divisionOfLabor.txt             Putting the overview altogether with a high-level example.
+1. lamdbasAndStreams.txt           An overview of the new stream and functional programming APIs
+                                   introduced in Java8.
 -----
 
-4. basicC.*.java                   5 Java source files, which together explore the basics of the
-                                   multithreading API.
+2. fjt.FileSearcher.java           A 'scatter/gather' code example that uses the ForkJoin framework
+   fjt.FielSearcherMain.java       directly. In this example, a hierarchical file system is searched
+                                   recursively for files with a specified extension.
+
+3. sema.Semaphores.java            An introduction via code to 'counting semaphores', which can be 
+                                   configured to allow more than one thread at a time to access 
+                                   a protected resource. The documentation clarifies the relationship
+                                   between semahores and the mutexes seen so far.
+
+4. streams.Intro2PStreams.java     An introduction via code to parallel streams, introduced in Java8.
+   streams.Closures.java           The Closures example underscores why lambdas should be implemented
+                                   as 'pure functions' to avoid race conditions.
                                   
-5. multiT.MultithreadEx.java       A short program to introduce 'automatic multithreading'.
-                                   Our 1st look at User versus Daemon threads.
 
-6. multiT.UserDaemon.java          More on User versus Daemon threads: a short experiment.
-
-7. multiP.MultiprocessEx.java      Multiprocessing in Java: not the preferred way to do 
-                                   concurrent programming in Java, but included for illustration.
-   text.txt                        The sample file for the multiprocessing example (see code
-                                   documentation for details).
 
 
 

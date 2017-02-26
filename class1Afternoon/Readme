@@ -9,6 +9,7 @@ relatively short, and the Java code requires only the core Java JDK to compile a
            File                                          Contents
 
 1. dataRacesAndDeadlock.txt        Overview of twin perils in multithreading.
+-----
 
 2. dataRace.*.java                 Various code examples of data races and how to avoid them.
 
