@@ -69,7 +69,7 @@ However, a typical JVM implementation will make println thread-safe. Here, for e
 implementation for println(String), with similar implementations for the other overloads:
 
    public void println(String x) { 
-       synchronized (this) {       //## 'this' refers to _one_ PrintStream instance, here the 'standard output'
+       synchronized(this) {       //## 'this' refers to _one_ PrintStream instance, here the 'standard output'
            print(x);
            newLine();
        }
@@ -82,5 +82,31 @@ A thread-safe System.out.println(...) is not guaranteed at the API level, but li
 implementation.
 -----
 
-Class 2 Afternoon
+# Class 2 Afternoon
 
+## Comments
+
+ As usual, there are tradeoffs:
+ 
+  -- Suppose that a machine has 16 cores (1 processor per core), that the problem at hand can be decomposed into
+     at least 16 independent subproblems (e.g., handling independent requests from remote clients), but that
+     our program uses only 8 threads as client-handlers. On the face of it, this is 'too little' multithreading.
+     
+  -- Suppose, by contrast, that we request a thread pool of size 16 (e.g., using the ExecutorService directly or even
+     the Fork/Join framework), but our app runs on a machine with only 8 processors: we've increased the level of
+     possible concurrency, of course, but not of true parallelism. On the face of it, this is 'too much'
+     multithreading.
+ 
+  Some tradeoffs are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
+  time reading, for example, client requests and writing client responses than it does computing. Even if the
+  mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
+  may be too many if they all spend most of their time blocking (that is, waiting) on I/O operations such as 'reads'.
+  Fewer threads, but with non-blocking I/O thrown into the mix, may be the way to go.
+ 
+  These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
+  and the operating system. The exercise, then, is to dig deeper into such issues. To begin, consider 
+  comparing and contrasting the different multithreading APIs that we've covered. Here's a place to start:
+ 
+  http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
+ 
+ 

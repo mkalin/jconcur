@@ -161,18 +161,44 @@ public class Intro2PStreams {
  * in Java:
  *
  * -- do-it-yourlself multithreading, with the programmer constructing, starting, synchronizing, and otherwise managing
- *    the started threads
+ *    the started threads: this the core Thread API.
  *
- * -- mulithreading through the ExecutorService, with its built-in thread pools and thread management
+ * -- mulithreading through the ExecutorService, with its built-in thread pools and thread management: built atop the
+ *    the core Thread API.
  *
  * -- multithreading through the ForkJoin framework, which is built atop the ExecutorService and provides
- *    even higher-level support for concurrent/parallel programming
+ *    even higher-level support for concurrent/parallel programming.
  *
  * -- multithreading through parallel streams, which are built atop the ForkJoin framework and provide
- *    high-level, 'automatic' concurrent/parallel support in the context of data streams
+ *    high-level, 'automatic' concurrent/parallel support for processing data streams.
  *
- * As usual, there are tradeoffs. 
+ * Given Java's prominence in enterprise computing, particularly in concurrent programming, there's
+ * a wealth of material available on the web and, of course, in books and research papers. Take a look 
+ * at resources to refine your judgment about how these different approaches match up with different
+ * programming problems. What's good and bad about each of the four approaches? What issues arise?
+ *
+ * As usual, there are tradeoffs:
+ *
+ * -- Suppose that a machine has 16 cores (1 processor per core), that the problem at hand can be decomposed into
+ *    at least 16 independent subproblems (e.g., handling independent requests from remote clients), but that
+ *    our program uses only 8 threads as client-handlers. On the face of it, this is 'too little' multithreading.
+ *    
+ * -- Suppose, by contrast, that we request a thread pool of size 16 (e.g., using the ExecutorService directly or even
+ *    the Fork/Join framework), but our app runs on a machine with only 8 processors: we've increased the level of
+ *    possible concurrency, of course, but not of true parallelism. On the face of it, this is 'too much'
+ *    multithreading.
+ *
+ * Some tradeoffs are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
+ * time reading, for example, client requests and writing client responses than it does computing. Even if the
+ * mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
+ * may be too many if they all spend most of their time blocking (that is, waiting) on I/O operations such as 'reads'.
+ * Fewer threads, but with non-blocking I/O thrown into the mix, may be the way to go.
+ *
+ * These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
+ * and the operating system. The exercise, then, is to dig deeper into such issues. To begin, consider 
+ * comparing and contrasting the different multithreading APIs that we've covered. Here's a place to start:
  *
  * http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
  *
+ * There are many excellent resources on-line, especially given Java's dominance among enterprise programming languages.
  */
