@@ -91,17 +91,20 @@ implementation.
  has to do. If fine-grained control is what's called for, then the core API centered on the
  Runnable interface and the Thread class is the way to go. For convenience, however, it's hard to 
  beat the 'automatic' mulithreading that comes with parallel streams, as all of the low-level
- details of thread creation, termination, and management remain out of sight.
-
- As the programming examples have shown, there's a way to control the size of thread pool even
+ details of thread creation, termination, and management remain out of sight. Nonetheless, as the 
+ programming examples have shown, there's a way to control the size of thread pool even
  with higher-level APIs such as the ExecutorService and the Fork/Join framework. 
 
-Various factors
- come into play
- 
- 
- As usual, there are tradeoffs:
- 
+ Various factors come into play when deciding on which API level is appropriate for a particular
+ application. These factors include the traditional but fuzzy distinction between 'compute bound' and
+ 'I/O bound', and the maturity of an API implementation. Consider the latter. When the Fork/Join
+ framework was first released, there were reports about an app degenerating into singel-threaded execution
+ when all of the threads from the pool were supposedly in use. Yet Java has a strong record of improving
+ API implementations, and there's no reason to doubt that there will be on-going improvement in 
+ multithreading. 
+
+ Other issues deserve a look when configuring a thread pool. Consider some short scenarios:
+  
   -- Suppose that a machine has 16 cores (1 processor per core), that the problem at hand can be decomposed into
      at least 16 independent subproblems (e.g., handling independent requests from remote clients), but that
      our program uses only 8 threads as client-handlers. On the face of it, this is 'too little' multithreading.
@@ -111,16 +114,17 @@ Various factors
      possible concurrency, of course, but not of true parallelism. On the face of it, this is 'too much'
      multithreading.
  
-  Some tradeoffs are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
-  time reading, for example, client requests and writing client responses than it does computing. Even if the
-  mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
-  may be too many if they all spend most of their time blocking (that is, waiting) on I/O operations such as 'reads'.
-  Fewer threads, but with non-blocking I/O thrown into the mix, may be the way to go.
+  Some issues are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
+  time reading, for example, requests from network clients than it does computing once a request has been read.
+  Even if mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
+  may be too many if they all spend most of their time blocking on I/O operations such as 'reads'.
+  Fewer threads, but with non-blocking I/O thrown into the mix, may be a far better way to go.
  
   These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
-  the operating system, and so on. The exercise, then, is to dig deeper into such issues. To begin, consider 
-  comparing and contrasting the different multithreading APIs that we've covered. Here's a place to start:
+  and the operating system. The good news is that these very issues have been studied in detail. As a start, consider:
  
   http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
+
+  Many other excellent resources are available on-line.
  
  
