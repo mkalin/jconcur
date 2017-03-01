@@ -86,6 +86,20 @@ implementation.
 
 ## Comments
 
+ The four API levels represent a classic tradeoff between control and convenience: the
+ lower the API level, the more control the programmer has -- but the more work the programmer 
+ has to do. If fine-grained control is what's called for, then the core API centered on the
+ Runnable interface and the Thread class is the way to go. For convenience, however, it's hard to 
+ beat the 'automatic' mulithreading that comes with parallel streams, as all of the low-level
+ details of thread creation, termination, and management remain out of sight.
+
+ As the programming examples have shown, there's a way to control the size of thread pool even
+ with higher-level APIs such as the ExecutorService and the Fork/Join framework. 
+
+Various factors
+ come into play
+ 
+ 
  As usual, there are tradeoffs:
  
   -- Suppose that a machine has 16 cores (1 processor per core), that the problem at hand can be decomposed into
@@ -104,7 +118,7 @@ implementation.
   Fewer threads, but with non-blocking I/O thrown into the mix, may be the way to go.
  
   These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
-  and the operating system. The exercise, then, is to dig deeper into such issues. To begin, consider 
+  the operating system, and so on. The exercise, then, is to dig deeper into such issues. To begin, consider 
   comparing and contrasting the different multithreading APIs that we've covered. Here's a place to start:
  
   http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
