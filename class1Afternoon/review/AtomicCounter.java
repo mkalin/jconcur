@@ -46,15 +46,9 @@ final class SynchronizedCounter { // would be 'public class' and in its own file
     }
 }
 
-/** Self-test question:
-
-    What would be the impact on multithreading if the field declaration 
-
-    private int c = 0;
-
-    were changed to
-
-    private static int c = 0;  // make the counter implementation a static field.
-
-    (Assume the SynchronizedCounter class is public.)
+/** Self-test exercise:
+ *
+ * Write a program to confirm that the SynchronizedCounter class does ensure mutual exclusion
+ * among the three 'synchronized' methods increment, decrement, and value.
  */
+

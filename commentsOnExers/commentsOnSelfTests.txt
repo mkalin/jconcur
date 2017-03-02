@@ -9,7 +9,7 @@ From basicC.BasicCounter.java:
 1. The java.lang.Thread class implements the java.lang.Runnable interface, which
    declares a single method: public void run().
 
-   It's thus a matter of convenience and taste about whether to have a class
+   It's usually a matter of convenience and habit about whether to have a class
    such as BasicCounter extend Thread or implement Runnable. In this example, either
    approach works the same, assuming that the override of run() is the same.
 
@@ -18,6 +18,7 @@ From basicC.BasicCounter.java:
    implementation is:
 
       // java.lang.Thread override
+      @Override
       public void run() { }   // empty body, hence a no-op
 
    If you extend Thread but fail to override run(), you wind up with this empty
@@ -32,27 +33,48 @@ From review.AtomicCounter.java:
 
 ## Comments
 
-1. In the current implementation, the three methods that can access the instance field
-   named 'c' are synchronized on 'this', an instance of a SynchronizedCounter. The
-   implementation makes sense in that there is one counter field per SynchronizedCounter
-   instance: each counter keeps its own count.
+Here's a short program that starts two threads, one to incremenet the counter,
+and the other to decrement the counter; each operation is done 10M times. At the
+end, the main-thread does a print to confirm that the counter's value is zero.
 
-   If the field named 'c' were made static, then there'd be one such field across _all_
-   SynchronizedCounter instances; but two different instances then could provoke a
-   race condition because the locks would differ:
+You might add a third thread that invokes the other synchronized method, named 'value', 
+the same number of times; but the output would be misleading.
+A synchronized block in Java ensures mutual exclusion: it's a mutex. But such a block
+does _not_ ensure 'fairness'. As a result, the 'value' method might be called after, say,
+the incrementing thread has raised the counter to some arbitrary value (e.g., 987), and the
+value method might print this value several hundred times before one of the other contending
+threads grabs the lock. The key point is that, after all of the threads have terminated,
+the value of counter will be zero.
 
-       SynchronizedCounter sc1 = new SynchronizedCounter(); // lock is sc1
-       SynchronizedCounter sc2 = new SynchronizedCounter(); // lock is sc2
-       ...                 // Assume thread t1 has access to sc1, and thread t2 has access to sc2
+class Main {
+    public static void main(String[ ] args) {
+	final int n = 10_000_000; 
+	SynchronizedCounter sc = new SynchronizedCounter();
+	
+	Thread t1 = new Thread() {
+	    @Override
+	    public void run() {
+		for (int i = 0; i < n; i++) sc.increment();
+	    }
+	    };
 
-       //## race condition
-       sc1.increment();    // Invoked in thread t1 -- there's no shared lock with sc2
-       
-       sc2.increment();    // Invoked in thread t2 -- there's no shared lock with sc1
+	Thread t2 = new Thread() {
+	    @Override
+	    public void run() {
+		for (int i = 0; i < n; i++) sc.decrement();
+	    }
+	    };
 
-   Finally, it's hard to see the usefulness of a single counter field shared across multiple
-   SynchronizedCounter instances. If exactly one SynchronizedCounter is needed in some app, then
-   implementing the 'singleton pattern' seems the cleaner way to go.
+	t1.start(); t2.start();
+	try { 
+	    t1.join(); t2.join(); 
+	}
+	catch(InterruptedException e) { }
+	
+	System.out.println("At the end: " + sc.value());
+	    
+    }
+}
 -----
 
 # Class 2 Morning
