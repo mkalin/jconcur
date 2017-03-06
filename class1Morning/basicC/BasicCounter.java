@@ -10,7 +10,7 @@ package basicC;
  * A programmer can create a thread in one of two basic ways, both of which require that
  * that a run() method be defined:
  *
- * -- create a class that extends java.lang.Thread (or a descendent class thereof) 
+ * -- create a class that extends java.lang.Thread (or a descendant class thereof) 
  *
  * -- implement the java.lang.Runnable interface, which the java.lang.Thread class does.
  *

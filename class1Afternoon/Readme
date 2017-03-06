@@ -2,7 +2,7 @@ Here's a list of the files in the ZIP file class1Afternoon.zip, together with a 
 account of each file.
 
 If you've time, please compile and run the code before class. The numbering
-suggests the order in which these files might be looked it. All of the files are
+suggests the order in which these files might be looked at. All of the files are
 relatively short, and the Java code requires only the core Java JDK to compile and run.
 -----
 
@@ -13,13 +13,13 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 
 2. dataRace.*.java                 Various code examples of data races and how to avoid them.
 
-3. ImmutableRGB.java               An example of thread-safety through immutability; discussion
+3. immut.ImmutableRGB.java         An example of thread-safety through immutability; discussion
                                    of the java.util.concurrent collections CopyOnWriteArrayList and
                                    ConcurrentMap.
                                    
-4. AtomicCounter.java              Code example to review explicit and built-in synchronization.
+4. review.AtomicCounter.java       Code example to review explicit and built-in synchronization.
 
-5. Deadlock.java                   1st code example of deadlock.
+5. dlock.Deadlock.java             1st code example of deadlock.
 
 
 

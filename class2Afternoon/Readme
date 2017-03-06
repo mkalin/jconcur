@@ -2,7 +2,7 @@ Here's a list of the files in the ZIP file class1Morning.zip, together with a sh
 account of each file.
 
 If you've time, please compile and run the code before class. The numbering
-suggests the order in which these files might be looked it. All of the files are
+suggests the order in which these files might be looked at. All of the files are
 relatively short, and the Java code requires only the core Java JDK to compile and run.
 (The basicC files use underscores in a numeric constant, which requires core Java 7 or greater.)
 -----
@@ -22,7 +22,7 @@ relatively short, and the Java code requires only the core Java JDK to compile a
                                    a protected resource. The documentation clarifies the relationship
                                    between semahores and the mutexes seen so far.
 
-4. streams.Intro2PStreams.java     An introduction via code to parallel streams, introduced in Java8.
+4. streams.Intro2PStreams.java     An introduction via code to parallel streams, added in Java8.
    streams.Closures.java           The Closures example underscores why lambdas should be implemented
                                    as 'pure functions' to avoid race conditions.
                                   
