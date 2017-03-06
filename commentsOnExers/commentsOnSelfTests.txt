@@ -41,11 +41,12 @@ You might add a third thread that invokes the other synchronized method, named '
 the same number of times; but the output might be misleading.
 
 A synchronized block in Java ensures mutual exclusion: it's a mutex. But such a block
-does _not_ ensure 'fairness'. As a result, the 'value' method might be called after, say,
-the incrementing thread has raised the counter to some arbitrary value (e.g., 987), and the
-value method might print this value several hundred times before one of the other contending
-threads grabs the lock. The key point is that, after all of the threads have terminated,
-the value of counter will be zero.
+does _not_ ensure 'fairness' or prevent 'starvation'. It's the application logic makes sure
+that the increment and decrement operations occur the same number of times. As a result, 
+the 'value' method might be called after, say, the incrementing thread has raised the counter 
+to some arbitrary value (e.g., 987), and the value method might print this value several hundred 
+times before one of the other contending threads grabs the lock. The key point is that, after 
+all of the started threads have terminated, the value of counter will be zero.
 
 class Main {
     public static void main(String[ ] args) {
