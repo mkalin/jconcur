@@ -45,7 +45,7 @@
 
           -- Non-blocking I/O
 
-             Plus:  Highly efficient I/O, as there's no time-consuming blocking on the operation
+             Plus:  Highly efficient I/O, as there's no time-consuming blocking on the I/O operation
 
              Minus: Challenging to program. (Hard on programmers.)
 

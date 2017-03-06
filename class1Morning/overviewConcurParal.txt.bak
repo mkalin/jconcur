@@ -22,7 +22,7 @@
           per core.
 
    ## For a more detailed explanation of concurrency and parallelism, see the
-      working file: concurrencyParalContrast.txt
+      working file: concurrencyParallelismContrast.txt
 
  # In modern languages such as Java, a concurrent app automatically becomes a parallel app if
    run on a multiprocessor machine: no programmer intervention is required.
@@ -103,7 +103,7 @@
 
           #### In the MultithreadEx example, the Daemon threads do various JVM jobs.
 
-      ### Daemon threads can be tricky. Suppose, for example, that a Daemon thread is in the middle of
+      ### Deamon threads can be tricky. Suppose, for example, that a Daemon thread is in the middle of
           an I/O operation when the app's last User thread terminates: the Daemon thread terminates,
           perhaps leaving the I/O operation in an indeterminate state.
  

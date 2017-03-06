@@ -33,19 +33,17 @@ From review.AtomicCounter.java:
 
 ## Comments
 
-Here's a short program that starts two threads to run concurrently, one to incremenet a 
+Here's a short program that starts two threads to run concurrently, one to increment a 
 SynchronizedCounter instance, and the other to decrement this instance; each operation is 
 done 10M times. At the end, the main-thread prints to confirm that the counter's value is zero.
 
 You might add a third thread that invokes the other synchronized method, named 'value', 
-the same number of times; but the output might be misleading.
-
-A synchronized block in Java ensures mutual exclusion: it's a mutex. But such a block
-does _not_ ensure 'fairness' or prevent 'starvation'. It's the application logic makes sure
-that the increment and decrement operations occur the same number of times. As a result, 
-the 'value' method might be called after, say, the incrementing thread has raised the counter 
-to some arbitrary value (e.g., 987), and the value method might print this value several hundred 
-times before one of the other contending threads grabs the lock. The key point is that, after 
+the same number of times; but the output might be misleading. A synchronized block in Java ensures 
+mutual exclusion: it's a mutex. But such a block does _not_ ensure 'fairness' or prevent 'starvation'. 
+It's the application logic makes sure that the increment and decrement operations occur the same number 
+of times. As a result, the 'value' method might be called after, say, the incrementing thread has raised 
+the counter to some arbitrary value (e.g., 987), and the value method might print this value several 
+hundred times before one of the other contending threads grabs the lock. The key point is that, after 
 all of the started threads have terminated, the value of counter will be zero.
 
 class Main {
@@ -89,7 +87,7 @@ System.out is of type java.io.PrintStream, and the JavaDoc confirms that none of
 is _not_ thread-safe. 
 
 However, a typical JVM implementation will make println thread-safe. Here, for example, is the published OpenJDK 
-implementation for println(String), with similar implementations for the other overloads:
+implementation for println(String), with similar implementations for the other overloads of the 'print' methods:
 
    public void println(String x) { 
        synchronized(this) {       //## 'this' refers to _one_ PrintStream instance, here the 'standard output'
@@ -143,8 +141,8 @@ implementation.
   may be too many if they all spend most of their time blocking on I/O operations such as 'reads'.
   Fewer threads, but with non-blocking I/O thrown into the mix, may be a far better way to go.
  
-  These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
-  and the operating system. The good news is that these very issues have been studied in detail. As a start, consider:
+  These and related issues are tough, as they depend so much on the application details and even specifics of
+  underlying system libraries. The good news is that these very issues have been studied in detail. As a start, consider:
  
   http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
 
