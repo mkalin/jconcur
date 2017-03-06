@@ -49,7 +49,7 @@
  # Every thread belongs, at least, to a default ThreadGroup, which has convenience methods (e.g., setDaemon(boolean) 
    that can be applied to all of the threads in the group.
 
-   ## But ThreadGroup membership can be determined through a Thread concstructor
+   ## But ThreadGroup membership can be determined through a Thread constructor
 
    ## Four overloads of the Thread constructor take a ThreadGroup as the 1st argument.
 
