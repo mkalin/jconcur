@@ -33,12 +33,13 @@ From review.AtomicCounter.java:
 
 ## Comments
 
-Here's a short program that starts two threads, one to incremenet the counter,
-and the other to decrement the counter; each operation is done 10M times. At the
-end, the main-thread does a print to confirm that the counter's value is zero.
+Here's a short program that starts two threads to run concurrently, one to incremenet a 
+SynchronizedCounter instance, and the other to decrement this instance; each operation is 
+done 10M times. At the end, the main-thread prints to confirm that the counter's value is zero.
 
 You might add a third thread that invokes the other synchronized method, named 'value', 
-the same number of times; but the output would be misleading.
+the same number of times; but the output might be misleading.
+
 A synchronized block in Java ensures mutual exclusion: it's a mutex. But such a block
 does _not_ ensure 'fairness'. As a result, the 'value' method might be called after, say,
 the incrementing thread has raised the counter to some arbitrary value (e.g., 987), and the
@@ -54,25 +55,24 @@ class Main {
 	Thread t1 = new Thread() {
 	    @Override
 	    public void run() {
-		for (int i = 0; i < n; i++) sc.increment();
+		for (int i = 0; i < n; i++) sc.increment(); // counter++
 	    }
 	    };
 
 	Thread t2 = new Thread() {
 	    @Override
 	    public void run() {
-		for (int i = 0; i < n; i++) sc.decrement();
+		for (int i = 0; i < n; i++) sc.decrement(); // counter--
 	    }
 	    };
 
 	t1.start(); t2.start();
 	try { 
-	    t1.join(); t2.join(); 
+	    t1.join(); t2.join(); // make main-thread wait so that it can print result
 	}
 	catch(InterruptedException e) { }
 	
 	System.out.println("At the end: " + sc.value());
-	    
     }
 }
 -----
