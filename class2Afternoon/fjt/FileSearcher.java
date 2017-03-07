@@ -13,13 +13,13 @@ import java.util.concurrent.RecursiveTask;
  *
  * Here's a simplified depiction, with ## introducing comments:
  *
- *                  /home/fred     ## root of the tree to be searched -- a directory
+ *                  /home/fred             ## root of the tree to be searched -- a directory
  *                      |
  *           +----------+----------+
  *           |          |          |
- *         movies      docs       code     ## subdirectory files
+ *         movies      docs       code     ## subdirectories
  *           |          |          |
- *          ...        ...      Foo.java   ## non-directory file
+ *          ...        ...      Foo.java   ## non-directory file Foo.java
  *
  * The search starts at the specified directory /home/fred, which contains three
  * subdirectories: movies, docs, and code. Searching each of these subdirectories

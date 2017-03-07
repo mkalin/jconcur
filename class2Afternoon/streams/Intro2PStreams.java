@@ -8,8 +8,8 @@ import java.util.concurrent.ForkJoinPool;
 /**
  * Core Java 8 introduced two major APIs: one for lambdas ('anonymous functions'), 
  * method references, and constructor references; and another for streams. The two
- * are related in that lambdas and method references plug in naturally to 
- * streams as arguments to stream functions. The examples below illustrate.
+ * are related in that lambdas, method references, and constructor references plug in
+ * naturally to streams as arguments to stream functions. The examples below illustrate.
  *
  * Our focus in on parallel streams, which provide a high-level and wonderfully low-fuss
  * way to do multithreading; indeed, the multithreading is basically 'automatic'. The
@@ -18,7 +18,7 @@ import java.util.concurrent.ForkJoinPool;
  * For thread-safety, the lambdas in the following examples are all 'pure functions', that is,
  * functions whose return value depends exclusively on the argument(s) passed to the function.
  * The stream API's higher-order functions such as filter and map ('higher-order' in that these
- * functions take functions as arguments) encourage the use of pure functions: the simpler, the
+ * functions can take functions as arguments) encourage the use of pure functions: the simpler, the
  * better -- no side-effects, please!
  *
  * Finally, the program illustrates the 'scatter/gather' idiom: the problem's data are 'scattered' 
@@ -34,6 +34,11 @@ public class Intro2PStreams {
 	boolean printList = true; // set to false to turn off printing
 	final int howMany = 1024;
 
+	// Find out the number of worker threads available, typically the number of CPUs 
+	// or that number minus one.
+	System.out.println("Pool size: " + 
+			   ForkJoinPool.commonPool().getParallelism()); // 7 on this machine
+
 	// Create some sample data, in this case 1024 int values.
 	List<Integer> list = new ArrayList<Integer>(); // empty list
 	for (int i = 0; i < howMany; i++) list.add(i); // populate the list
@@ -46,10 +51,6 @@ public class Intro2PStreams {
 	    .stream()                       // streamify the list: provide a 'conveyor belt' of values
 	    .filter(n -> (n & 0x1) == 0)    // filter out not-even values (filter is higher-order)
 	    .collect(Collectors.toList());  // gather the values together in a list
-
-	// Find out the number of worker threads available, typically the number of CPUs - 1.
-	System.out.println("Pool size: " + 
-			   ForkJoinPool.commonPool().getParallelism()); // 7 on this machine
 
 	// Go parallel
 	List<Integer> odds =                
@@ -177,28 +178,5 @@ public class Intro2PStreams {
  * at resources to refine your judgment about how these different approaches match up with different
  * programming problems. What's good and bad about each of the four approaches? What issues arise?
  *
- * As usual, there are tradeoffs:
- *
- * -- Suppose that a machine has 16 cores (1 processor per core), that the problem at hand can be decomposed into
- *    at least 16 independent subproblems (e.g., handling independent requests from remote clients), but that
- *    our program uses only 8 threads as client-handlers. On the face of it, this is 'too little' multithreading.
- *    
- * -- Suppose, by contrast, that we request a thread pool of size 16 (e.g., using the ExecutorService directly or even
- *    the Fork/Join framework), but our app runs on a machine with only 8 processors: we've increased the level of
- *    possible concurrency, of course, but not of true parallelism. On the face of it, this is 'too much'
- *    multithreading.
- *
- * Some tradeoffs are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
- * time reading, for example, client requests and writing client responses than it does computing. Even if the
- * mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
- * may be too many if they all spend most of their time blocking (that is, waiting) on I/O operations such as 'reads'.
- * Fewer threads, but with non-blocking I/O thrown into the mix, may be the way to go.
- *
- * These and related issues are tough, as they depend so much on the specifics of an application, its hardcore platform,
- * and the operating system. The exercise, then, is to dig deeper into such issues. To begin, consider 
- * comparing and contrasting the different multithreading APIs that we've covered. Here's a place to start:
- *
- * http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
- *
- * There are many excellent resources on-line, especially given Java's dominance among enterprise programming languages.
+ * The web has many excellent resources on these issues.
  */

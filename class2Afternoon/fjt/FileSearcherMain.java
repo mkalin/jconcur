@@ -19,8 +19,8 @@ public class FileSearcherMain {
 
     private void demo() {
 	/*
-	  The default pool size is typically the number of cores - 1 on the local
-	  system. This can set, for example, at the command-line with the following flag:
+	  The default pool size is typically the number of processors (perhaps minus 1) on the local
+	  system. The pool size also can set at the command-line with the following flag:
 	  
 	  java -Djava.util.concurrent.ForkJoinPool.common.parallelism=12 FileSearcherMain
 	 */
@@ -52,7 +52,7 @@ public class FileSearcherMain {
 			      pool.getStealCount()); // tasks 'stolen' from another thread's work queue
 	    System.out.printf("******************************************\n");
 	    try {
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(1); // main-thread
 	    } 
 	    catch (InterruptedException e) {
 		e.printStackTrace();
