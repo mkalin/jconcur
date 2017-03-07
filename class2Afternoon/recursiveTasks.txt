@@ -5,8 +5,9 @@
 
    ## So the logic that applies to a 'recursive task' applies likewise to the decomposed subtasks.
 
- # The ForkJoin framework is well suited for the 'scatter/gather' approach to problem-solving:
-   scatter ('fork') the subproblems among different threads, then gather ('join') the results together. 
+ # The ForkJoin framework is well suited for the 'scatter/gather' approach to handling 
+   recursive tasks: scatter ('fork') the subtasks among different threads, 
+   then gather ('join') the results together. 
 
    ## This framework provides an under-the-hood thread pool whose threads can be delegated, at a 
       high level, to handle the original task and its subtasks.
@@ -33,11 +34,7 @@
           #### The tree might be a file system, and the traversal a search for files
                with a '.java' extension.
 
-      ### The job of the ForkJoin framework is to provide a thread to handle each RecursiveTask.
+ # The ForkJoin framework provides a high-level API for bringing parallelism to recursive tasks.
 
- # The ForkJoin framework, with its RecursiveTasks, provides a high-level API for 
-   bringing parallelism to recursive tasks.
-
- # It's the programmer as problem-solver who must determine whether the
-   task at hand is, indeed, recursive. The ForkJoin framework then makes it straightforward
-   to handle the task via multithreaded parallelism.
+ # It's the programmer as problem-solver who must determine whether the task at hand is, indeed, recursive. 
+   The ForkJoin framework then makes it straightforward to handle the task via multithreaded parallelism.

@@ -9,20 +9,22 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 
            File                                          Contents
 
-1. lamdbasAndStreams.txt           An overview of the new stream and functional programming APIs
+1. recursiveTasks.txt              An overview of 'recursive tasks' with respect to the ForkJoin framework.
+
+2. lamdbasAndStreams.txt           An overview of the new stream and functional programming APIs
                                    introduced in Java8.
 -----
 
-2. fjt.FileSearcher.java           A 'scatter/gather' code example that uses the ForkJoin framework
+3. fjt.FileSearcher.java           A 'scatter/gather' code example that uses the ForkJoin framework
    fjt.FielSearcherMain.java       directly. In this example, a hierarchical file system is searched
                                    recursively for files with a specified extension.
 
-3. sema.Semaphores.java            An introduction via code to 'counting semaphores', which can be 
+4. sema.Semaphores.java            An introduction via code to 'counting semaphores', which can be 
                                    configured to allow more than one thread at a time to access 
                                    a protected resource. The documentation clarifies the relationship
                                    between semahores and the mutexes seen so far.
 
-4. streams.Intro2PStreams.java     An introduction via code to parallel streams, added in Java8.
+5. streams.Intro2PStreams.java     An introduction via code to parallel streams, added in Java8.
    streams.Closures.java           The Closures example underscores why lambdas should be implemented
                                    as 'pure functions' to avoid race conditions.
                                   
