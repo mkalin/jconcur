@@ -1,39 +1,43 @@
 
  Quick overview of the ForkJoin framework
 
- # A 'recursive task' can be decomposed in tasks of the same structure.
+ # A 'recursive task' decomposes into subtasks with the same structure as the original task.
 
-   ## The ForkJoin framework provides a thread pool whose threads can be
-      delegated to handle the original task and its subtasks.
+   ## So the logic that applies to a 'recursive task' applies likewise to the decomposed subtasks.
 
- # A standard, by-now familiar example is tree traversal. Consider the
+ # The ForkJoin framework is well suited for the 'scatter/gather' approach to problem-solving:
+   scatter ('fork') the subproblems among different threads, then gather ('join') the results together. 
+
+   ## This framework provides an under-the-hood thread pool whose threads can be delegated, at a 
+      high level, to handle the original task and its subtasks.
+
+ # A standard, by-now familiar example is tree processing. Consider the 
    following tree, rooted at node A:
 
                A              # tree (e.g., a hierarchical file system)
                |
          +-----+-----+  
          |     |     |      
-         B     C     D        # non-empty subtrees
+         B     C     D        # non-empty subtrees rooted at B, C, and D
         / \    |     |
-       E   F   G  +--+--+     # E, F, and G are empty subtrees ('leaf nodes')
+       E   F   G  +--+--+     # E, F, and G are 'leaf nodes' (roots with empty subtrees)
                   |  |  |     
-                  H  I  J     # H, I, and J are more empty subtrees
+                  H  I  J     # H, I, and J are also 'leaf nodes'
 
-   ## The task of traversing A can be divided into three subtasks: traversing trees
-      B, C, and D. And so on.
+   ## The task of traversing A can be divided into subtasks: traversing trees
+      B, C, and D -- and so on.
 
       ### To traverse a tree is to 'visit' each node to do whatever processing
-          happens to be appropriate.
+          happens to be appropriate, e.g., searching the nodes for a particular property.
 
-      ### In the example that follows (FileSearcher), the app implements a 
-          depth-first search, but other search algorithms (e.g., breadth-first search)
-          could be implemented as well.
+          #### The tree might be a file system, and the traversal a search for files
+               with a '.java' extension.
 
-      ### The job of the ForkJoin framework is to provide a thread to handle
-          each RecursiveTask.
+      ### The job of the ForkJoin framework is to provide a thread to handle each RecursiveTask.
 
  # The ForkJoin framework, with its RecursiveTasks, provides a high-level API for 
    bringing parallelism to recursive tasks.
 
-   ## It's the programmer as problem-solve who determines whether the
-      task at hand is, indeed, recursive.
+ # It's the programmer as problem-solver who must determine whether the
+   task at hand is, indeed, recursive. The ForkJoin framework then makes it straightforward
+   to handle the task via multithreaded parallelism.
