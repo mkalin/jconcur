@@ -37,4 +37,7 @@
  # The ForkJoin framework provides a high-level API for bringing parallelism to recursive tasks.
 
  # It's the programmer as problem-solver who must determine whether the task at hand is, indeed, recursive. 
-   The ForkJoin framework then makes it straightforward to handle the task via multithreaded parallelism.
+
+   ## The programmer decides on the algorithm for processing the recursive structure.
+
+   ## The ForkJoin framework then makes it straightforward to execute with multithreaded parallelism.
