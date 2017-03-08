@@ -15,7 +15,7 @@
  # A standard, by-now familiar example is tree processing. Consider the 
    following tree, rooted at node A:
 
-               A              # tree (e.g., a hierarchical file system)
+               A              # root of tree (e.g., a hierarchical file system)
                |
          +-----+-----+  
          |     |     |      
