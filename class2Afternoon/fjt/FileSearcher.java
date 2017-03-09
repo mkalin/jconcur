@@ -39,7 +39,7 @@ import java.util.concurrent.RecursiveTask;
 // A RecursiveTask is one that can divided into subtasks of the same kind. In this case,
 // the RecursiveTask is to search a tree--a hierarchical file system--because the subtrees are
 // themselves hierarchical file systems.
-public class FileSearcher extends RecursiveTask<List<String>> { 
+public class FileSearcher extends RecursiveTask<List<String>> {   // compute() override returns List<String>
     private final String path;        // where to start a task/subtask
     private final String extension;   // what kind of file to look for
  
@@ -53,9 +53,10 @@ public class FileSearcher extends RecursiveTask<List<String>> {
     public List<String> compute() {
 	List<String> listOfFileNames = new ArrayList<String>(); // empty list
 
-	// files in the current path (including subpaths)
+	// files in the current path 
 	File[ ] files = new File(path).listFiles();
-	if (files == null) return listOfFileNames; // base case
+	if (files == null)          // empty directory: base case, nothing to do
+	    return listOfFileNames; 
 
 	// Iterate through the files, keeping a list of the tasks generated
 	// to search the directories among the files.
@@ -64,10 +65,10 @@ public class FileSearcher extends RecursiveTask<List<String>> {
 	for (File file : files) {
 	    String absolutePath = file.getAbsolutePath();
 
-	    // Recursive case: a directory is a collection of files
+	    // Recursive case: a directory is a collection of files, searching it a new task
 	    if (file.isDirectory()) { 
 		FileSearcher task = new FileSearcher(absolutePath, extension);
-		task.fork();     // new task to search the directory
+		task.fork();     // new task is to search the directory
 		tasks.add(task); // keep track of the new task for a report
 	    }
 	    // Base case: a non-directory file -- with the desired extension?
@@ -75,7 +76,7 @@ public class FileSearcher extends RecursiveTask<List<String>> {
 		listOfFileNames.add(absolutePath); // keep track of the found files
 	}
 
-	// Gather results from the subtasks.
+	// Gather results from the subtasks, and return the list of found files.
 	assembleResults(listOfFileNames, tasks);
 	return listOfFileNames;
     }
