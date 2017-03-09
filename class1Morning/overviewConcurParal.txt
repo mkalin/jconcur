@@ -22,7 +22,7 @@
           per core.
 
    ## For a more detailed explanation of concurrency and parallelism, see the
-      working file: concurrencyParalContrast.txt
+      working file: concurParalContrast.txt
 
  # In modern languages such as Java, a concurrent app automatically becomes a parallel app if
    run on a multiprocessor machine: no programmer intervention is required.
@@ -86,7 +86,7 @@
 
     % java MultithreadEx
 
-   it starts out with the 'main-thread' as the thread that executes the main method. There
+   it starts out with the 'main-thread' executing the 'main' method. There
    are other JVM-worker threads under the hood (we'll see an example shortly).
 
    Example: See the separate file MultithreadEx.java.

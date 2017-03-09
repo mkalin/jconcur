@@ -11,7 +11,6 @@ import java.util.concurrent.Future;
 /**
  * 3rd approach: use an ExecutorService to manage 20,000 Future deliverables,
  * where a Future result is the work done by a CallableBasicCounter instance.
- *
  */
 public class RunBasicCounter3 {
     private static final int poolSize = 10;

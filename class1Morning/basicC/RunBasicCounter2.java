@@ -6,8 +6,8 @@ import java.util.concurrent.Executors;
 /**
  * A 2nd approach: use the ExecutorService in which 100 BasicCounter instances
  * are multiplexed onto 10 threads in a fixed-sized thread pool.
- * In effect, the BasicCounter instances are 100 jobs-to-be-done, and the
- * the under-the-hood pooled threads are the workers doing the jobs.
+ * In effect, the BasicCounter instances are 100 tasks-to-be-handled, and the
+ * the under-the-hood pooled threads are the workers that handle the tasks.
  */
 public class RunBasicCounter2 {
     private static final int poolSize = 10;

@@ -14,7 +14,7 @@
     ### Assume each task is scheduled for a fixed-length time slice (e.g., 10ms) and then is
 	preempted and rescheduled if its processing exceeds that time slice.
 
-        Each start * represents a tick of the system clock:
+        Each star * represents a tick of the system clock:
 
                Time span (TS) = Start to Finish
 Start time                                         Finish time

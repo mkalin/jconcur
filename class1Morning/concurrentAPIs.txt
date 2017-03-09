@@ -27,5 +27,5 @@
                    ExecutorService    ## thread pools under the hood, high-level management 
                    core Thread API    ## base level: Thread class, Runnable interface
 
-   ## Sometimes it's just 'scatter' without any 'gather' (more on this later).
+   ## Sometimes it's just 'scatter' without any 'gather' ('async' scattering).
 

@@ -4,8 +4,8 @@ package basicC;
  * A BasicCounter increments a counter a specified number of times, prints the
  * value, and then terminates.
  *
- * In the series of three examples, a BasicCounter instance represents a job to be done.
- * The run() method, in executing, does the job.
+ * In the series of three examples, a BasicCounter instance represents a task to be done.
+ * The run() method executes the task.
  *
  * A programmer can create a thread in one of two basic ways, both of which require that
  * that a run() method be defined:

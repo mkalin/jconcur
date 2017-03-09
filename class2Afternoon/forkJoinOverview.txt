@@ -6,12 +6,15 @@
 
    ## In effect, then, the framework is built atop the ExecutorService.
 
- # A ForkJoinPool can be described as an ExecutorService that supports 'task stealing': any work thread 
-   associated with a task pool looks for tasks to perform, even 'stealing' a task that's been put in some
-   other worker thread's queue.
+ # A ForkJoinPool can be described as an ExecutorService that supports automatic 'task stealing': any 
+   worker thread associated with a task pool looks for tasks to perform, even 'stealing' a task that's 
+   been put in some other worker thread's queue.
 
    ## The goal is flexibility: divy up the tasks among the threads in the course of task processing,
       moving tasks from one work queue to another in the interest of efficiency.
+
+   ## A 'stealing pool' can be configured using the ExecutorService, but the ForkJoin framework provides
+      such a pool by default.
 
  # There's a default 'Common Pool' that an app can use: any task not assigned to some other Pool goes
    into the Common Pool.
