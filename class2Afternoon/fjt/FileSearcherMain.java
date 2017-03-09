@@ -19,6 +19,11 @@ public class FileSearcherMain {
     private void demo() {
 	ForkJoinPool pool = new ForkJoinPool(); // there's a Common Pool under the hood
 
+	// Find out the targeted level of parallelism for the Common Pool, which is typically
+	// the number of CPUs - 1. (There's also the convenience method getCommonPoolParallelism().).
+	System.out.println("\nTargeted parallelism: " + 
+			   ForkJoinPool.commonPool().getParallelism()); // 7 on this machine
+
 	// Paths/extensions to be searched recursively. A FileSearch is a
 	// RecursiveTask, as we'll see in the documentation for that class.
 	FileSearcher text =  new FileSearcher(startPath, "txt");  // *.txt files
@@ -58,8 +63,8 @@ public class FileSearcherMain {
 
     private void printReport(ForkJoinPool pool) {
 	System.out.printf("\n******************************************\n");
-	System.out.printf("Parallelism:    %d\n", 
-			  pool.getParallelism());        // by default, number of processors
+	System.out.printf("Pool size:      %d\n", 
+			  pool.getPoolSize());           // worker threads not yet terminated
 	System.out.printf("Active threads: %d\n", 
 			  pool.getActiveThreadCount());  // estimated threads executing or stealing tasks 
 	System.out.printf("Task count:     %d\n",     

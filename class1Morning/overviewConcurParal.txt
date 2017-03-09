@@ -78,15 +78,20 @@
       // own overload of run(). But the basic two-step remains:
       Thread t = new Thread(...);   // construct a Thread
       t.start();                    // invoke start() -- not run() -- on the Thread.
-      // we're now concurrent...
-
+      
    ## Once a Java thread terminates, it cannot be restarted.
+-----
 
- # When a standard Java Application is run
+ # Java's runtime, the JVM, is a multithreaded process. Accordingly, any Java app
+   is technically multithreaded.
+
+   ## Things get interesting when the programmer creates, starts, and manages additional threads.
+
+ # When a standard Java application is run, for example
 
     % java MultithreadEx
 
-   it starts out with the 'main-thread' executing the 'main' method. There
+   the app starts out with the 'main-thread' executing the 'main' method. There
    are other JVM-worker threads under the hood (we'll see an example shortly).
 
    Example: See the separate file MultithreadEx.java.

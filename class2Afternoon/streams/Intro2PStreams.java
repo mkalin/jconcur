@@ -1,9 +1,10 @@
+package streams;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Collectors;
-import java.util.concurrent.ForkJoinPool;
 
 /**
  * Core Java 8 introduced two major APIs: one for lambdas ('anonymous functions'), 
@@ -33,11 +34,6 @@ public class Intro2PStreams {
     private void demo() {
 	boolean printList = true; // set to false to turn off printing
 	final int howMany = 1024;
-
-	// Find out the number of worker threads available, typically the number of CPUs 
-	// or that number minus one.
-	System.out.println("Pool size: " + 
-			   ForkJoinPool.commonPool().getParallelism()); // 7 on this machine
 
 	// Create some sample data, in this case 1024 int values.
 	List<Integer> list = new ArrayList<Integer>(); // empty list

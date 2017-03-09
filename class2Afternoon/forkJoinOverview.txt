@@ -22,4 +22,4 @@
    ## If an app requires a customized task pool, then one of the parameterized ForkJoinPool constructors (or
       command-line arguments) can be used.
 
- # The ForkJoin framework, in turn, is used to support the 'parallel streams' behind the stream API.
+ # The 'parallel streams' API, in turn, is built atop the ForkJoin framework.

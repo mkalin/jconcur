@@ -1,3 +1,5 @@
+package streams;
+
 /** 
  * A short program to underscore why lambdas should be 'pure functions',
  * that is, functions whose return value depends only on the arguments passed
