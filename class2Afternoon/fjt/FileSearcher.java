@@ -31,7 +31,6 @@ import java.util.concurrent.RecursiveTask;
  * Java's Fork/Join framework is a high-level API for the 'scatter/gather' idiom:
  * scatter ('fork') the tasks to be handled among different threads, then gather ('join') 
  * the results together.
- *
  */
 
 // The List<String> in RecursiveTask is a list of file names with a specified extension: it's
@@ -81,7 +80,7 @@ public class FileSearcher extends RecursiveTask<List<String>> {
 	return listOfFileNames;
     }
 
-    // Execute the 'gather' half of 'scatter/gather' by joing together the
+    // Execute the 'gather' half of 'scatter/gather' by joining together the
     // files found.
     private void assembleResults(List<String> list, List<FileSearcher> tasks) {
 	for (FileSearcher task : tasks) {

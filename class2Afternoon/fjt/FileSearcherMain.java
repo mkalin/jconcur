@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * A program to test the FileSearcher: search the user's home directory and any
  * subdirectories for files with the extensions 'txt', 'c', and 'java'.
- *
  */
 
 public class FileSearcherMain {
@@ -18,13 +17,7 @@ public class FileSearcherMain {
     }
 
     private void demo() {
-	/*
-	  The default pool size at the start is typically the number of processors (perhaps minus 1) 
-	  on the local system. The default pool size also can set at the command-line:
-	  
-	  java -Djava.util.concurrent.ForkJoinPool.common.parallelism=12 FileSearcherMain
-	 */
-	ForkJoinPool pool = new ForkJoinPool(); // a thread pool
+	ForkJoinPool pool = new ForkJoinPool(); // there's a Common Pool under the hood
 
 	// Paths/extensions to be searched recursively. A FileSearch is a
 	// RecursiveTask, as we'll see in the documentation for that class.
@@ -33,10 +26,10 @@ public class FileSearcherMain {
 	FileSearcher java =  new FileSearcher(startPath, "java"); // *.java files
 	
 	// Add the three tasks to the pool for execution.
-	pool.execute(text);
+	pool.execute(text);  // 'execute' in this context means: do sometime in the future...
 	pool.execute(capps);
 	pool.execute(java);
-	pool.shutdown();    // no more tasks
+	pool.shutdown();     // no more tasks will be submitted
 	
 	// Write info about the status of the pool every second
 	// until the three tasks have finished their execution.
@@ -53,26 +46,26 @@ public class FileSearcherMain {
 	List<String> results = null;  // list of the files found in the search
 	System.out.println();
 	
-	results = text.join();    
+	results = text.join();       // gather
 	System.out.printf("Text:    %d files.\n", results.size());
 	
-	results = capps.join();
+	results = capps.join();      // gather
 	System.out.printf("C apps:  %d files.\n", results.size());
 	
-	results = java.join();
+	results = java.join();       // gather
 	System.out.printf("Java:    %d files.\n", results.size());
     }
 
     private void printReport(ForkJoinPool pool) {
 	System.out.printf("\n******************************************\n");
 	System.out.printf("Parallelism:    %d\n", 
-			  pool.getParallelism());
+			  pool.getParallelism());        // by default, number of processors
 	System.out.printf("Active threads: %d\n", 
-			  pool.getActiveThreadCount());
+			  pool.getActiveThreadCount());  // estimated threads executing or stealing tasks 
 	System.out.printf("Task count:     %d\n",     
-			  pool.getQueuedTaskCount());
+			  pool.getQueuedTaskCount());    // estimated tasks queued up for threads
 	System.out.printf("Steal count:    %d\n",    
-			  pool.getStealCount()); // tasks 'stolen' from another thread's work queue
+			  pool.getStealCount());         // estimated tasks stolen from another thread's work queue
 	System.out.printf("******************************************\n");
     }
 }

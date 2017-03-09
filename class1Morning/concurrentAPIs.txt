@@ -23,7 +23,9 @@
  # Simple depiction in summary:
 
                    Parallel streams   ## scatter/gather for data streams
-                 Fork/Join framework  ## scatter/gather idiom
-                   ExecutorService    ## thread pools under the hood
-                   core Thread API    ## base level
+                 Fork/Join framework  ## scatter/gather idiom with 'task stealing'
+                   ExecutorService    ## thread pools under the hood, high-level management 
+                   core Thread API    ## base level: Thread class, Runnable interface
+
+   ## Sometimes it's just 'scatter' without any 'gather' (more on this later).
 
