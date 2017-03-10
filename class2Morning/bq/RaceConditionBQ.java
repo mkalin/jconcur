@@ -13,13 +13,13 @@ package bq;
 
    Here's a depiction of how the app works:
 
-               deposits
-                 /                       thread-safe                updates the account balance
+           deposit requests
+                 /                       thread-safe                update the account balance
       Miser---------------+                 /                               /
-                          |------------>BlockingQueue------------>Banker--------->balance
+                          |------------>BlockingQueue<------------Banker--------->balance
       Spendthrift---------+      \                      /                   /
-                    \       write operations      read operations     single-threaded access
-             withdrawals
+                    \        write operations     read operations     single-threaded access
+       withdrawal requests
  */	
 
 public class RaceConditionBQ {
@@ -29,21 +29,22 @@ public class RaceConditionBQ {
          return;
        }
 
-       int n = Integer.parseInt(args[0]);
+       int n = Integer.parseInt(args[0]); // number of times Miser and Spendthrift do their thing
        Miser miser = new Miser(n);       
        Spendthrift spendthrift = new Spendthrift(n);              
        Banker banker = new Banker(miser, spendthrift);
 
        miser.start();       // start Miser                        
        spendthrift.start(); // start Spendthrift      
-       banker.start();      // start the Banker
+       banker.start();      // start Banker: other two may have requests queued up already
 
        // The main-thread should be the last thread standing so that the main-thread
        // can print out the final balance _after_ the Miser and Spendthrift threads
        // have terminated.
        try {                                                          
 	   banker.join(); // the Banker stays alive at least until the Miser and Spendthrift die
-       } catch(Exception e) { System.err.println(e); }
+       } 
+       catch(Exception e) { System.err.println(e); }
 
        System.out.println("Final balance: " + AccountBQ.balance); 
     }

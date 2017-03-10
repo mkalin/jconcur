@@ -46,7 +46,7 @@ class Miser extends Thread {       // deposit
 	    try {
 		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
-	    catch(InterruptedException e) { }
+	    catch(InterruptedException e) { System.err.println(e); }
 	}
 	System.out.println("Miser exiting");
     }
@@ -68,7 +68,7 @@ class Spendthrift extends Thread { // withdraw
 	    try {
 		Thread.sleep(rand.nextInt(AccountBQ.zsCount)); // 0 to a few ms
 	    }
-	    catch(InterruptedException e) { }
+	    catch(InterruptedException e) { System.err.println(e); }
 	}
 	System.out.println("Spendthrift exiting");
     }
@@ -94,13 +94,13 @@ class Banker extends Thread {
 		// If there's something in the queue, process it.
 		// Note: Important not to block on the take() method
 		// if there's nothing already in the queue -- both
-		// 'writing' threads may have just terminated: deadlock.
+		// 'writing' threads may have just terminated: deadlock would result.
 		if (AccountBQ.bankQueue.peek() != null) {
 		    Integer amt = AccountBQ.bankQueue.take(); // take() blocks
 		    AccountBQ.balance += amt;
 		}
 	    }
-	    catch(InterruptedException e) { }
+	    catch(InterruptedException e) { System.err.println(e); }
 	}
 	System.out.println("Banker exiting");
     }
@@ -117,10 +117,11 @@ public class AccountBQ {
     // but this size seems just fine; and a 1K array of object references is
     // relatively modest cost in memory.
     private static final int queueCapacity = 1024; 
+    private static final boolean promoteFairnessInQueueAccess = true; // no guarantees, though
 
     // 2nd ctor argument promotes 'fairness' between producing and consuming threads
     public static BlockingQueue<Integer> bankQueue = 
-	new ArrayBlockingQueue<Integer>(queueCapacity, true); 
+	new ArrayBlockingQueue<Integer>(queueCapacity, promoteFairnessInQueueAccess); 
 }
 
 /** Review and research question on synchronization:
