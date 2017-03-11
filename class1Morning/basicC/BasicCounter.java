@@ -26,7 +26,7 @@ public class BasicCounter implements Runnable { // or extends Thread, if you pre
 	long sum = 0; // local variables are per thread, hence thread-safe
 	for (long i = 1; i < count; i++) sum += i;
 	System.out.println(Thread.currentThread().getName() + ": " + sum); // trace each thread
-    }
+    } // The thread terminates when it exits run, and cannot be restarted.
 }
 
 /** Programming exercise/experiment:

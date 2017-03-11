@@ -15,6 +15,9 @@ public class RunBasicCounter2 {
     public static void main(String[ ] args) {
 	final int howMany = 100;
 
+	// The Executor service will handle the details of thread creation,
+	// management, and termination. The service can be used to execute
+	// any object that implements Runnable.
 	ExecutorService executor = Executors.newFixedThreadPool(poolSize);
 
 	for (int i = 0; i < howMany; i++) {

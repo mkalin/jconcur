@@ -34,6 +34,9 @@ import java.util.concurrent.ArrayBlockingQueue;  // a "bounded buffer" implement
 import java.util.Random;
 
 class Miser extends Thread {       // deposit
+    private int howMany;
+    private Random rand;
+
     Miser(int howMany) { 
 	this.howMany = howMany; 
 	rand = new Random();
@@ -50,12 +53,12 @@ class Miser extends Thread {       // deposit
 	}
 	System.out.println("Miser exiting");
     }
-    
-    private int howMany;
-    private Random rand;
 }
 
 class Spendthrift extends Thread { // withdraw
+    private int howMany;    
+    private Random rand;
+
     Spendthrift(int howMany) { 
 	this.howMany = howMany; 
 	rand = new Random();
@@ -72,9 +75,6 @@ class Spendthrift extends Thread { // withdraw
 	}
 	System.out.println("Spendthrift exiting");
     }
-
-    private int howMany;    
-    private Random rand;
 }
 
 class Banker extends Thread {

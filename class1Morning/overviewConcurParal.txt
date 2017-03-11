@@ -18,8 +18,7 @@
 
       ### Multiprocessor machines now are the rule, not the exception.
 
-      ### A 'multicore' machine is a multiprocessor machine, with one or more processors (CPUs)
-          per core.
+      ### A 'multicore' machine is a multiprocessor machine, with one or more processors (CPUs) per core.
 
    ## For a more detailed explanation of concurrency and parallelism, see the
       working file: concurParalContrast.txt
@@ -106,14 +105,14 @@
 
       ### Daemon threads are 'background workers', unable on their own to sustain an application.
 
-          #### In the MultithreadEx example, the Daemon threads do various JVM jobs.
+          #### The JVM uses Daemon threads for various essential jobs (e.g., garbage collection).
 
       ### Daemon threads can be tricky. Suppose, for example, that a Daemon thread is in the middle of
           an I/O operation when the app's last User thread terminates: the Daemon thread terminates,
           perhaps leaving the I/O operation in an indeterminate state.
  
       ### For another code example, see the UserDaemon.java file. The documentation explains how to
-          illustrate the difference between User and Daemon threads.
+          test the difference between User and Daemon threads.
 
 
 
