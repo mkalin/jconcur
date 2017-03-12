@@ -2,11 +2,15 @@ package basicC;
 
 /**
  * A CallableBasicCounter implements the Callable<Long> interface,
- * which means that the overridden call method below must return a Long (or long).
+ * which means that the overridden call method below must return a Long value.
+ *
+ * The Callable interface is akin to the Runnable interface, except that call()
+ * has an arbitrary return value, whereas run() returns void. In this example,
+ * call() returns a Long value.
  */
 import java.util.concurrent.Callable;
 
-public class CallableBasicCounter implements Callable<Long> {
+public class CallableBasicCounter implements Callable<Long> { 
     private final long count;
 
     public CallableBasicCounter(long count) { this.count = count; }

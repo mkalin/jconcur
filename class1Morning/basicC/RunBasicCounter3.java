@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 
 /**
  * 3rd approach: use an ExecutorService to manage 20,000 Future deliverables,
- * where a Future result is the work done by a CallableBasicCounter instance.
+ * where a Future deliverable is from the work done by a CallableBasicCounter instance.
  */
 public class RunBasicCounter3 {
     private static final int poolSize = 10;
@@ -35,7 +35,7 @@ public class RunBasicCounter3 {
 	for (Future<Long> future : list) {
 	    try {
 		// get() blocks until a computation is finished
-		// There's also:  get(long timeout, TimeUnit unit
+		// There's also:  get(long timeout, TimeUnit unit)
 		sum += future.get(); 
 	    } 
 	    catch (InterruptedException e) {
