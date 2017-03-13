@@ -9,14 +9,14 @@ package multiP;
     This program runs a local text editor (see documentation below) on a file: the
     editor runs as a process separate from the JVM, which exists after 'execing'
     the text-editor process. The program introduces part of Java's multiprocessing
-    API, and underscores the independence of separate processes.
+    API, and underscores the independence of processes.
 */
 public class MultiprocessEx {
     // Set to an editor on local system, one that can be invoked from
     // the command-line. In this example, the editor is named 'gedit', 
-    // and is available on Unix-like systems. (On Windows, 'notepad' would do.)
+    // and is available on Unix-like systems. (On Windows, 'notepad' might be used instead.)
     private static final String sampleEditor = "gedit";  // the editor
-    private static final String file2Edit = "text.txt";  // the file to be edited
+    private static final String file2Edit = "text.txt";  // the file to be edited (included in the ZIP)
 
     public static void main(String[ ] args) {
 	try {
@@ -26,8 +26,9 @@ public class MultiprocessEx {
 	    System.err.println("About to execute: " + cmd);
 
 	    // Execute the command, which results in a separate process.
-	    // The Process reference then can be used to managed this separate process.
-	    // In the meantime, the JVM will execute two print statements below, and then exit.
+	    // The Process reference then can be used to analyze and manage this process.
+	    // In the meantime, the JVM will execute two print statements below, and then exit;
+	    // but the editor process continues until killed.
 	    Process proc = Runtime.getRuntime().exec(cmd);
 
 	    // Some info to see what's happening.

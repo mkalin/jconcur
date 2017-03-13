@@ -6,7 +6,7 @@ package basicC;
  *
  * The Callable interface is akin to the Runnable interface, except that call()
  * has an arbitrary return value, whereas run() returns void. In this example,
- * call() returns a Long value.
+ * as noted, call() returns a Long value.
  */
 import java.util.concurrent.Callable;
 
