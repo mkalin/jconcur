@@ -1,8 +1,16 @@
 package atomicC;
 
+// ## Of particular interest in this example is that the methods
+// incrementAndGet() and decrementAndGet() are synchronized on the _same_
+// lock, a particular AtomicInteger instance, in this case
+// AtomicInteger.balance: in effect, then, the two methods are
+// synchronized on 'this'. The result is that only one of these methods can
+// execute at a time on the balance object -- mutual exclusion is thereby achieved.
 import java.util.concurrent.atomic.AtomicInteger; // thread-safety is built-in
 
 class Miser extends Thread {       // deposit
+    private int howMany;
+
     Miser(int howMany) { this.howMany = howMany; }
 
     @Override
@@ -10,11 +18,11 @@ class Miser extends Thread {       // deposit
 	for (int i = 0; i < howMany; i++) 
 	    AccountAtomicC.balance.incrementAndGet(); // no explicit synchronization needed
     }
-
-    private int howMany;
 }
 
 class Spendthrift extends Thread { // withdraw
+    private int howMany;          
+
     Spendthrift(int howMany) { this.howMany = howMany; }
 
     @Override
@@ -22,10 +30,8 @@ class Spendthrift extends Thread { // withdraw
 	for (int i = 0; i < howMany; i++) 
 	    AccountAtomicC.balance.decrementAndGet(); // no explicit synchronization needed
     }
-
-    private int howMany;          
 }
 
 public class AccountAtomicC {
-    public static AtomicInteger balance = new AtomicInteger();                            
+    public static AtomicInteger balance = new AtomicInteger();  // one instance of the balance                       
 }

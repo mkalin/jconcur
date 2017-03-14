@@ -34,7 +34,7 @@ public class RunBasicCounter3 {
 	// Await the result and retrieve it.
 	for (Future<Long> future : list) {
 	    try {
-		// get() blocks until a computation is finished.
+		// This overload of get() blocks until a computation is finished.
 		// There's also get(long timeout, TimeUnit unit) for timed blocking.
 		sum += future.get(); 
 	    } 
