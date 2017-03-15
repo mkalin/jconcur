@@ -11,7 +11,7 @@
         ...
     }
 
-    A job then may be submitted for exeucution to a thread pool of N threads:
+    A job may be submitted for exeucution to a thread pool of N threads:
 
     MyJob job1 = new MyJob("play a game");
     MyJob job2 = new MyJob("compress the database");
@@ -26,16 +26,16 @@ import java.util.LinkedList;
 
 final public class ThreadPool {
     private final int threadCount;
-    private final PoolWorker[ ] threads;
+    private final PoolWorker[ ] poolWorkers;
     private final LinkedList<Runnable> jobQueue;
 
     public ThreadPool(int n) {
         jobQueue = new LinkedList<Runnable>();
-        threads = new PoolWorker[threadCount = n];
+        poolWorkers = new PoolWorker[this.threadCount = n];
 	
 	// Create and start the threads, amortizing the cost over the
 	// lifetime of the pool.
-	for (PoolWorker pw : threads) {
+	for (PoolWorker pw : poolWorkers) {
             pw = new PoolWorker();
             pw.start();
         }

@@ -9,17 +9,19 @@ relatively short, and the Java code requires only the core Java JDK to compile a
            File                                          Contents
 
 1. dataRacesAndDeadlock.txt        Overview of twin perils in multithreading.
+
+2. raceCond.txt                    A depiction of how a race condition occurs
 -----
 
-2. dataRace.*.java                 Various code examples of data races and how to avoid them.
+3. dataRace.*.java                 Various code examples of data races and how to avoid them.
 
-3. immut.ImmutableRGB.java         An example of thread-safety through immutability; discussion
+4. immut.ImmutableRGB.java         An example of thread-safety through immutability; discussion
                                    of the java.util.concurrent collections CopyOnWriteArrayList and
                                    ConcurrentMap.
                                    
-4. review.AtomicCounter.java       Code example to review explicit and built-in synchronization.
+5. review.AtomicCounter.java       Code example to review explicit and built-in synchronization.
 
-5. dlock.Deadlock.java             1st code example of deadlock.
+6. dlock.Deadlock.java             1st code example of deadlock.
 
 
 
