@@ -2,7 +2,7 @@
  Overview of the Thread API: some stuff not covered, or only partly covered, in code examples
 
  -- It's a rich API, but various methods are deprecated because these methods are
-    deadlock-prone because the impacted thread may hold locks that do not get released.
+    deadlock-prone: the impacted thread may hold locks that do not get released.
     Here's a sample, with with 't' as a reference to a Thread:
 
            Method                                  Comments
@@ -46,7 +46,7 @@
 
  -- ThreadGroups
 
- # Every thread belongs, at least, to a default ThreadGroup, which has convenience methods (e.g., setDaemon(boolean) 
+ # Every thread belongs, at least, to a default ThreadGroup, which has convenience methods (e.g., setDaemon(boolean))
    that can be applied to all of the threads in the group.
 
    ## But ThreadGroup membership can be determined through a Thread constructor

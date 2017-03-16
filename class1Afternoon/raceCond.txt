@@ -31,7 +31,8 @@
 
   # After a single increment by 1 and a single decrement by 1, N winds up as 6 rather than 5.
 
-    ## Improper interleaving of the operations is at fault.
+    ## Improper interleaving of the operations is at fault: operations at C1 and C4 should
+       occur in sequence, not separated by the operations at C2 and C3. 
 	
     ## Whichever thread starts its arithmetic operation (addition/subtraction) must be
        allow to complete the assignment without interruption.
@@ -42,6 +43,6 @@
 
    C1: Temp1 = 5 + 1 = 6   ## T1's addition
    C2: N = Temp1           ## T1's assignment operation (N is incremented to 6).
-   -----
-   C3: Temp2 = 5 - 1 = 4   ## T2's subtraction 
+   -----                   ## 1st pair of operations done in sequence, now to the 2nd pair
+   C3: Temp2 = 6 - 1 = 5   ## T2's subtraction 
    C4: N = Temp2           ## T2's assignment operation (N is decremented to 5).
