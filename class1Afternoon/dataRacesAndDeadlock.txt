@@ -10,6 +10,8 @@
   -- Deadlock occurs when two or more threads must wait on a condition that 
      cannot occur unless one or more of the waiters proceeds.
 
+     # Deadlock also can occur under multiprocessing.
+
   -- For a program to execute efficiently and correctly, both perils must be avoided.
 
      # In other words, the thread synchronization (coordination) must be 'just right':
@@ -38,7 +40,7 @@
 
      # Production-grade database systems typically have (some level of) deadlock avoidance/recovery. 
 
-     # The easy-to-say-but-hard-to-do guide for programmers: Deadlock is really bad, so don't go there!
+     # The easy-to-say-but-hard-to-do guide for concurrent programmers: Deadlock is really bad, so don't go there!
 
 
 

@@ -2,22 +2,23 @@
 
   # T1 and T2 are threads in process P: T1 and T2 have access the same memory locations.
   
-  # N is memory location within the address space that T1 and T2 share
+  # N is memory location within the address space that T1 and T2 share.
   
-  # T1 tries to increment n at the same time that T2 tries to decrement N.
+  # T1 tries to increment N at the same time that T2 tries to decrement N.
 
       N = N + 1  +---+  N = N - 1
    T1----------->| 5 |<-----------T2
 	         +---+
 	           N
 
-  # Each pseudo-code instruction involves two operations: an addition or subtraction, then an assignment
-    ## Assume that the result of the addition/subtraction is stored in a CPU register or on the stack:
-       in either case, in a temporary location
-	   
-    ## Temp1 is T1's temporary location, Temp2 is T2's temporary location
+  # Each pseudo-code instruction involves two operations: an addition or a subtraction, then an assignment.
 
-  # The machine has multiple CPUs: T1 executes on one of these as T2 executes on another -- at the same time
+    ## Assume that the result of the addition/subtraction is stored in a CPU register or on the stack:
+       in either case, in a temporary location.
+	   
+    ## Temp1 is T1's temporary location, Temp2 is T2's temporary location.
+
+  # The machine has multiple CPUs: T1 executes on one of these while T2 executes on another.
 
   # The following depicts one possible outcome of a race condition:
 
@@ -28,7 +29,8 @@
    C3: N = Temp2           ## T2's assignment operation (N is decremented to 4)
    C4: N = Temp1           ## T1's assignment operation (N is incremented to 6).
 
-  # After a single increment by 1 and a single decrement by 1, N winds up as 6--not 5.
+  # After a single increment by 1 and a single decrement by 1, N winds up as 6 rather than 5.
+
     ## Improper interleaving of the operations is at fault.
 	
     ## Whichever thread starts its arithmetic operation (addition/subtraction) must be
@@ -36,3 +38,10 @@
 
     ## This is precisely what 'thread synchronization' through locking of N ensures:
        single-threaded execution of the arithmetic operation and the subsequent assignment.
+       With synchronization, we might have, for example:
+
+   C1: Temp1 = 5 + 1 = 6   ## T1's addition
+   C2: N = Temp1           ## T1's assignment operation (N is incremented to 6).
+   -----
+   C3: Temp2 = 5 - 1 = 4   ## T2's subtraction 
+   C4: N = Temp2           ## T2's assignment operation (N is decremented to 5).
