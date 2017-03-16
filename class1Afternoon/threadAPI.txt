@@ -42,7 +42,7 @@
                                         Threads with a higher priority preempt those with a lower 
                                         priority. For example, if t1 has NORM_PRIORITY and t2 has 
                                         NORM_PRIORITY + 1, then t1 will execute only if t2 terminates or, as
-                                        the current thread, yields or waits.
+                                        the current thread, yields the right to execute.
 
  -- ThreadGroups
 

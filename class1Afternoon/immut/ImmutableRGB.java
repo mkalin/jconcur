@@ -1,13 +1,15 @@
 package immut;
 
 /**
-   Immutable data structures (e.g., java.lang.String) are thereby thread-safe, an approach popularized in
-   Clojure, a modern Lisp that runs on the JVM.
-
-   The class ImmutableRGB (Red-Green-Blue) is an illustration of a 
-   programmer-defined immutable type. Once created, an ImmutableRGB instance
-   cannot be changed. In more technical language, the state of an 
-   ImmutableRGB instance can't be altered throughout its lifetime.
+ * Immutable data structures (e.g., java.lang.String) are thereby thread-safe. Thread-safety through
+ * immutability is an old idea, and one popularized more recently in Clojure, a modern Lisp 
+ * that runs on the JVM. Other languages take this approach as well.
+ *
+ * The class ImmutableRGB (Red-Green-Blue) is an illustration of a 
+ * programmer-defined immutable type. Once created, an ImmutableRGB instance, which
+ * represents a particular color, cannot be changed. In more technical language, the state of an 
+ * ImmutableRGB instance can't be altered throughout its lifetime. As a result,
+ * any ImmutableRGB instance is thread-safe.
  */
 final public class ImmutableRGB { // disallow subclassing
     final private int red;
