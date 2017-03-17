@@ -13,6 +13,11 @@ From basicC.BasicCounter.java:
    such as BasicCounter extend Thread or implement Runnable. In this example, either
    approach works the same, assuming that the override of run() is the same.
 
+   One obvious advantage of extending Thread is you thereby inherit the start()
+   method, which must be invoked to start an explicitly constructed thread. An 
+   implementation of Runnable defines only the run() method, as the Runnable interface
+   does not declare a start() method. Runnable declares only one method, run().
+
 2. The java.lang.Thread class provides an empty implementation of run(), thereby
    exhibiting what's called the 'adapter pattern'. In effect, the java.lang.Thread
    implementation is:
@@ -40,9 +45,9 @@ done 10M times. At the end, the main-thread prints to confirm that the counter's
 You might add a third thread that invokes the other synchronized method, named 'value', 
 the same number of times; but the output might be misleading. A synchronized block in Java ensures 
 mutual exclusion: it's a mutex. But such a block does _not_ ensure 'fairness' or prevent 'starvation'. 
-It's the application logic makes sure that the increment and decrement operations occur the same number 
+The application logic makes sure that the increment and decrement operations occur the same number 
 of times. As a result, the 'value' method might be called after, say, the incrementing thread has raised 
-the counter to some arbitrary value (e.g., 987), and the value method might print this value several 
+the counter to some arbitrary value (e.g., 987), and the value method might print 987 several 
 hundred times before one of the other contending threads grabs the lock. The key point is that, after 
 all of the started threads have terminated, the value of counter will be zero.
 

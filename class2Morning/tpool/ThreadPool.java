@@ -1,3 +1,5 @@
+package tpool;
+
 /** 
     Usage:
 
@@ -16,7 +18,8 @@
     MyJob job1 = new MyJob("play a game");
     MyJob job2 = new MyJob("compress the database");
     ...
-    int howMany = 8; // 8 threads in the pool
+    int howMany = 8;     // 8 threads in the pool
+
     ThreadPool tpool = new ThreadPool(howMany);
     tpool.execute(job1); // the tpool now provides the thread
     tpool.execute(job2); // ditto
@@ -43,10 +46,10 @@ final public class ThreadPool {
     
     // API method: a ThreadPool client creates a pool, and then 
     // invokes execute on a job to be run.
-    public void execute(Runnable r) {
+    public void execute(Runnable job) {
         synchronized(jobQueue) {
-            jobQueue.addLast(r); // add the job to the end of the queue
-            jobQueue.notify();   // wake up a thread to handle the job at the start of the queue
+            jobQueue.addLast(job); // add the job to the end of the queue
+            jobQueue.notify();     // wake up a thread to handle the job at the start of the queue
         }
     }
 
@@ -67,7 +70,7 @@ final public class ThreadPool {
                 }
 
                 try {
-                    job.run();            // run the job
+                    job.run(); // run the job
                 }
                 catch (RuntimeException e) { }
             }

@@ -8,18 +8,19 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 
            File                                            Contents
 
-1. producerConsumer.*.java            An example in 3 .java files to introduce queues, which
+1. tpool.ThreadPool.java              A home-grown implementation of a thread pool, which introduces new aspects
+   tpool.DriverTP.java                of the core Thread API. 
+
+2. producerConsumer.*.java            An example in 3 .java files to introduce queues, which
                                       then are used in the next example for inter-thread communication
 
-2. bq.AccoutBQ.java                   A example to focus further on two points: (a) use of thread-safe 
+3. bq.AccoutBQ.java                   A example to focus further on two points: (a) use of thread-safe 
    bq.RaceConditionBQ.java            queues instead of explicit locking to prevent race conditions;
                                       (b) the constant danger of deadlock.
 
-3. clientServer.EchoServer.java       A sample concurrent server, with emphasis on its inefficient use of
+4. clientServer.EchoServer.java       A sample concurrent server, with emphasis on its inefficient use of
    clientServer.EchoClient.java       threads as client-handling workers
 
-4. tpool.ThreadPool.java              A home-grown implementation of a thread pool, which introduces new aspects
-   tpool.DriverTP.java                of the core Thread API. 
 
 
 
