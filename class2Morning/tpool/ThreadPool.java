@@ -53,7 +53,10 @@ final public class ThreadPool {
         }
     }
 
-    // PoolWorkers are Threads.
+    // PoolWorkers are Threads that are awaken from a wait-state (through a call to notify)
+    // in order to handle the 1st job in the job queue. Once the job is completed, the
+    // worker either returns to the wait-state, if there are no pending jobs, or handles
+    // the next job in the queue, if there are pending jobs.
     private class PoolWorker extends Thread {
 	@Override
         public void run() {
