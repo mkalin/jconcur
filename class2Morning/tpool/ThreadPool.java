@@ -62,6 +62,10 @@ final public class ThreadPool {
         public void run() {
             Runnable job = null;
             while (true) {
+		// The synchronization ensures that jobs are not simultaneously
+		// added to and removed from the job queue. If there are no pending
+		// jobs, a worker goes into an indefinite wait-state until awaken
+		// to handle a newly added job.
                 synchronized(jobQueue) {
                     while (jobQueue.isEmpty()) {
                         try {
