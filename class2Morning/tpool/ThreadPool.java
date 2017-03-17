@@ -23,6 +23,7 @@ package tpool;
 */
 import java.util.LinkedList;
 
+// Construct a pool and then use the pool to execute Runnable jobs.
 final public class ThreadPool {
     private final int threadCount;               // size of thread pool
     private final PoolWorker[ ] poolWorkers;     // threads to do the work
