@@ -73,11 +73,11 @@ final public class ThreadPool {
                         }
 			catch (InterruptedException ignored) { }
                     }
-                    job = (Runnable) jobQueue.removeFirst();
-                }
+                    job = (Runnable) jobQueue.removeFirst(); 
+                } // end of synchronized block
 
                 try {
-                    job.run(); // run the job
+                    job.run(); // run the job (outside the synchronized block)
                 }
                 catch (RuntimeException e) { }
             }
