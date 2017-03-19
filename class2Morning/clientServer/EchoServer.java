@@ -1,5 +1,17 @@
 package clientServer;
 
+/**
+ * A concurrent 'echo server' that accepts requets from clients, echoing
+ * the content of these requests back to the client. The implementation is
+ * inefficient because it constructs a new thread per request, and each
+ * client-handling thread terminates once a response is sent back to the
+ * client.
+ *
+ * Thread construction is relatively expensive, and there's no compelling
+ * reason not to reuse a thead over and over as a client-handler. Thread
+ * construction should be done at start-up, and the cost thereof should be
+ * amortized over the lifetime of the server.
+ */
 import java.net.ServerSocket;  // server-side "accepting" socket
 import java.net.Socket;        // client-side "initiating" socket
 

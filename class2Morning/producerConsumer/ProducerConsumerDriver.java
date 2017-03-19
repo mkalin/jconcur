@@ -35,25 +35,3 @@ public class ProducerConsumerDriver {
     }
 }
 
-/** Self-test exercise
-
-    Implementations of the BlockingQueue interface suggest another way to make
-    the Miser/Spendthrift program (see class1Afternoon.zip) thread-safe. In the
-    original versions, the Miser and the Spendthrift have direct access to the
-    Account.balance, which thus must be synchronized in some way (explicitly or
-    with a thread-safe type such as the AtomicInteger) in order to prevent a data
-    race. Another option is to introduce a banker into the mix:
-
-                 desposit       +----------+
-          Miser---------------->|  Banker  |--------->balance
-    Spendthrift---------------->|  thread  |
-                 withdraw       +----------+
-
-   The Banker thread alone would have direct access to the balance; the Miser and
-   Spendthrift queues would add deposit and withdraw requests, respectively, to a
-   BlockingQueue that the Banker thread alone reads.
-
-   Code up this revised version of the Miser/Spendthrift program, using whatever
-   implementation of BlockingQueue you like. Confirm through sample runs that the
-   application works correctly.
- */

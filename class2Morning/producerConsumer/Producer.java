@@ -11,11 +11,20 @@ public class Producer implements Runnable {
     }
     
     public void run() {
-        String importantInfo[] = {
+        String importantInfo[ ] = {
             "Mares eat oats",
             "Does eat oats",
             "Little lambs eat ivy",
-            "A kid will eat ivy too"
+            "A kid will eat ivy too",
+	    "now from Ella",
+	    "A-tisket, a-tasket",
+	    "A green and yellow basket",
+	    "I wrote a letter to my love",
+	    "And on the way I dropped it",
+	    "I dropped it",
+	    "Yes, on the way I dropped it",
+	    "A little boy he picked it up",
+	    "and put it in his pocket."
         };
 
 	final int howMany = 24;
