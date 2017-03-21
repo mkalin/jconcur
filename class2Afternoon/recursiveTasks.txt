@@ -40,4 +40,4 @@
 
    ## The programmer decides on the algorithm for processing the recursive structure.
 
-   ## The ForkJoin framework then makes it straightforward to execute with multithreaded parallelism.
+   ## The ForkJoin framework then makes it straightforward to execute with multithreaded concurrency.

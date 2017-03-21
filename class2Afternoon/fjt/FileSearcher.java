@@ -49,6 +49,7 @@ public class FileSearcher extends RecursiveTask<List<String>> {   // compute() o
 	this.extension = extension;
     }
     
+    // Compute the recursive task, forking subtasks as appropriate.
     @Override
     public List<String> compute() {
 	List<String> listOfFileNames = new ArrayList<String>(); // empty list

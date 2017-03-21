@@ -5,16 +5,17 @@ import java.util.concurrent.SynchronousQueue;  // one implementation
 
 /** 
  * Provide a thread-safe queue for a Producer and Consumer to communicate.
+ *
  * The SynchronousQueue is a 'blocking' structure that coordinates insert ('write')
  * and remove ('read') operations: each insert requires a subsequent remove, and each
  * remove depends on a previous insert. Although the term 'queue' suggests a collection of
  * multiple items, the SynchronousQueue is, at the implementation level, simply a mechanism
  * that allows a producer and a consumer share items strictly one-at-a-time, but in a thread-safe
- * manner: one thread can produce, and another consume. In short, a SynchronousQueue does not have
- * a size or a capacity.
+ * manner: one or more threads can produce, and others can consume. 
  *
  * There are three User threads at play: the main-thread in ProducerConsumerDriver (this file),
- * the producer thread, and the consumer thread.
+ * the producer thread, and the consumer thread. The main-thread starts the other two, and then
+ * terminates by exiting main.
  *
  * Here's a depiction of the application:
  * 
