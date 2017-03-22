@@ -16,7 +16,7 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 
 3. divisionOfLabor.txt             Putting the overview altogether with a high-level example.
 
-4. concurrentAPIs.txt              An overview of the multithreading APIs to be covered.
+4. concurrentAPIs.txt              An overview of the Java multithreading APIs to be covered.
 -----
 
 5. basicC.*.java                   5 Java source files, which together explore the basics of the

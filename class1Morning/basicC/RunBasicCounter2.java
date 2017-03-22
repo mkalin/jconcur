@@ -24,12 +24,12 @@ public class RunBasicCounter2 {
 	    Runnable counter = new BasicCounter(10_000_000L + i);
 	    executor.execute(counter); // Executor now manages the counter
 	}
-	executor.shutdown(); // accept no new threads
+	executor.shutdown(); // accept no new tasks
 
 	while (!executor.isTerminated()) {
 	    // await thread deaths (for now, we'll "busy wait" by looping)
 	}
-	System.out.println("All started threads have died.");
+	System.out.println("All Executor-started threads have died.");
     }
 }
 
@@ -50,5 +50,5 @@ public class RunBasicCounter2 {
     pool-1-thread-2: 50000985004851
     pool-1-thread-3: 50000955004560
     pool-1-thread-4: 50000975004753
-    All started threads have died.
+    All Executor-started threads have died.
 */

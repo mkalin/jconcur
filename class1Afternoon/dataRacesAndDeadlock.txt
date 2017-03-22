@@ -19,7 +19,7 @@
        ## 'Under synchronization' may lead to data races, which in turn
           means that the program may not behave correctly.
 
-       ## 'Over synchronization' may degrade parallelism, resulting in too much
+       ## 'Over synchronization' may degrade concurrency/parallelism, resulting in too much
           single-threaded execution--or even in deadlock.
 
    -- There are various ways to make Java programs 'thread-safe' (aka 'concurrent-aware'),
@@ -34,7 +34,7 @@
   -- In Java, a synchronized block implements a 'monitor', a synchronization construct that supports
      mutual exclusion and related features.
 
-     # 'lock' and 'mutex' are used as synonyms for 'monitor', as each emphasizes mutual exclusion.
+     # 'lock' and 'mutex' are used here as synonyms for 'monitor', as each emphasizes mutual exclusion.
 
   -- Programming languages in general (including Java) neither detect nor recover from deadlock.
 
