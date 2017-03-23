@@ -59,14 +59,12 @@ public class Semaphores {
 		    String name = Thread.currentThread().getName();
 		    try {
 			while (true) {
-			    Resource resource = null;
-			    System.out.printf("%s acquiring %s%n", name,
-					      resource = pool.getResource());
+			    Resource resource = pool.getResource();
 
+			    System.out.printf("%s acquiring %s%n", name, resource.getName());
 			    Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
-			    System.out.printf("%s putting back %s%n",
-					      name,
-					      resource.getName());
+			    System.out.printf("%s putting back %s%n", name, resource.getName());
+
 			    pool.putResource(resource);
 			}
 		    }
@@ -141,7 +139,8 @@ final class ResourcePool {
 	    permit.release(); // release the permit into the pool
     }
     
-    // Get an available Resource, if any.
+    // Get an available Resource, if any. (Synchronized with method
+    // resourceHasBeenReturned to avoid a data race.)
     private synchronized Resource getAvailableResource() {
 	for (int i = 0; i < resources.length; ++i) {
 	    if (resources[i].isAvailable()) {
@@ -152,14 +151,16 @@ final class ResourcePool {
 	return null; // nothing available
     }
     
+    // Confirm that a Resource has been returned to the pool. (Synchronized with
+    // method getAvailableResource to avoid a data race.)
     private synchronized boolean resourceHasBeenReturned(Resource resource) {
 	// If the resource isn't out to a user, and so is already available, 
 	// it cannot be returned.
 	if (resource.isAvailable())
 	    return false;
 	
-	// Otherwise, mark the resource as available, which effectively returns
-	// it to the ResourcePool for use.
+	// Otherwise, mark the resource as now available, which effectively returns
+	// it to the ResourcePool for further use.
 	resource.setAvailable(true);
 	return true;
     }
