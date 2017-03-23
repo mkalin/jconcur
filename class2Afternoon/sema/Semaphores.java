@@ -48,7 +48,7 @@ public class Semaphores {
     }
 
     private void demo() {
-	final Pool pool = new Pool(); // pool of Resources to be acquired
+	final ResourcePool pool = new ResourcePool(); // pool of Resources to be acquired
 
 	// The run() method continually vies for a resource by requesting a 
 	// permit; keeps the resource a random number of ticks; and then returns 
@@ -78,7 +78,7 @@ public class Semaphores {
 	
 	// Create an ExecutorService to execute multiple instances of the task-at-hand,
 	// which is get a resource, hold it awhile, and then return it to the pool.
-	ExecutorService[ ] executors = new ExecutorService[Pool.MaxPermits + 1];
+	ExecutorService[ ] executors = new ExecutorService[ResourcePool.MaxPermits + 1];
 	for (int i = 0; i < executors.length; i++) {
 	    executors[i] = Executors.newSingleThreadExecutor();
 	    executors[i].execute(r);
@@ -87,7 +87,7 @@ public class Semaphores {
 }
 
 /**
- * The Pool comprises resource, in this case an array of strings for which threads contend.
+ * The ResourcePool comprises resources, in this case an array of strings for which threads contend.
  * To get a resource, a thread needs a permit, an instance of a counting semaphore with a 
  * value of MaxPermits (currently 10). 
  *
@@ -100,15 +100,19 @@ public class Semaphores {
  *
  * The Semaphore methods acquire() and release() are themselves thread-safe.
  */
-final class Pool {
+final class ResourcePool {
     public static final int MaxPermits = 10; 
-    private Semaphore permit = new Semaphore(MaxPermits, true); // true == guarantee FIFO behavior
+    private Semaphore permit;
     private String[ ] resources;
-    private boolean[ ] used = new boolean[MaxPermits];
+    private boolean[ ] used;
     
-    Pool() {
+    ResourcePool() {
+	permit = new Semaphore(MaxPermits, true); // true == guarantee FIFO behavior
+	used  = new boolean[MaxPermits];
 	resources = new String[MaxPermits];
-	for (int i = 0; i < resources.length; i++) resources[i] = "Resource" + i;
+
+	for (int i = 0; i < resources.length; i++) 
+	    resources[i] = "Resource" + i;
     }
     
     String getResource() throws InterruptedException {
@@ -117,10 +121,11 @@ final class Pool {
     }
     
     void putResource(String resource) {
-	if (isResourceFree(resource)) permit.release(); // release the permit into the pool
+	if (isResourceFree(resource)) 
+	    permit.release(); // release the permit into the pool
     }
     
-    // This method and the next are synchronized on the Pool
+    // This method and the next are synchronized on the ResourcePool
     // instance because both access the used array: this
     // method searches for a free resource and, if successful,
     // marks the resource as used before returning it. The
