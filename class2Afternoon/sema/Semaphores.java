@@ -1,3 +1,5 @@
+package sema;
+
 /**
  * A mutex is a a mutual-exclusion construct: wrapping statements within a mutex ensures 
  * that, at most, one thread can execute the wrapped statements. In technical terms, a 
@@ -13,7 +15,7 @@
  * -- If not, block the thread.
  * -- If a thread holding a permit calls release(), return the permit to the available set.
  * 
- * This code example, adapted from the javadoc, illustrates. A set of threads
+ * This code example, adapted from the JavaDoc, illustrates. A set of threads
  * contests for resources (Resource1, Resource2,...), and the application
  * uses a counting semahore to regulate how many resources can be checked out at
  * a time. A sample run generates output such as:
@@ -42,7 +44,15 @@ import java.util.concurrent.Semaphore;
 
 public class Semaphores {
     public static void main(String[] args) {
-	final Pool pool = new Pool();
+	new Semaphores().demo();
+    }
+
+    private void demo() {
+	final Pool pool = new Pool(); // pool of Resources to be acquired
+
+	// The run() method continually vies for a resource by requesting a 
+	// permit; keeps the resource a random number of ticks; and then returns 
+	// the resource to the pool.
 	Runnable r = new Runnable() {
 		@Override
 		public void run() {
@@ -66,7 +76,9 @@ public class Semaphores {
 		}
 	    };
 	
-	ExecutorService[ ] executors = new ExecutorService[Pool.MaxAvailable + 1];
+	// Create an ExecutorService to execute multiple instances of the task-at-hand,
+	// which is get a resource, hold it awhile, and then return it to the pool.
+	ExecutorService[ ] executors = new ExecutorService[Pool.MaxPermits + 1];
 	for (int i = 0; i < executors.length; i++) {
 	    executors[i] = Executors.newSingleThreadExecutor();
 	    executors[i].execute(r);
@@ -74,45 +86,59 @@ public class Semaphores {
     }
 }
 
+/**
+ * The Pool comprises resource, in this case an array of strings for which threads contend.
+ * To get a resource, a thread needs a permit, an instance of a counting semaphore with a 
+ * value of MaxPermits (currently 10). 
+ *
+ * Two methods are synchronized on the pool instance:
+ *
+ * -- getNextAvailableResource(), which searches for an available resource and returns
+ *    it, or null in case there is no such resource.
+ *
+ * -- isResourceFree(), which checks whether a given resource is available.
+ *
+ * The Semaphore methods acquire() and release() are themselves thread-safe.
+ */
 final class Pool {
-    public static final int MaxAvailable = 10;
-    private Semaphore available = new Semaphore(MaxAvailable, true); // true == guarantee FIFO behavior
+    public static final int MaxPermits = 10; 
+    private Semaphore permit = new Semaphore(MaxPermits, true); // true == guarantee FIFO behavior
     private String[ ] resources;
-    private boolean[ ] used = new boolean[MaxAvailable];
+    private boolean[ ] used = new boolean[MaxPermits];
     
     Pool() {
-	resources = new String[MaxAvailable];
+	resources = new String[MaxPermits];
 	for (int i = 0; i < resources.length; i++) resources[i] = "Resource" + i;
     }
     
     String getResource() throws InterruptedException {
-	available.acquire(); // blocks until a permit is available (or an exception thrown)
+	permit.acquire(); // blocks until a permit is available (or an exception thrown)
 	return getNextAvailableResource(); // with permit in hand, get the resource
     }
     
     void putResource(String resource) {
-	if (markAsUnused(resource)) available.release(); // release the permit into the pool
+	if (isResourceFree(resource)) permit.release(); // release the permit into the pool
     }
     
     // This method and the next are synchronized on the Pool
     // instance because both access the used array: this
-    // method searches for an unused resource and, if successful,
-    // marks the resource as available before returning it. The
+    // method searches for a free resource and, if successful,
+    // marks the resource as used before returning it. The
     // method below searches for a specified, currently-in-use resource and, 
-    // if successful, marks the resource as unused.
+    // if successful, marks the resource as free.
     private synchronized String getNextAvailableResource() {
-	for (int i = 0; i < MaxAvailable; ++i) {
+	for (int i = 0; i < MaxPermits; ++i) {
 	    if (!used[i]) {
 		used[i] = true;
 		return resources[i];
 	    }
 	}
-	return null; 
+	return null; // nothing available
     }
     
     // See documentation immediately above.
-    private synchronized boolean markAsUnused(String resource) {
-	for (int i = 0; i < MaxAvailable; ++i) {
+    private synchronized boolean isResourceFree(String resource) {
+	for (int i = 0; i < MaxPermits; ++i) {
 	    if (resource == resources[i]) {
 		if (used[i]) {
 		    used[i] = false;
