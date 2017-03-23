@@ -15,7 +15,7 @@ package sema;
  * -- If not, block the thread.
  * -- If a thread holding a permit calls release(), return the permit to the available set.
  * 
- * This code example, adapted from the JavaDoc, illustrates. A set of threads
+ * This code example illustrates how counting semaphores can be used. A set of threads
  * contests for resources (Resource1, Resource2,...), and the application
  * uses a counting semahore to regulate how many resources can be checked out at
  * a time. A sample run generates output such as:
@@ -53,20 +53,20 @@ public class Semaphores {
 	// The run() method continually vies for a resource by requesting a 
 	// permit; keeps the resource a random number of ticks; and then returns 
 	// the resource to the pool.
-	Runnable r = new Runnable() {
+	Runnable resourceUser = new Runnable() {
 		@Override
 		public void run() {
 		    String name = Thread.currentThread().getName();
 		    try {
 			while (true) {
-			    String resource;
+			    Resource resource = null;
 			    System.out.printf("%s acquiring %s%n", name,
 					      resource = pool.getResource());
 
 			    Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
 			    System.out.printf("%s putting back %s%n",
 					      name,
-					      resource);
+					      resource.getName());
 			    pool.putResource(resource);
 			}
 		    }
@@ -76,14 +76,30 @@ public class Semaphores {
 		}
 	    };
 	
-	// Create an ExecutorService to execute multiple instances of the task-at-hand,
-	// which is get a resource, hold it awhile, and then return it to the pool.
+	// Create an ExecutorService to execute a Runnable resourceUser,
+	// who tries get a resource, then holds it awhile, and finally returns it to the pool.
+	// To promote contention, there's one more thread contending for resources than
+	// there are resource permits.
 	ExecutorService[ ] executors = new ExecutorService[ResourcePool.MaxPermits + 1];
 	for (int i = 0; i < executors.length; i++) {
 	    executors[i] = Executors.newSingleThreadExecutor();
-	    executors[i].execute(r);
+	    executors[i].execute(resourceUser);
 	}
     }
+}
+
+class Resource {
+    String name;
+    boolean available;
+
+    Resource(String name) {
+	this.name = name;
+	this.available = true;
+    }
+
+    String getName() { return name; }
+    boolean isAvailable() { return available; }
+    void setAvailable(boolean available) { this.available = available; }
 }
 
 /**
@@ -103,56 +119,48 @@ public class Semaphores {
 final class ResourcePool {
     public static final int MaxPermits = 10; 
     private Semaphore permit;
-    private String[ ] resources;
-    private boolean[ ] used;
+    private Resource[ ] resources;
     
     ResourcePool() {
 	permit = new Semaphore(MaxPermits, true); // true == guarantee FIFO behavior
-	used  = new boolean[MaxPermits];
-	resources = new String[MaxPermits];
+	resources = new Resource[MaxPermits]; 
 
 	for (int i = 0; i < resources.length; i++) 
-	    resources[i] = "Resource" + i;
+	    resources[i] = new Resource("Resource" + i);
     }
     
-    String getResource() throws InterruptedException {
-	permit.acquire(); // blocks until a permit is available (or an exception thrown)
-	return getNextAvailableResource(); // with permit in hand, get the resource
+    Resource getResource() throws InterruptedException {
+	permit.acquire(); // blocks until a permit is available (or an exception is thrown)
+	return getAvailableResource(); // with permit in hand, get the resource
     }
     
-    void putResource(String resource) {
-	if (isResourceFree(resource)) 
+    // Return a Resource to the ResourcePool.
+    void putResource(Resource resource) {
+	// Once the Resource is returned to the ResourcePool, release the permit.
+	if (resourceHasBeenReturned(resource))
 	    permit.release(); // release the permit into the pool
     }
     
-    // This method and the next are synchronized on the ResourcePool
-    // instance because both access the used array: this
-    // method searches for a free resource and, if successful,
-    // marks the resource as used before returning it. The
-    // method below searches for a specified, currently-in-use resource and, 
-    // if successful, marks the resource as free.
-    private synchronized String getNextAvailableResource() {
-	for (int i = 0; i < MaxPermits; ++i) {
-	    if (!used[i]) {
-		used[i] = true;
+    // Get an available Resource, if any.
+    private synchronized Resource getAvailableResource() {
+	for (int i = 0; i < resources.length; ++i) {
+	    if (resources[i].isAvailable()) {
+		resources[i].setAvailable(false); 
 		return resources[i];
 	    }
 	}
 	return null; // nothing available
     }
     
-    // See documentation immediately above.
-    private synchronized boolean isResourceFree(String resource) {
-	for (int i = 0; i < MaxPermits; ++i) {
-	    if (resource == resources[i]) {
-		if (used[i]) {
-		    used[i] = false;
-		    return true;
-		}
-		else
-		    return false;
-	    }
-	}
-	return false;
+    private synchronized boolean resourceHasBeenReturned(Resource resource) {
+	// If the resource isn't out to a user, and so is already available, 
+	// it cannot be returned.
+	if (resource.isAvailable())
+	    return false;
+	
+	// Otherwise, mark the resource as available, which effectively returns
+	// it to the ResourcePool for use.
+	resource.setAvailable(true);
+	return true;
     }
 }
