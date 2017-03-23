@@ -61,11 +61,13 @@ public class Semaphores {
 			while (true) {
 			    Resource resource = pool.getResource();
 
-			    System.out.printf("%s acquiring %s%n", name, resource.getName());
-			    Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
-			    System.out.printf("%s putting back %s%n", name, resource.getName());
+			    if (resource != null) {
+				System.out.printf("%s acquiring %s%n", name, resource.getName());
+				Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
+				System.out.printf("%s putting back %s%n", name, resource.getName());
 
-			    pool.putResource(resource);
+				pool.putResource(resource);
+			    }
 			}
 		    }
 		    catch (InterruptedException ie) {
