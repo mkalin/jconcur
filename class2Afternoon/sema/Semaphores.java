@@ -66,7 +66,7 @@ public class Semaphores {
 				Thread.sleep(200 + (int) (Math.random() * 100)); // simulates using a Resource
 				System.out.printf("%s putting back %s%n", name, resource.getName());
 
-				pool.putResource(resource);
+				pool.putResource(resource); // return resource to pool
 			    }
 			}
 		    }
