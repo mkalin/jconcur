@@ -21,6 +21,7 @@ public class BasicCounter implements Runnable { // or extends Thread, if you pre
 
     public BasicCounter(long count) { this.count = count; }
 
+    // A started thread executes run() sometime after start() is invoked on the thread.
     @Override
     public void run() {
 	long sum = 0; // local variables are per thread, hence thread-safe

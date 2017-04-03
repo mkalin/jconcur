@@ -4,7 +4,7 @@ account of each file.
 If you've time, please compile and run the code before class. The numbering
 suggests the order in which these files might be looked at. All of the files are
 relatively short, and the Java code requires only the core Java JDK to compile and run.
-(The basicC files use underscores in a numeric constant, which requires core Java 7 or greater.)
+(The basicC Java files use underscores in a numeric constant, which requires core Java 7 or greater.)
 -----
 
            File                                          Contents
