@@ -19,14 +19,14 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 4. concurrentAPIs.txt              An overview of the Java multithreading APIs to be covered.
 -----
 
-5. basicC.*.java                   5 Java source files, which together explore the basics of the
-                                   core and ExecutorService multithreading APIs.
-                                  
-6. multiT.MultithreadEx.java       A short program to introduce 'automatic multithreading'.
+5. multiT.MultithreadEx.java       A short program to introduce 'automatic multithreading'.
                                    Our 1st look at User versus Daemon threads.
 
-7. multiT.UserDaemon.java          More on User versus Daemon threads: a short experiment.
+6. multiT.UserDaemon.java          More on User versus Daemon threads: a short experiment.
 
+7. basicC.*.java                   5 Java source files, which together explore the basics of the
+                                   core and ExecutorService multithreading APIs.
+                                  
 8. multiP.MultiprocessEx.java      Multiprocessing in Java: not the preferred way to do 
                                    concurrent programming in Java, but included for illustration.
    text.txt                        The sample file for the multiprocessing example (see code

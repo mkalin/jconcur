@@ -1,5 +1,5 @@
 
- Quick overview of the ForkJoin framework
+ Quick overview of the ForkJoin framework with respect to 'recursive tasks'
 
  # A 'recursive task' decomposes into subtasks with the same structure as the original task.
 
@@ -21,9 +21,9 @@
          |     |     |      
          B     C     D        # non-empty subtrees rooted at B, C, and D
         / \    |     |
-       E   F   G  +--+--+     # E, F, and G are 'leaf nodes' (roots with empty subtrees)
+       e   f   g  +--+--+     # e, f, and g are 'leaf nodes' (roots with empty subtrees)
                   |  |  |     
-                  H  I  J     # H, I, and J are also 'leaf nodes'
+                  h  i  j     # h, i, and j are also 'leaf nodes'
 
    ## The task of traversing A can be divided into subtasks: traversing trees
       B, C, and D -- and so on.

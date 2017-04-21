@@ -8,7 +8,7 @@ import java.util.List;
  *
  *  -- create 100 BasicCounter instances, start each
  *
- *  -- run until all of the threads terminate
+ *  -- run until all of these threads terminate
  */
 public class RunBasicCounter1 {
     public static void main(String[] args) {

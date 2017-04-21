@@ -16,17 +16,21 @@ package basicC;
  *
  * This example takes the 2nd approach, but the 1st would work just as well here.
  */
-public class BasicCounter implements Runnable { // or extends Thread, if you prefer
+public class BasicCounter implements Runnable { 
     private final long count; // how many times to iterate
 
-    public BasicCounter(long count) { this.count = count; }
+    public BasicCounter(long count) { 
+	this.count = count; 
+    }
 
     // A started thread executes run() sometime after start() is invoked on the thread.
     @Override
     public void run() {
 	long sum = 0; // local variables are per thread, hence thread-safe
+
 	for (long i = 1; i < count; i++) 
 	    sum += i;
+
 	System.out.println(Thread.currentThread().getName() + ": " + sum); // trace each thread
     } // The thread terminates when it exits run, and cannot be restarted.
 }

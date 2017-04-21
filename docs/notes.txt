@@ -1,0 +1,4 @@
+javaw.exe -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly Adder
+https://www.beyondjava.net/blog/java-programmers-guide-assembler-language/
+
+https://dzone.com/articles/printing-generated-assembly

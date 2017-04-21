@@ -1,12 +1,13 @@
 
  -- Streams and lambdas (and a little on method references)
 
-  # A 'stream' is a conveyor-belt of items, which are delivered in an efficient--lazy, as needed--manner.
+  # A 'stream' is a conveyor-belt of items, which are delivered in an efficient--lazy, as needed manner.
 
     ## A stream is thus an implicit iteration construct.
 
     ## Standard Java collections and other data sources (e.g., files, sockets) can be 'streamified' with
        methods such as stream().
+-----
 
   # A lambda is an anonymous or unnamed function that need not be encapsulated in a class, and
     so can be used on-the-fly. (References to lambas are possible.)
