@@ -13,10 +13,10 @@ import java.util.Set;
    difference between a User and a Daemon thread:
 
    -- only a User thread can sustain an application, which thus ends if there
-      are no more active User threads
+      are no more active User threads alive
 
-   -- a Daemon thread is designed to be a 'background worker', a thread that does
-      useful work but, by itself, cannot sustain an application
+   -- a Daemon thread is designed to be a 'background worker', a thread that performs
+      useful tasks (e.g., garbage collection)  but, by itself, cannot sustain an application
 
    In general, a Java application begins with the execution of main: the thread that
    executes main (the 'main-thread') is a User thread. A thread (User or Daemon) can 
@@ -30,9 +30,8 @@ import java.util.Set;
    In this application, the main-thread creates and then shows an AWT Frame window.
    Although the number and type of threads generated is platform-specific, the
    creation and/or showing of the Frame window results in at least one additional
-   User thread, with the main-thread as the original User thread.
-   The main-thread exits, but the other User thread(s) associated with the Frame window
-   remain. 
+   User thread other than the main-thread. In this app, the main-thread exits, 
+   but not so the other User thread(s) associated with the Frame window.
 
    To exit the application, hit Control-C from the command-line.
  */
