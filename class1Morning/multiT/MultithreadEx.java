@@ -67,8 +67,9 @@ public class MultithreadEx {
 }
 
 /** 
-    Output from a sample run: the output is platform-specific. This output
+    Output from a sample run -- the output is platform-specific. This output
     comes from executing the program on a Linux (specifically, Ubuntu) machine.
+    Expect slightly different output on other platforms.
 
 Before Frame is shown...
 
