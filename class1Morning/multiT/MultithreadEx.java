@@ -28,9 +28,13 @@ import java.util.Set;
    other threads.
 
    In this application, the main-thread creates and then shows an AWT Frame window.
-   Showing the window results in another User thread. The main-thread exits, but this
-   second User thread sustains the application until it is killed externally (e.g.,
-   by hitting Control-C from the command-line).
+   Although the number and type of threads generated is platform-specific, the
+   creation and/or showing of the Frame window results in at least one additional
+   User thread, with the main-thread as the original User thread.
+   The main-thread exits, but the other User thread(s) associated with the Frame window
+   remain. 
+
+   To exit the application, hit Control-C from the command-line.
  */
 public class MultithreadEx {
     public static void main(String[ ] args) {
@@ -63,7 +67,8 @@ public class MultithreadEx {
 }
 
 /** 
-    Output from a sample run:
+    Output from a sample run: the output is platform-specific. This output
+    comes from executing the program on a Linux (specifically, Ubuntu) machine.
 
 Before Frame is shown...
 
