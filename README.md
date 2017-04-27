@@ -1,6 +1,6 @@
 # jconcur
 
-This site has four ZIP files to be downloaded, one each for the class sessions:
+This site has four ZIP files to be downloaded, one apiece for the four class sessions:
 
    -- class1Morning.zip
    -- class1Afternoon.zip

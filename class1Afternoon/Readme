@@ -1,9 +1,12 @@
-Here's a list of the files in the ZIP file class1Afternoon.zip, together with a short 
+Here's a list of the files in the ZIP file class1Morning.zip, together with a short 
 account of each file.
 
 If you've time, please compile and run the code before class. The numbering
-suggests the order in which these files might be looked at. All of the files are
-relatively short, and the Java code requires only the core Java JDK to compile and run.
+indicates the order in which the material in these files will be covered, although 
+we won't be going lock-step through each file.
+
+ All of the files are relatively short, and the Java code requires only the core Java JDK to compile and run.
+(The basicC Java files use underscores in a numeric constant, which requires core Java 7 or greater.)
 -----
 
            File                                          Contents
