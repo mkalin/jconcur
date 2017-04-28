@@ -3,14 +3,14 @@
 
  -- Concurrency and (true) Parallelism
 
- # Concurrency is "handling many tasks during the same time span":
+ # Concurrency requires "handling many tasks during the same time span":
 
    ## Any app with a GUI (e.g., a game) needs to manage the GUI and perform the underlying logic.
 
    ## A typical network app queues up requests, which then need to be handled concurrently: such an
       app is a 'concurrent app' (e.g., a 'concurrent web server').
 
- # True parallelism is "processing many tasks literally at the same time."
+ # True parallelism requires "processing many tasks literally at the same time."
 
    ## The tasks in a concurrent app would be farmed out to separate processors for true parallelism.
 
@@ -75,8 +75,8 @@
 
       // In practice, we'd have a subclass of Thread (e.g., MyThread) with our
       // own overload of run(). But the basic two-step remains:
-      Thread t = new Thread(...);   // construct a Thread
-      t.start();                    // invoke start() -- not run() -- on the Thread.
+      Thread t = new Thread() { ... };  // construct a Thread and override its run() method
+      t.start();                        // invoke start() -- not run() -- on the Thread.
       
    ## Once a Java thread terminates, it cannot be restarted.
 -----
@@ -98,10 +98,10 @@
    ## In the MultithreadEx example, the 'main-thread' is a User rather than a Daemon (worker) thread,
       and one of the threads that manages the shown Frame is likewise a User thread.
 
-      ### A Java Application runs so long as at least one User thread is active (though perhaps
-          even sleeping). 
+      ### A Java Application runs so long as at least one User thread is alive, though perhaps
+          just sleeping. 
 
-      ### In different but equivalent terms, a Daemon thread alone cannot sustain a Java Application.
+      ### In equivalent terms, a Daemon thread alone cannot sustain a Java Application.
 
       ### Daemon threads are 'background workers', unable on their own to sustain an application.
 
