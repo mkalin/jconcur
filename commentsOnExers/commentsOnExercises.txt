@@ -16,7 +16,7 @@ From basicC.BasicCounter.java:
    One obvious advantage of extending Thread is you thereby inherit the start()
    method, which must be invoked to start an explicitly constructed thread. An 
    implementation of Runnable defines only the run() method, as the Runnable interface
-   does not declare a start() method. Runnable declares only one method, run().
+   does not declare a start() method. 
 
 2. The java.lang.Thread class provides an empty implementation of run(), thereby
    exhibiting what's called the 'adapter pattern'. In effect, the java.lang.Thread
@@ -48,8 +48,8 @@ mutual exclusion: it's a mutex. But such a block does _not_ ensure 'fairness' or
 The application logic makes sure that the increment and decrement operations occur the same number 
 of times. As a result, the 'value' method might be called after, say, the incrementing thread has raised 
 the counter to some arbitrary value (e.g., 987), and the value method might print 987 several 
-hundred times before one of the other contending threads grabs the lock. The key point is that, after 
-all of the started threads have terminated, the value of counter will be zero.
+(hundred, thousand,...) times before one of the other contending threads grabs the lock. The key point is 
+that, after all of the started threads have terminated, the value of counter will be zero.
 
 class Main {
     public static void main(String[ ] args) {
@@ -88,8 +88,8 @@ From bq.AccountBQ.java:
 ## Comments
 
 System.out is of type java.io.PrintStream, and the JavaDoc confirms that none of the
-'print' methods in PrintStream is synchronized. In this technical sense, System.out.println(...)
-is _not_ thread-safe. 
+'print' methods in PrintStream is synchronized. Accordingly, System.out.println(...)
+is _not_ thread-safe at the API level.
 
 However, a typical JVM implementation will make println thread-safe. Here, for example, is the published OpenJDK 
 implementation for println(String), with similar implementations for the other overloads of the 'print' methods:
@@ -101,10 +101,11 @@ implementation for println(String), with similar implementations for the other o
        }
    }
 
-See http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/39e8fe7a0af1/src/share/classes/java/io/PrintStream.java for
-more details.
+For more detail, see:
 
-A thread-safe System.out.println(...) is not guaranteed at the API level, but likely in any JVM
+http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/39e8fe7a0af1/src/share/classes/java/io/PrintStream.java 
+
+In summary, a thread-safe System.out.println(...) is not guaranteed at the API level, but likely in any JVM
 implementation.
 -----
 
@@ -123,8 +124,8 @@ implementation.
 
  Various factors come into play when deciding on which API level is appropriate for a particular
  application. These factors include the traditional but fuzzy distinction between 'compute bound' and
- 'I/O bound', and the maturity of an API implementation. Consider the latter. When the Fork/Join
- framework was first released, there were reports about an app degenerating into singel-threaded execution
+ 'I/O bound' applications, and the maturity of an API implementation. Consider the latter. When the Fork/Join
+ framework was first released, there were reports about an app degenerating into single-threaded execution
  when all of the threads from the pool were supposedly in use. Yet Java has a strong record of improving
  API implementations, and there's no reason to doubt that there will be on-going improvement in 
  multithreading. 
@@ -142,7 +143,7 @@ implementation.
  
   Some issues are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
   time reading, for example, requests from network clients than it does computing once a request has been read.
-  Even if mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
+  Even if the mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
   may be too many if they all spend most of their time blocking on I/O operations such as 'reads'.
   Fewer threads, but with non-blocking I/O thrown into the mix, may be a far better way to go.
  
