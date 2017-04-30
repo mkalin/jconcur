@@ -15,8 +15,9 @@ From basicC.BasicCounter.java:
 
    One obvious advantage of extending Thread is you thereby inherit the start()
    method, which must be invoked to start an explicitly constructed thread. An 
-   implementation of Runnable defines only the run() method, as the Runnable interface
-   does not declare a start() method. 
+   implementation of Runnable defines only the run() method: the Runnable interface
+   does not declare a start() method, and the start() method encapsulated in the
+   Thread class must be invoked to start a thread instance.
 
 2. The java.lang.Thread class provides an empty implementation of run(), thereby
    exhibiting what's called the 'adapter pattern'. In effect, the java.lang.Thread
@@ -29,7 +30,6 @@ From basicC.BasicCounter.java:
    If you extend Thread but fail to override run(), you wind up with this empty
    implementation -- and recall that any thread terminates when the thread exits
    the run() method.
-
 -----
 
 # Class 1 Afternoon
@@ -153,5 +153,4 @@ implementation.
   http://blog.takipi.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
 
   Many other excellent resources are available on-line.
- 
  
