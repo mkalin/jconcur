@@ -2,3 +2,9 @@ javaw.exe -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly Adder
 https://www.beyondjava.net/blog/java-programmers-guide-assembler-language/
 
 https://dzone.com/articles/printing-generated-assembly
+
+
+tpool: wait() and notify() only with synchronized block
+ 
+Deadlock example: lou causes a deadlock in bud, and vice-versa – fix documentation
+ 
