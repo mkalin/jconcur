@@ -43,6 +43,11 @@ final public class ThreadPool {
     
     // API method: a ThreadPool client creates a pool, and then 
     // invokes execute on a job to be run.
+    //
+    // The notify() method (encapsulated in Object, not Thread) can
+    // be invoked only within a synchronized block: the compiler will
+    // complain otherwise. The same holds for the related notifyAll()
+    // method, and the overloaded wait(...) method used later.
     public void execute(Runnable job) {
         synchronized(jobQueue) {   // synchronized to prevent simultaneous adds/removes from queue
             jobQueue.addLast(job); // add the job to the end of the queue
@@ -66,6 +71,9 @@ final public class ThreadPool {
 		// added to and removed from the job queue. If there are no pending
 		// jobs, a worker goes into an indefinite wait-state until awaken
 		// to handle a newly added job.
+		//
+		// The overloaded wait(...) method, like the notify() and notifyAll()
+		// methods, can be invoked only within a synchronized block.
                 synchronized(jobQueue) {
                     while (jobQueue.isEmpty()) {
                         try {
