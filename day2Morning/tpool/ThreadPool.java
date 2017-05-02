@@ -51,7 +51,7 @@ final public class ThreadPool {
     public void execute(Runnable job) {
         synchronized(jobQueue) {   // synchronized to prevent simultaneous adds/removes from queue
             jobQueue.addLast(job); // add the job to the end of the queue
-            jobQueue.notify();     // wake up a thread to handle the job at the start of the queue
+            jobQueue.notify();     // wake up a thread to handle a job
         }
     }
 
@@ -77,7 +77,7 @@ final public class ThreadPool {
                 synchronized(jobQueue) {
                     while (jobQueue.isEmpty()) {
                         try {
-			    jobQueue.wait(); // sleep efficiently
+			    jobQueue.wait(); // sleep until awoken
                         }
 			catch (InterruptedException ignored) { }
                     }
