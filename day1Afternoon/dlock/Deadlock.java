@@ -1,44 +1,51 @@
 package dlock;
 
 /**
-   A program to illustrate deadlock. Here's a scenario in which deadlock can occur, with
-   the clock ticks numbered T0, T1,..., and Bud and Lou as two friends who bow, and return a
-   bow, as a formal greeting. Let the thread that represents Lou be TL, and the thread
-   representing Bud be TB. 
+   A program to illustrate deadlock. 
+
+   Here's a scenario in which deadlock can occur, with clock ticks numbered T0, T1, T2,  
+   and Bud and Lou as two friends who bow, and return a bow, as a formal greeting. Let 
+   the thread that represents Lou be TL, and the thread representing Bud be TB. 
 
    In each Friend instance, the bow(...) and bowBack(...) methods are synchronized
-   on the Friend instance; hence, invoking bow(...) on the instance precludes
-   calling bowBack(...) on that instance -- until bow(...) has exited, thereby
+   on that instance; hence, invoking bow(...) on the instance precludes
+   calling bowBack(...) on the same instance -- until bow(...) has exited, thereby
    releasing the lock on bowBack(...).
 
-   Here's a scenario that likely results in deadlock. The scenario is likely, but not certain: if
-   you run the program, the program probably will deadlock. 
+   Here's a scenario that results in deadlock. The scenario is likely, but not certain: if
+   you run the program, the program probably will deadlock.  The bow(...) method consists
+   of two statements:
 
-   T0: Thread TL, which the program starts first, execute's Lou's bow(...) method (with Bud as
-       the argument), which thereby locks Lou's bowBack(...) method as well.
+   -- First a print statement to the standard output. (Print statements are relatively slow.)
+   -- Then an invocation of the Friend's bowBack(...) method.
 
-   T1: TL has not yet exited Lou's bow(...) method, and thread TB executes Bud's bow(...) method, 
-       with Lou as the argument. Bud's bowBack(...) method is now locked as well.
+   T0: TL starts executing the print statment in Lou's bow(...). Lou's bowBack(...) method
+       is now locked as well because bow(...) and bowBack(...) are synchronized on the 
+       same Friend instance ('this'), which is Lou.        
 
-   T2: TB has not yet exited Bud's bow(...) method, and thread TL tries to execute 
-       Bud's bowBack(...) method -- but this method is locked because TB has not yet exited
-       Bud's bow(...) method, which alone releases the lock.
+   T1: TL has not yet executed the bowBack(...) method called in bow(...), but TB is now executing
+       the print statement in Bud's bow(...), which locks Bud's bowBack(...). In short,
+       TL now cannot execute the bowBack(...) method called in bow(...).
 
-   T3: Thread TB tries to execute Lou's bowBack(...) method, but it's locked as well because
-       TL has not yet exited Lou's bow(...) method.
+   T2: TB finishes the print statement, but now cannot execute the bowBack(...) method with
+       Lou as the instance because Lou's bowBack(...) method remains locked since T0.
+        
+   At this point, the bowBack(...) calls with Lou and Bud as the instances are blocked; they can become
+   unblocked only if both calls proceed. Deadlock!
 
-   At this point, thread TL is waiting for thread TB to release the lock on Bud's bowBack(...),
-   but this release can occur only if thread TL can execute Bud's locked bowBack(...) method. The
-   situation is the same with respect to TB: this thread is waiting for TL to release its
-   lock on Lou's bowBack(...) method. 
-
-   In summary, each thread now awaits the release of a lock, but such a release can occur only
-   if each thread proceeds. The result is deadlock. Here's the likely output:
+   Here's the program's likely output:
 
       Lou bows to Bud...
       Bud bows to Lou...
 
-   Now the program needs to be terminated with the trusty Control-C from the command-line prompt.
+   If so, you'll have to terminate the program with a trusty control-C from the command-line prompt.
+
+   Finally, it is possible for the program not to deadlock. Suppose that TL runs on a very fast
+   processor, and TB on a very slow one. TL executes Lou's bow(...) and bowBack(...) before TB even begins 
+   to execute Bud's bow(...). In this case, there's no deadlock.
+
+   You might run the program several times to confirm. I'm betting imaginary money that the program 
+   deadlocks every time.
  */
 public class Deadlock {
     static class Friend {
