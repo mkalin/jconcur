@@ -4,15 +4,17 @@ package sema;
  * A mutex is a a mutual-exclusion construct: wrapping statements within a mutex ensures 
  * that, at most, one thread can execute the wrapped statements. In technical terms, a 
  * mutex is a binary semaphore, a thread-synchronization construct with exactly
- * two values, 0 (access permitted) or 1 (no access permitted). 
+ * two states: access permitted, access prohibited. 
  *
  * However, semaphores can be generalized beyond mutexes, in which case
- * they're known as counting semaphores: the values go beyond 1 to some
- * specified limit. In high-level terms, a counting semphore can be described 
+ * they're known as counting semaphores, which can allow a specified number of threads 
+ * to access a protected resource. A counting semphore might be described 
  * as a set of permits (e.g., a set of four). The logic is then:
  *
  * -- If there's a permit available, give it to a thread that invokes acquire().
- * -- If not, block the thread.
+ *
+ * -- If not, deny the permit and thereby access to the protected resource.
+ *
  * -- If a thread holding a permit calls release(), return the permit to the available set.
  * 
  * This code example illustrates how counting semaphores can be used. A set of threads
