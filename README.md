@@ -1,12 +1,12 @@
-# jconcur
+# Java Concurrent Programming
 
 This site has four ZIP files to be downloaded, one apiece for the four class sessions:
 
-   -- class1Morning.zip
-   -- class1Afternoon.zip
+   -- day1Morning.zip
+   -- day21Afternoon.zip
 
-   -- class2Morning.zip
-   -- class2Afternoon.zip
+   -- day2Morning.zip
+   -- day2Afternoon.zip
 
 Each of these ZIP files contains Java source code together with text documents,
 which provide overview and summary. Each ZIP file also has a Readme, which explains
