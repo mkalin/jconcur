@@ -12,7 +12,7 @@ Each of these ZIP files contains Java source code together with text documents,
 which provide overview and summary. Each ZIP file also has a Readme, which explains
 the order in which the material is going to be covered.
 
-Welcome to course. I hope you find the material as important and fascinating as I do.
+Welcome to course. I hope you find the material as fascinating as I do.
 
 Marty Kalin
 
