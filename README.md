@@ -3,7 +3,7 @@
 This site has four ZIP files to be downloaded, one apiece for the four class sessions:
 
    -- day1Morning.zip
-   -- day2Afternoon.zip
+   -- day1Afternoon.zip
 
    -- day2Morning.zip
    -- day2Afternoon.zip
