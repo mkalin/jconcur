@@ -85,6 +85,7 @@ final public class ImmutableRGB { // disallow subclassing
  * former is more efficient than the latter. Once again, the implementation rests on distinguishing between
  * 'read' (non-mutating) and 'write' (mutating) operations. There is no need to lock an entire ConcurrentHashMap instance,
  * and rarely a need to lock any particular 'read' ('retrieval') operation, which works on a snapshot of the map that 
- * reflects the most recent _completed_ update. If thread t1 is reading a particular value at the same time that thread t2 is
- * updating that value, then t1 reads the pre-updated value in a spapshot of the original key/value pair. 
+ * reflects the most recent _completed_ update. If thread t1 is reading a particular value at the same time 
+ * that thread t2 is updating that value, then t1 reads the pre-updated value in a spapshot of the 
+ * original key/value pair. 
  */

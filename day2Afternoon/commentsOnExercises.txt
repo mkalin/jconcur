@@ -143,8 +143,8 @@ implementation.
  
   Some issues are more subtle. Suppose, for example, that our app is 'I/O bound': it spends significantly more
   time reading, for example, requests from network clients than it does computing once a request has been read.
-  Even if the mulithreading level (let's say 8) matches the number of processors available on the local machine, 8 threads still
-  may be too many if they all spend most of their time blocking on I/O operations such as 'reads'.
+  Even if the mulithreading level (let's say 8) matches the number of processors available on the local machine,
+  8 threads still may be too many if they all spend most of their time blocking on I/O operations such as 'reads'.
   Fewer threads, but with non-blocking I/O thrown into the mix, may be a far better way to go.
  
   These and related issues are tough, as they depend so much on the application details and even specifics of
