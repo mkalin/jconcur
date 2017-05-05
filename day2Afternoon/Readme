@@ -29,6 +29,10 @@ relatively short, and the Java code requires only the core Java JDK to compile a
 6. streams.Intro2PStreams.java     An introduction via code to parallel streams, added in Java8.
    streams.Closures.java           The Closures example underscores why lambdas should be implemented
                                    as 'pure functions' to avoid race conditions.
+
+-----
+
+7. commentsOnExercises.txt         Comments on the self-test exercises.
                                   
 
 
