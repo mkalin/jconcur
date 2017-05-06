@@ -13,8 +13,8 @@ which provide overview and summary. Each ZIP file also has a Readme, which expla
 the order in which the material is going to be covered.
 
 The Java source files require only the core Java JDK to compile and run. Some programs
-use Java SE 7 features (for example, underscores in numeric constants); hence, core
-Java 7 or greater is recommended strongly.
+use Java SE 7 and 8 features (for example, underscores in numeric constants and lambda
+expressions); hence, core Java 8 (or greater) is recommended strongly.
 
 Welcome to course. I hope you find the material as fascinating as I do.
 
