@@ -63,12 +63,12 @@ public class Deadlock {
         public synchronized void bow(Friend bower) {
             System.out.format("%s bows to %s...\n",
 			      this.getName(), bower.getName());
-            bower.bowBack(this);          //### executing bowBack would violate mutual exclusion
+            bower.bowBack(this);          //### executing bowBack might violate mutual exclusion
         } // lock is released only here
 
         public synchronized void bowBack(Friend bower) {
             System.out.format("%s bows back to %s...\n",
-			      this.getName(), bower.getName());
+			      bower.getName(), this.getName()); 
         }
     }
     

@@ -33,6 +33,9 @@ public class MultiprocessEx {
 
 	    // Some info to see what's happening.
 	    System.err.println("Is the execed process alive? Answer: " + proc.isAlive());
+
+	    int status = proc.waitFor();  // wait for the execed process to exit
+	    System.err.println("execed process terminated with status code " + status);
 	    System.err.println("JVM about to exit...");
 	} 
 	catch (Exception e) {
@@ -40,3 +43,11 @@ public class MultiprocessEx {
 	}
     }
 }
+
+/** Output from sample run:
+
+    About to execute: gedit text.txt
+    Is the execed process alive? Answer: true
+    execed process terminated with status code 0
+    JVM about to exit...
+*/
