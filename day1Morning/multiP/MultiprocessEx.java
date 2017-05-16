@@ -10,11 +10,13 @@ package multiP;
     editor runs as a process separate from the JVM, which exists after 'execing'
     the text-editor process. The program introduces part of Java's multiprocessing
     API, and underscores the independence of processes.
+
+    See also: java.lang.ProcessBuilder
 */
 public class MultiprocessEx {
     // Set to an editor on local system, one that can be invoked from
-    // the command-line. In this example, the editor is named 'gedit', 
-    // and is available on Unix-like systems. (On Windows, 'notepad' might be used instead.)
+    // the command-line. In this example, the editor is named 'gedit', and is 
+    // available on various Unix-like systems. (On Windows, 'notepad' might be used instead; on a Mac, 'vim'.)
     private static final String sampleEditor = "gedit";  // the editor
     private static final String file2Edit = "text.txt";  // the file to be edited (included in the ZIP)
 
