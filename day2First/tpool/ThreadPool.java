@@ -31,13 +31,12 @@ import java.util.LinkedList;
 
 // Construct a pool and then use the pool to execute Runnable jobs.
 final public class ThreadPool {
-    private final int threadCount;               // size of thread pool
-    private final PoolWorker[ ] poolWorkers;     // threads to do the work
-    private final LinkedList<Runnable> jobQueue; // the work to be done
+    private final PoolWorker[ ] poolWorkers;     // workers: fixed size pool
+    private final LinkedList<Runnable> jobQueue; // jobs: as many as you like
 
     public ThreadPool(int n) {
         jobQueue = new LinkedList<Runnable>();
-        poolWorkers = new PoolWorker[this.threadCount = n];
+        poolWorkers = new PoolWorker[n];
 	
 	// Create and start the threads, amortizing the cost over the
 	// lifetime of the pool.
@@ -75,7 +74,7 @@ final public class ThreadPool {
             while (true) {
 		// The synchronization ensures that jobs are not simultaneously
 		// added to and removed from the job queue. If there are no pending
-		// jobs, a worker goes into an indefinite wait-state until awaken
+		// jobs, a worker goes into an indefinite wait-state until awoken
 		// to handle a newly added job.
 		//
 		// The overloaded wait(...) method, like the notify() and notifyAll()
@@ -83,7 +82,7 @@ final public class ThreadPool {
                 synchronized(jobQueue) {
                     while (jobQueue.isEmpty()) {
                         try {
-			    jobQueue.wait(); // sleep until awoken
+			    jobQueue.wait(); // wait() releases the lock
                         }
 			catch (InterruptedException ignored) { }
                     }
