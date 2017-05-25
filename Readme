@@ -2,11 +2,11 @@
 
 This ZIP file contains four other ZIP files, one apiece for the four class sessions:
 
-   -- day1Morning.zip
-   -- day1Afternoon.zip
+   -- day1First.zip
+   -- day1Second.zip
 
-   -- day2Morning.zip
-   -- day2Afternoon.zip  ## also contains comments on the self-test exercises
+   -- day2First.zip
+   -- day2Second.zip  ## also contains comments on the self-test exercises
 
 Each of these ZIP files contains Java source code together with text documents,
 which provide overview and summary. Each ZIP file also has a Readme, which explains

@@ -88,12 +88,17 @@ class Banker extends Thread {
 
     @Override
     public void run() {
-	// Serve any customer that's still alive.
-	while (miser.isAlive() || spendthrift.isAlive()) {
+	// Serve any customer that's still alive, or any request still in the queue.
+	while (miser.isAlive()       ||                // Miser is a customer
+	       spendthrift.isAlive() ||                // Spendthrift is a customer
+	       AccountBQ.bankQueue.peek() != null ) {  // Pending request from terminated customer?
 	    try {
+		// Need to check again whether there's anything in the queue
+		// because the loop remains alive on any one of three conditions.
 		// If there's something in the queue, process it.
+		//
 		// Note: Important not to block on the take() method
-		// if there's nothing already in the queue -- both
+		// if there's nothing in the queue -- both
 		// 'writing' threads may have just terminated: deadlock could result.
 		if (AccountBQ.bankQueue.peek() != null) {
 		    Integer amt = AccountBQ.bankQueue.take(); // take() blocks
