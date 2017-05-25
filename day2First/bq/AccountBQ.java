@@ -86,6 +86,8 @@ class Banker extends Thread {
 	this.spendthrift = spendthrift;
     }
 
+    // In this app, there's exactly one Banker instance; hence, the follwing code
+    // is never executed by multiple threads.
     @Override
     public void run() {
 	// Serve any customer that's still alive, or any request still in the queue.
