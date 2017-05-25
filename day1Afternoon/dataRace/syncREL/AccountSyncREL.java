@@ -11,7 +11,7 @@ package syncREL; // REL for 'ReentrantLock'
  *
  */
 
-import java.util.concurrent.locks.ReentrantLock; // see also the ReadLock and WriteLock versions
+import java.util.concurrent.locks.ReentrantLock; // see also the ReadLock and WriteLock variants
 
 class Miser extends Thread {       // deposit
     Miser(int howMany) { this.howMany = howMany; }
