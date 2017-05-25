@@ -58,7 +58,7 @@ final public class ThreadPool {
         synchronized(jobQueue) {   // synchronized to prevent simultaneous adds/removes from queue
             jobQueue.addLast(job); // add the job to the end of the queue
             jobQueue.notify();     // wake up a thread to handle a job
-        } // end of critical section
+        }
     }
 
     // PoolWorkers are Threads that are awaken from a wait-state (through a call to notify)
@@ -88,15 +88,10 @@ final public class ThreadPool {
 			catch (InterruptedException ignored) { }
                     }
                     job = (Runnable) jobQueue.removeFirst(); 
-                } // end of critical section
+                } // end of synchronized block
 
                 try {
-		    // It's important that the job be run _outside_ the synchronized
-		    // block. For one thing, we don't know how long the job will take:
-		    // nanoseconds, weeks, decades? If the job were run inside the
-		    // synchronized block, we'd have single-threaded execution of jobs,
-		    // and thereby miss the entire benefit of multithreading.
-                    job.run(); 
+                    job.run(); // run the job (outside the synchronized block)
                 }
                 catch (RuntimeException e) { }
             } // while (true)
