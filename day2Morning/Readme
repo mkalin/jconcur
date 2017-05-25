@@ -21,6 +21,8 @@ relatively short, and the Java code requires only the core Java JDK to compile a
    bq.RaceConditionBQ.java            queues instead of explicit locking to prevent race conditions;
                                       (b) the constant danger of deadlock.
 
+5. interrupt.ThreadInterrupt          A program to illustrate thread intercommunciation via interrupts
+
 
 
 
