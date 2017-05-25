@@ -89,9 +89,9 @@ class Banker extends Thread {
     @Override
     public void run() {
 	// Serve any customer that's still alive, or any request still in the queue.
-	while (miser.isAlive()       ||                // Miser is a customer
-	       spendthrift.isAlive() ||                // Spendthrift is a customer
-	       AccountBQ.bankQueue.peek() != null ) {  // Pending request from terminated customer?
+	while (miser.isAlive()       ||               // Miser is a customer--could post a request.
+	       spendthrift.isAlive() ||               // ditto
+	       AccountBQ.bankQueue.peek() != null) {  // Pending request from terminated customer?
 	    try {
 		// Need to check again whether there's anything in the queue
 		// because the loop remains alive on any one of three conditions.
