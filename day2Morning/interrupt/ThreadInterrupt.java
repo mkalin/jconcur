@@ -23,7 +23,7 @@ public class ThreadInterrupt {
 
     private void demo() {
 	Thread t1 = new Thread() {
-		// started thread is executing the run method
+		// Run until interrupted by any other thread.
 		@Override
 		public void run() {
 		    do {
@@ -32,7 +32,8 @@ public class ThreadInterrupt {
 		}
 	    };
 
-	// main-thread is executing all of the following.
+	// The main-thread is executing all of the following; hence, the main-thread
+	// does the interrupting.
 	t1.start();
 
 	Random rand = new Random();

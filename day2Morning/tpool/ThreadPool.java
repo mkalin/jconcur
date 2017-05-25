@@ -1,7 +1,7 @@
 package tpool;
 
 /** 
- *    Any job submitted to the thread pool must implement Runnable by defining the run() method:
+ * Any job submitted to the thread pool must implement Runnable by defining the run() method:
  *
  *    public MyJob implements Runnable { 
  *       public MyJob(String name) { ... }
@@ -11,7 +11,7 @@ package tpool;
  *       ...
  *    }
  *
- *    A job may be submitted for exeucution to a thread pool of N threads:
+ * A job may be submitted for exeucution to a thread pool of N threads:
  *
  *    MyJob job1 = new MyJob("play a game");
  *    MyJob job2 = new MyJob("compress the database");
@@ -20,6 +20,12 @@ package tpool;
  *    tpool.execute(job1); // the tpool now provides the thread
  *    tpool.execute(job2); // ditto
  *    ...
+ *
+ * For ReentrantLocks, as against synchronized blocks, the wait/notify methods are
+ * bundled into the java.util.concurrent.locks.Condition interface. Accordingly, this
+ * thread pool implementation would replace the wait/notify constructs with
+ * their Condition counterparts await/signal, if ReentrantLocks were used in place of
+ * synchronized blocks.
 */
 import java.util.LinkedList;
 
