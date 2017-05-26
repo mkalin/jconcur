@@ -29,6 +29,9 @@ final public class AtomicCounter {
     any of the three methods until the lock is released.
 
     The implicit lock is 'this', a reference to a specific SynchronizedCounter instance.
+
+    Instead of synchronized methods, the newer ReentrantLock might be used, as an earlier
+    example illustrated.
 */
 final class SynchronizedCounter { // would be 'public class' and in its own file
     private int c = 0;
