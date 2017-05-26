@@ -33,7 +33,7 @@ public class ThreadInterrupt {
 	    };
 
 	// The main-thread is executing all of the following; hence, the main-thread
-	// does the interrupting.
+	// does the interrupting. Once started, t1 executes the run() method above.
 	t1.start();
 
 	Random rand = new Random();
