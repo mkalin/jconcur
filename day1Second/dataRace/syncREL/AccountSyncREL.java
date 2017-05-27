@@ -19,6 +19,9 @@ class Miser extends Thread {       // deposit
     @Override
     public void run() {
 	for (int i = 0; i < howMany; i++) {
+	    // This style -- lock, try block for critical section, and
+	    // finally block to unlock -- is considered sound practice; but there's
+	    // lots of flexibility in the API, which we'll discuss.
 	    AccountSyncREL.lock.lock();
 	    try {
 		AccountSyncREL.balance++;  // critical section code
