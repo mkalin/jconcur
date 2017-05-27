@@ -9,6 +9,11 @@ package syncREL; // REL for 'ReentrantLock'
  * the current state of a Reentrant lock; also, a ReentrantLock can be configured so that
  * interrupting the thread that holds the lock causes that thread to release the lock.
  *
+ * The term 'reentrant' is a traditional one, and sometimes the term 'recursive' is used
+ * as a synonym so that 'reentrant lock' and 'recursive lock' refer to the same type of
+ * mutex structure. In the context of Java, a 'reentrant lock' is one that a given thread
+ * can lock and unlock multiple times without deadlocking. In other words, a given thread
+ * can 'reenter' critical section code more than once.
  */
 
 import java.util.concurrent.locks.ReentrantLock; // see also the ReadLock and WriteLock variants
