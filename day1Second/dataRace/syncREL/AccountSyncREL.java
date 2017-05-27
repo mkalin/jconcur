@@ -13,7 +13,7 @@ package syncREL; // REL for 'ReentrantLock'
  * as a synonym so that 'reentrant lock' and 'recursive lock' refer to the same type of
  * mutex structure. In the context of Java, a 'reentrant lock' is one that a given thread
  * can lock and unlock multiple times without deadlocking. In other words, a given thread
- * can 'reenter' critical section code more than once.
+ * can 'reenter' critical section code arbitrarily many times.
  */
 
 import java.util.concurrent.locks.ReentrantLock; // see also the ReadLock and WriteLock variants
