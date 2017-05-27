@@ -9,7 +9,8 @@ public class Producer implements Runnable {
     public Producer(BlockingQueue<String> dropbox) {
         this.dropbox = dropbox;
     }
-    
+
+    @Override
     public void run() {
         String importantInfo[ ] = {
             "Mares eat oats",
