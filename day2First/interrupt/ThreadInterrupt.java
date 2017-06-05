@@ -8,7 +8,7 @@ package interrupt;
  * In this example, the main-thread constructs and then starts a Thread instance,
  * whose run method contains a loop-until-interrupted construct. The main-thread
  * simulates a coin flip, incrementing a counter on 'tails' (negative values). When
- * the counter hits 5, the main-thread interrupts the started thread. Both
+ * the counter hits 4, the main-thread interrupts the started thread. Both
  * threads (each a User thread) then terminate, and the program exits. It's
  * arbitrary whether the main-thread or the started thread exits first.
  *

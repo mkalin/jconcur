@@ -27,6 +27,8 @@ class Miser extends Thread {       // deposit
 	    // This style -- lock, try block for critical section, and
 	    // finally block to unlock -- is considered sound practice; but there's
 	    // lots of flexibility in the API, which we'll discuss.
+	    // The try/finally construct ensures that the lock will be released, 
+	    // even if the critical-section code happens to throw an exception.
 	    AccountSyncREL.lock.lock();
 	    try {
 		AccountSyncREL.balance++;  // critical section code
