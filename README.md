@@ -20,3 +20,11 @@ Welcome to course. I hope you find the material as fascinating as I do.
 
 Marty Kalin
 
+P.S.
+
+If you're interested in a modern introduction to C, with examples ranging from the basics through networking, security,
+and concurrency/parallelism, please take a look at:
+[C Programming: Introducing Portable Assembler](https://www.amazon.com/dp/1977056954?ref_=pe_870760_150889320)
+
+
+
